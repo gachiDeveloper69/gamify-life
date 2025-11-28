@@ -1,0 +1,185 @@
+{
+  "name": "gamify-life",
+  "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life",
+  "type": "directory",
+  "children": [
+    {
+      "name": ".gitignore",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\.gitignore",
+      "type": "file",
+      "size": 339
+    },
+    {
+      "name": ".prettierrc",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\.prettierrc",
+      "type": "file",
+      "size": 210
+    },
+    {
+      "name": "eslint.config.js",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\eslint.config.js",
+      "type": "file",
+      "size": 1003
+    },
+    {
+      "name": "index.html",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\index.html",
+      "type": "file",
+      "size": 360
+    },
+    {
+      "name": "package-lock.json",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\package-lock.json",
+      "type": "file",
+      "size": 220522
+    },
+    {
+      "name": "package.json",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\package.json",
+      "type": "file",
+      "size": 1131
+    },
+    {
+      "name": "public",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\public",
+      "type": "directory",
+      "children": [
+        {
+          "name": "vite.svg",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\public\\vite.svg",
+          "type": "file",
+          "size": 1497
+        }
+      ]
+    },
+    {
+      "name": "README.md",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\README.md",
+      "type": "file",
+      "size": 2555
+    },
+    {
+      "name": "scripts",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\scripts",
+      "type": "directory",
+      "children": [
+        {
+          "name": "generate-structure.js",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\scripts\\generate-structure.js",
+          "type": "file",
+          "size": 1031
+        }
+      ]
+    },
+    {
+      "name": "src",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src",
+      "type": "directory",
+      "children": [
+        {
+          "name": "App.css",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\App.css",
+          "type": "file",
+          "size": 606
+        },
+        {
+          "name": "App.tsx",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\App.tsx",
+          "type": "file",
+          "size": 903
+        },
+        {
+          "name": "assets",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets",
+          "type": "directory",
+          "children": [
+            {
+              "name": "react.svg",
+              "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\react.svg",
+              "type": "file",
+              "size": 4126
+            }
+          ]
+        },
+        {
+          "name": "components",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\components",
+          "type": "directory",
+          "children": []
+        },
+        {
+          "name": "constants",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\constants",
+          "type": "directory",
+          "children": []
+        },
+        {
+          "name": "hooks",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\hooks",
+          "type": "directory",
+          "children": []
+        },
+        {
+          "name": "index.css",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\index.css",
+          "type": "file",
+          "size": 1154
+        },
+        {
+          "name": "main.tsx",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\main.tsx",
+          "type": "file",
+          "size": 230
+        },
+        {
+          "name": "pages",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\pages",
+          "type": "directory",
+          "children": []
+        },
+        {
+          "name": "types",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\types",
+          "type": "directory",
+          "children": []
+        },
+        {
+          "name": "utils",
+          "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\utils",
+          "type": "directory",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "stylelint.config.mjs",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\stylelint.config.mjs",
+      "type": "file",
+      "size": 113
+    },
+    {
+      "name": "tsconfig.app.json",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\tsconfig.app.json",
+      "type": "file",
+      "size": 732
+    },
+    {
+      "name": "tsconfig.json",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\tsconfig.json",
+      "type": "file",
+      "size": 119
+    },
+    {
+      "name": "tsconfig.node.json",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\tsconfig.node.json",
+      "type": "file",
+      "size": 653
+    },
+    {
+      "name": "vite.config.ts",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\vite.config.ts",
+      "type": "file",
+      "size": 161
+    }
+  ]
+}
