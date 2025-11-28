@@ -94,10 +94,108 @@
           "type": "directory",
           "children": [
             {
-              "name": "react.svg",
-              "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\react.svg",
-              "type": "file",
-              "size": 4126
+              "name": "fonts",
+              "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\fonts",
+              "type": "directory",
+              "children": []
+            },
+            {
+              "name": "icons",
+              "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\icons",
+              "type": "directory",
+              "children": []
+            },
+            {
+              "name": "images",
+              "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\images",
+              "type": "directory",
+              "children": []
+            },
+            {
+              "name": "styles",
+              "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "base",
+                  "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\base",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "_core.scss",
+                      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\base\\_core.scss",
+                      "type": "file",
+                      "size": 106
+                    },
+                    {
+                      "name": "_functions.scss",
+                      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\base\\_functions.scss",
+                      "type": "file",
+                      "size": 0
+                    },
+                    {
+                      "name": "_globals.scss",
+                      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\base\\_globals.scss",
+                      "type": "file",
+                      "size": 0
+                    },
+                    {
+                      "name": "_media.scss",
+                      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\base\\_media.scss",
+                      "type": "file",
+                      "size": 0
+                    },
+                    {
+                      "name": "_mixins.scss",
+                      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\base\\_mixins.scss",
+                      "type": "file",
+                      "size": 0
+                    },
+                    {
+                      "name": "_normalize.scss",
+                      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\base\\_normalize.scss",
+                      "type": "file",
+                      "size": 4867
+                    },
+                    {
+                      "name": "_variables.scss",
+                      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\base\\_variables.scss",
+                      "type": "file",
+                      "size": 0
+                    }
+                  ]
+                },
+                {
+                  "name": "blocks",
+                  "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\blocks",
+                  "type": "directory",
+                  "children": []
+                },
+                {
+                  "name": "main.scss",
+                  "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\main.scss",
+                  "type": "file",
+                  "size": 15
+                },
+                {
+                  "name": "_fonts.scss",
+                  "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\_fonts.scss",
+                  "type": "file",
+                  "size": 0
+                },
+                {
+                  "name": "_index.scss",
+                  "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\_index.scss",
+                  "type": "file",
+                  "size": 102
+                },
+                {
+                  "name": "_utils.scss",
+                  "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\assets\\styles\\_utils.scss",
+                  "type": "file",
+                  "size": 0
+                }
+              ]
             }
           ]
         },
@@ -105,7 +203,32 @@
           "name": "components",
           "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\components",
           "type": "directory",
-          "children": []
+          "children": [
+            {
+              "name": "features",
+              "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\components\\features",
+              "type": "directory",
+              "children": []
+            },
+            {
+              "name": "forms",
+              "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\components\\forms",
+              "type": "directory",
+              "children": []
+            },
+            {
+              "name": "layout",
+              "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\components\\layout",
+              "type": "directory",
+              "children": []
+            },
+            {
+              "name": "ui",
+              "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\src\\components\\ui",
+              "type": "directory",
+              "children": []
+            }
+          ]
         },
         {
           "name": "constants",
@@ -150,6 +273,12 @@
           "children": []
         }
       ]
+    },
+    {
+      "name": "structure.json",
+      "path": "C:\\Users\\user\\Desktop\\personal\\gamify-life\\structure.json",
+      "type": "file",
+      "size": 5290
     },
     {
       "name": "stylelint.config.mjs",
