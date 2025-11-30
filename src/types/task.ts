@@ -1,3 +1,7 @@
+/**
+ * @see {@link file://./../../docs/types/TaskSystem.md Документация}
+ */
+
 export type TaskCategory = 'small' | 'medium' | 'large';
 
 export interface Task {
@@ -20,6 +24,8 @@ export interface TaskStats {
 
 // Тип для создания новой задачи (без id и дат)
 export type CreateTaskData = Omit<Task, 'id' | 'createdAt' | 'completedAt'>;
+
+export type TaskDataToValidate = Pick<CreateTaskData, 'title' | 'category' | 'deadline'>;
 
 // Функция для автоматического определения очков по категории
 export const getPointsByCategory = (category: TaskCategory): number => {
