@@ -36,7 +36,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
     }
   }, [key]);
 
-  //Обрертка для setStoredValue которая сохраняет в localStorage
+  //Обертка для setStoredValue которая сохраняет в localStorage
   const setValue = (value: T | ((val: T) => T)) => {
     try {
       //позволяет value быть функцией как useState

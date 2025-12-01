@@ -1,75 +1,57 @@
 /**
  * Кастомный хук для работы с задачами (создание, удаление, изменение статуса)
  *
+ * автоматически работает со stats (очки XP начисляемые за выполнение задач)
+ * обрабатывает ошибки - логирование в консоль + проброс
+ *
  * @see {@link file://./../../docs/hooks/useTasks.md Документация}
  *
- * @template - todo
- * @param - todo
- * @param - todo
- * @returns todo
+ * @returns {Task[]}                              tasks - массив задач для отображения
+ * @returns {TaskStats}                           stats - статистика для отображения
+ * @returns {Object}                              объект с функциями для работы с задачами
+ * @property {Function} createTask             - создает задачу с заданными параметрами,
+ * @property {Function} deleteTask             - удаляет задачу по id,
+ * @property {Function} updateScore            - начисляет/списывает очки XP при закрытии/повторном открытии задач соответственно,
+ * @property {Function} markCompleted          - отмечает задачу по id как выполненную
+ * @property {Function} markIncomplete         - отмечает задачу по id как невыполненную
+ * @property {Function} updateTask             - для изменения остальных параметров задачи (название, описание, дедлайн и пр.)
  *
  * @example
- * todo
+ * const {
+ *  createTask,
+ *  deleteTask,
+ *  updateScore,
+ *  markCompleted,
+ *  markIncomplete,
+ *  updateTask
+ * } = useTasks();
+ *
+ * createTask(taskData);
+ * deleteTask(taskId)
+ * markCompleted(taskId)
+ * markIncomplete(taskId)
+ * updateTask(id, taskData)
  *
  * @remarks
- * - todo
+ * updateScore - вне хука использовать не рекомендуется. Нужна для работы с markCompleted/markIncomplete
  */
 
 import { v4 as uuidv4 } from 'uuid';
 
 import { useLocalStorage } from './useLocalStorage';
-import type {
-  Task,
-  CreateTaskData,
-  TaskDataToValidate,
-  TaskStats,
-  TaskCategory,
-} from '../types/task';
+import type { Task, CreateTaskData, TaskStats } from '../types/task';
 import { getPointsByCategory } from '../types/task';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { validate, setUpdates } from '../utils/tasks/tasksUtils';
 
 export function useTasks() {
   const [tasks, setTasks] = useLocalStorage<Task[]>('tasks', []);
+  // const [filtered, setFiltered] = useState();
   const [stats, setStats] = useLocalStorage<TaskStats>('task-stats', {
     totalPoints: 0,
     dailyPoints: 0,
     lastReset: new Date().toISOString().split('T')[0], // Дата последнего сброса daily points
   });
-
-  const validate = ({
-    title,
-    category,
-    deadline,
-  }: TaskDataToValidate): { isValid: boolean; error?: string } => {
-    const validInfo = {
-      isValid: true,
-    };
-    function isTaskCategory(category: any): category is TaskCategory {
-      return ['small', 'medium', 'large'].includes(category);
-    }
-    if (!title || title.trim() === '') {
-      return {
-        isValid: false,
-        error: 'Название задачи не может быть пустым',
-      };
-    }
-    if (!category || !isTaskCategory(category)) {
-      return {
-        isValid: false,
-        error: !category ? 'Категория задачи обязательна' : 'Неизвестная категория задачи',
-      };
-    }
-
-    // Проверка дедлайна
-    if (deadline && deadline < new Date()) {
-      return {
-        isValid: false,
-        error: 'Дедлайн не может быть в прошлом',
-      };
-    }
-
-    return validInfo;
-  };
 
   useEffect(() => {
     const checkDateAndReset = () => {
@@ -141,9 +123,68 @@ export function useTasks() {
     }
   };
 
+  const markCompleted = (id: string) => {
+    setTasks(prevTasks => {
+      const score = prevTasks.find(task => task.id === id)?.points;
+      if (score) {
+        updateScore(score);
+      }
+      return prevTasks.map(task =>
+        task.id === id ? { ...task, completed: true, completedAt: new Date() } : task
+      );
+    });
+  };
+
+  const markIncomplete = (id: string) => {
+    setTasks(prevTasks => {
+      const score = prevTasks.find(task => task.id === id)?.points;
+      if (score) {
+        updateScore(score, true);
+      }
+      return prevTasks.map(task =>
+        task.id === id ? { ...task, completed: false, completedAt: undefined } : task
+      );
+    });
+  };
+
+  const updateTask = (
+    id: string,
+    updates: Partial<Omit<Task, 'id' | 'createdAt' | 'completed' | 'completedAt'>>
+  ) => {
+    let validUpdates;
+    const task = tasks.find(t => t.id === id);
+    if (task?.completed && updates.category) {
+      throw new Error('Нельзя менять категорию выполненной задачи');
+    }
+    try {
+      validUpdates = setUpdates(updates);
+    } catch (error) {
+      const errorMessage = `Failed to update task with id "${id}"`;
+      console.log(errorMessage, error);
+      throw new Error(`${errorMessage}: ${error}`);
+    }
+    if (Object.keys(validUpdates).length > 0) {
+      setTasks(prevTasks => {
+        const currentTask = prevTasks.find(t => t.id === id);
+        if (currentTask?.completed && updates.category) {
+          // Дополнительная защита
+          return prevTasks;
+        }
+        return prevTasks.map(task => {
+          return task.id === id ? { ...task, ...validUpdates } : task;
+        });
+      });
+    }
+  };
+
   return {
+    tasks,
+    stats,
     createTask,
     deleteTask,
     updateScore,
+    markCompleted,
+    markIncomplete,
+    updateTask,
   };
 }
