@@ -1,73 +1,34 @@
-# React + TypeScript + Vite
+# GamifyShit 🎮💩 (рабочее название)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Геймифицированный таск трекер, который превращает обычные рутинные задачи в RPG-квесты**
 
-Currently, two official plugins are available:
+### Зачем я это делаю
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Хочу свой личный таск-трекер
+- Хочу попробовать опыт геймификации повседневных и не только задач, изучить эффективность этого подхода для себя
+- Хочу реально дожать большие цели (пожать 160 кг, выучить английский, стать наконец фронтенд-разработчиком), ну и в процессе выучить TS и подкрепить знания React (это даже основное)
+- Да кому вообще это интересно читать?
 
-## React Compiler
+### Что уже есть (на 02.12.2025)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Типизация на TypeScript (Task, TaskStats, CreateTaskData)
+- Универсальный хук `useLocalStorage<T>` с дженериками
+- Кастомный хук `useTasks` — создание/удаление/выполнение задач + автоматический подсчёт XP
+- Автоматический сброс daily points в 00:00
+- Полная документация в `/docs` (полная на момент написания этого текста, ха:)
 
-## Expanding the ESLint configuration
+### Что будет в MVP (через 1–2 недели)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- [ ] UI хотя бы какой-нибудь
+- [ ] Три категории задач: малые → средние → большие
+- [ ] Daily challenges + стрики
+- [ ] Система уровней и ачивок (но это не точно)
+- [ ] Тёмная тема и анимации
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Скриншоты
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+(когда-нибудь появится)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Как запустить
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Да нечего пока запускать

@@ -6,15 +6,16 @@
  *
  * @see {@link file://./../../docs/hooks/useTasks.md Документация}
  *
- * @returns {Task[]}                              tasks - массив задач для отображения
- * @returns {TaskStats}                           stats - статистика для отображения
- * @returns {Object}                              объект с функциями для работы с задачами
- * @property {Function} createTask             - создает задачу с заданными параметрами,
- * @property {Function} deleteTask             - удаляет задачу по id,
- * @property {Function} updateScore            - начисляет/списывает очки XP при закрытии/повторном открытии задач соответственно,
- * @property {Function} markCompleted          - отмечает задачу по id как выполненную
- * @property {Function} markIncomplete         - отмечает задачу по id как невыполненную
- * @property {Function} updateTask             - для изменения остальных параметров задачи (название, описание, дедлайн и пр.)
+ * @returns {{
+ *   tasks: Task[];
+ *   stats: TaskStats;
+ *   createTask: (data: CreateTaskData) => void;
+ *   deleteTask: (id: string) => void;
+ *   markCompleted: (id: string) => void;
+ *   markIncomplete: (id: string) => void;
+ *   updateTask: (id: string, updates: Partial<TaskUpdate>) => void;
+ *   updateScore: (points: number, decrease?: boolean) => void;
+ * }}
  *
  * @example
  * const {

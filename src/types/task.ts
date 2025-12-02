@@ -4,6 +4,8 @@
 
 export type TaskCategory = 'small' | 'medium' | 'large';
 
+export interface TaskFilters {}
+
 export interface Task {
   id: string; // Уникальный идентификатор
   title: string; // Название задачи

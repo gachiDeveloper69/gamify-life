@@ -1,41 +1,69 @@
 import fs from 'fs';
 import path from 'path';
 
-function readDirRecursive(dirPath) {
-  const result = {
+const config = {
+  // Полное игнорирование папки (не показывать вообще)
+  ignoreFoldersFully: ['node_modules', '.git', 'dist'],
+
+  // Папки, которые показываем, но НЕ сканируем
+  ignoreChildrenOnly: [
+    'src/assets/styles', // сюда добавить нужное
+  ],
+};
+
+function normalize(p) {
+  return p.replace(/\\/g, '/');
+}
+
+function readDirRecursive(dirPath, rootPath) {
+  const rel = normalize(path.relative(rootPath, dirPath));
+
+  const item = {
     name: path.basename(dirPath),
     path: dirPath,
+    relativePath: rel === '' ? '.' : rel,
     type: 'directory',
     children: [],
   };
 
-  const items = fs.readdirSync(dirPath);
+  // Если папка должна быть пустой (не сканируем внутрь)
+  if (config.ignoreChildrenOnly.some(i => normalize(i) === rel)) {
+    return item; // возвращаем только её саму
+  }
 
-  for (const item of items) {
-    const fullPath = path.join(dirPath, item);
+  const entries = fs.readdirSync(dirPath);
+
+  for (const entry of entries) {
+    const fullPath = path.join(dirPath, entry);
+    const relPath = normalize(path.relative(rootPath, fullPath));
     const stats = fs.statSync(fullPath);
 
-    // Пропуск лишних папок
-    if (item === 'node_modules' || item === '.git') continue;
+    // Полностью игнорируем папки типа node_modules
+    if (config.ignoreFoldersFully.some(i => normalize(i) === relPath)) {
+      continue;
+    }
 
     if (stats.isDirectory()) {
-      result.children.push(readDirRecursive(fullPath));
+      item.children.push(readDirRecursive(fullPath, rootPath));
     } else {
-      result.children.push({
-        name: item,
+      item.children.push({
+        name: entry,
         path: fullPath,
+        relativePath: relPath,
         type: 'file',
         size: stats.size,
       });
     }
   }
 
-  return result;
+  return item;
 }
 
 const folderToScan = process.argv[2] || '.';
-const structure = readDirRecursive(path.resolve(folderToScan));
+const rootPath = path.resolve(folderToScan);
+
+const structure = readDirRecursive(rootPath, rootPath);
 
 fs.writeFileSync('structure.json', JSON.stringify(structure, null, 2), 'utf8');
 
-console.log('Готово! JSON создан: structure.json');
+console.log('Готово, бро! Файл structure.json создан.');
