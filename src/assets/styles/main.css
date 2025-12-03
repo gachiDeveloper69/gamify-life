@@ -1,0 +1,458 @@
+@charset "UTF-8";
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+   Убираем внутренние отступы слева тегам списков,
+   у которых есть атрибут class
+  */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+   Убираем внешние отступы body и двум другим тегам,
+   у которых есть атрибут class
+  */
+body,
+:where(blockquote, figure):where([class]) {
+  margin: 0;
+}
+
+/**
+   Убираем внешние отступы вертикали нужным тегам,
+   у которых есть атрибут class
+  */
+:where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  margin-left: 0;
+  padding: 0;
+  border: none;
+}
+
+/**
+   Убираем стандартный маркер маркированному списку,
+   у которого есть атрибут class
+  */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+   Обнуляем вертикальные внешние отступы параграфа,
+   объявляем локальную переменную для внешнего отступа вниз,
+   чтобы избежать взаимодействие с более сложным селектором
+  */
+p {
+  --paragraphMarginBottom: 24px;
+  margin-block: 0;
+}
+
+p:not([class]):not(:last-child) {
+  margin-bottom: 24px;
+}
+
+/**
+   Внешний отступ вниз для параграфа без атрибута class,
+   который расположен не последним среди своих соседних элементов
+  */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+   Упрощаем работу с изображениями и видео
+  */
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/**
+   Наследуем свойства шрифт для полей ввода
+  */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+     Пригодится в большинстве ситуаций
+     (когда, например, нужно будет "прижать" футер к низу сайта)
+    */
+  height: 100%;
+  /**
+     Убираем скачок интерфейса по горизонтали
+     при появлении / исчезновении скроллбара
+    */
+  scrollbar-gutter: stable;
+}
+
+/**
+   Плавный скролл
+  */
+html,
+:has(:target) {
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+     Пригодится в большинстве ситуаций
+     (когда, например, нужно будет "прижать" футер к низу сайта)
+    */
+  min-height: 100%;
+  /**
+     Унифицированный интерлиньяж
+    */
+  line-height: 1.5;
+}
+
+/**
+   Нормализация высоты элемента ссылки при его инспектировании в DevTools
+  */
+a:where([class]) {
+  display: inline-flex;
+}
+
+/**
+   Курсор-рука при наведении на элемент
+   */
+button,
+label {
+  cursor: pointer;
+}
+
+/**
+   Приводим к единому цвету svg-элементы
+   (за исключением тех, у которых уже указан
+   атрибут fill со значением 'none' или начинается с 'url')
+  */
+:where([fill]:not([fill=none], [fill^=url])) {
+  fill: currentColor;
+}
+
+/**
+   Приводим к единому цвету svg-элементы
+   (за исключением тех, у которых уже указан
+   атрибут stroke со значением 'none')
+  */
+:where([stroke]:not([stroke=none], [stroke^=url])) {
+  stroke: currentColor;
+}
+
+/**
+   Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+  */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+   Приведение рамок таблиц в классический 'collapse' вид
+  */
+:where(table) {
+  border-collapse: collapse;
+  border-color: currentColor;
+}
+
+/**
+   Удаляем все анимации и переходы для людей,
+   которые предпочитают их не использовать
+  */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+.testTasks__overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  font-family: system-ui, sans-serif;
+  z-index: 1000;
+}
+.testTasks__modal {
+  width: min(90vw, 1000px);
+  height: min(90vh, 800px);
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  overflow: hidden;
+}
+.testTasks__leftPanel {
+  padding: 2rem;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+  display: flex;
+  flex-direction: column;
+}
+.testTasks__rightPanel {
+  padding: 2rem;
+  background: #f9fafb;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.testTasks__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+.testTasks__subtitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+.testTasks__emptyState {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 5rem;
+  font-size: 1.125rem;
+}
+.testTasks__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.testTasks__inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.testTasks__input, .testTasks__select, .testTasks__textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+.testTasks__input:focus, .testTasks__select:focus, .testTasks__textarea:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+.testTasks__input::placeholder, .testTasks__select::placeholder, .testTasks__textarea::placeholder {
+  color: #9ca3af;
+}
+.testTasks__textarea {
+  resize: none;
+  min-height: 6rem;
+  font-family: inherit;
+}
+.testTasks__select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+.testTasks__button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.testTasks__button--primary {
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+  color: white;
+  font-size: 1rem;
+  padding: 1rem;
+}
+.testTasks__button--primary:hover {
+  background: linear-gradient(to right, #4338ca, #6d28d9);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+}
+.testTasks__button--success {
+  background-color: #10b981;
+  color: white;
+}
+.testTasks__button--success:hover {
+  background-color: #059669;
+}
+.testTasks__button--warning {
+  background-color: #f59e0b;
+  color: white;
+}
+.testTasks__button--warning:hover {
+  background-color: #d97706;
+}
+.testTasks__button--danger {
+  background-color: #ef4444;
+  color: white;
+}
+.testTasks__button--danger:hover {
+  background-color: #dc2626;
+}
+.testTasks__stats {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 0.75rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.testTasks__statValue {
+  font-size: 1.875rem;
+  font-weight: 900;
+  color: #4f46e5;
+  line-height: 1;
+}
+.testTasks__statLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+.testTasks__dailyStat {
+  margin-top: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #7c3aed;
+}
+.testTasks__taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.testTasks__task {
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  border: 2px solid #e5e7eb;
+  background: white;
+  transition: all 0.2s;
+}
+.testTasks__task:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+.testTasks__task--completed {
+  background-color: #f3f4f6;
+  opacity: 0.7;
+  border-color: #d1d5db;
+}
+.testTasks__taskHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.testTasks__taskContent {
+  flex: 1;
+}
+.testTasks__taskTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+.testTasks__taskTitle--completed {
+  text-decoration: line-through;
+  color: #6b7280;
+}
+.testTasks__taskDescription {
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+.testTasks__taskMeta {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.testTasks__tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid;
+}
+.testTasks__tag--small {
+  background-color: #d1fae5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+.testTasks__tag--medium {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border-color: #bfdbfe;
+}
+.testTasks__tag--large {
+  background-color: #f3e8ff;
+  color: #5b21b6;
+  border-color: #e9d5ff;
+}
+.testTasks__tag--deadline {
+  background-color: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+.testTasks__tag--deadline--overdue {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+.testTasks__taskActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 10px;
+}
+.testTasks__completionDate {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+.testTasks__jsonOutput {
+  margin-top: 1rem;
+  width: 100%;
+  min-height: 10rem;
+  padding: 0.75rem;
+  background-color: #f3f4f6;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  resize: vertical;
+  color: #374151;
+}
+
+/*# sourceMappingURL=main.css.map */

@@ -4,7 +4,18 @@
 
 export type TaskCategory = 'small' | 'medium' | 'large';
 
-export interface TaskFilters {}
+export interface TaskFilters {
+  category?: TaskCategory | 'all';
+  completed?: boolean;
+  hasDeadline?: boolean;
+  overdueOnly?: boolean;
+  searchText?: string;
+}
+
+export interface SortOptions {
+  field: 'createdAt' | 'deadline' | 'points' | 'title' | 'category';
+  direction: 'asc' | 'desc';
+}
 
 export interface Task {
   id: string; // Уникальный идентификатор
