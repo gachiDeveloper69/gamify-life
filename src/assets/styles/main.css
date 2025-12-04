@@ -1,4 +1,21 @@
 @charset "UTF-8";
+:root {
+  --color-bg: #0b0f19;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Oxanium";
+  font-weight: 250;
+  color: white;
+}
+
+body {
+  background-color: var(--color-bg);
+}
+
 *,
 ::before,
 ::after {
@@ -188,6 +205,34 @@ svg * {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+@font-face {
+  font-family: "Oxanium";
+  src: url(".././/fonts/Oxanium-VariableFont_wght.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orbitron";
+  src: url(".././/fonts/Orbitron-VariableFont_wght.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url(".././/fonts/Inter-VariableFont_opsz,wght.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url(".././/fonts/Exo2-VariableFont_wght.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
 }
 .testTasks__overlay {
   position: fixed;

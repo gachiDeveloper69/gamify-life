@@ -1,0 +1,6 @@
+@use 'mixins' as *;
+body {
+  // @include fluid-text(18, 16);
+
+  background-color: var(--color-bg);
+}

@@ -18,6 +18,7 @@ export const validate = ({
   title,
   category,
   deadline,
+  points,
 }: TaskDataToValidate): { isValid: boolean; error?: string } => {
   const validInfo = {
     isValid: true,
@@ -41,6 +42,13 @@ export const validate = ({
     return {
       isValid: false,
       error: 'Дедлайн не может быть в прошлом',
+    };
+  }
+
+  if (points && points < 0) {
+    return {
+      isValid: false,
+      error: 'Значение должно быть положительным',
     };
   }
 

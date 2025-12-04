@@ -77,7 +77,7 @@ export function useTasks() {
   const createTask = ({ title, description, category, deadline, points }: CreateTaskData) => {
     try {
       //минимальная валидация
-      const validation = validate({ title, category, deadline });
+      const validation = validate({ title, category, deadline, points });
       if (!validation.isValid) {
         throw new Error(validation.error);
       }

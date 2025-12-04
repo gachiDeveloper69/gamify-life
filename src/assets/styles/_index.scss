@@ -1,10 +1,10 @@
 //core
 @forward './base/core';
 @forward './base/normalize';
-
+@forward './utils';
+@forward './fonts';
+@forward './base/globals';
 //theme
-
 //blocks
-
 //components
 @forward './blocks/task-test';
