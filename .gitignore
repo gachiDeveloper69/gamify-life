@@ -30,3 +30,4 @@ dist-ssr
 
 # auxiliary files - structure etc.
 *.structure.json
+help

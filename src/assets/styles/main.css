@@ -1,6 +1,10 @@
 @charset "UTF-8";
 :root {
   --color-bg: #0b0f19;
+  --container-width: 1240px;
+  --container-padding-x: 100px;
+  --section-padding-y: 70px;
+  --transition: 0.25s ease-out;
 }
 
 h1,
@@ -8,12 +12,25 @@ h2,
 h3,
 h4 {
   font-family: "Oxanium";
-  font-weight: 250;
+  font-weight: medium;
   color: white;
 }
 
 body {
   background-color: var(--color-bg);
+}
+
+a,
+button,
+input,
+textarea,
+svg * {
+  transition-duration: var(--transition);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 *,
@@ -206,6 +223,47 @@ svg * {
     scroll-behavior: auto !important;
   }
 }
+.container {
+  max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-x);
+}
+@media (max-width: 1280px) {
+  .container {
+    --container-padding-x: 50px;
+  }
+}
+@media (max-width: 767px) {
+  .container {
+    --container-padding-x: 20px;
+  }
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 767px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .visible-mobile {
+    display: none !important;
+  }
+}
+
 @font-face {
   font-family: "Oxanium";
   src: url(".././/fonts/Oxanium-VariableFont_wght.woff2") format("woff2");
@@ -228,7 +286,7 @@ svg * {
   font-display: swap;
 }
 @font-face {
-  font-family: "Inter";
+  font-family: "Exo-2";
   src: url(".././/fonts/Exo2-VariableFont_wght.woff2") format("woff2");
   font-weight: 200 800;
   font-style: normal;
@@ -498,6 +556,49 @@ svg * {
   line-height: 1.5;
   resize: vertical;
   color: #374151;
+}
+
+.quest-log {
+  position: relative;
+  width: 720px;
+  height: 480px;
+  filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.5)); /* общий внешний glow */
+}
+
+.border-glow,
+.side-glow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.border-glow path {
+  filter: drop-shadow(0 0 8px #00e5ff) drop-shadow(0 0 20px #00e5ff);
+}
+
+.side-glow path {
+  filter: drop-shadow(0 0 25px #00e5ff) drop-shadow(0 0 50px #00e5ff);
+}
+
+.quest-log__content {
+  position: absolute;
+  inset: 8px; /* отступ под жирные уголки */
+  background: linear-gradient(180deg, #012029 0%, #043e4f 100%);
+  clip-path: polygon(55% 0, 65% 12%, 96% 12%, 100% 22%, 100% 90%, 90% 100%, 10% 100%, 0 90%, 0 10%, 10% 0);
+  border-radius: 10px;
+  padding: 50px 60px;
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+
+.quest-log__title {
+  margin: 0 0 30px;
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px #00e5ff;
+  color: #fff;
 }
 
 /*# sourceMappingURL=main.css.map */

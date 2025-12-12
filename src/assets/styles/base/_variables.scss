@@ -1,10 +1,18 @@
 @use 'media' as *;
 $fonts: (
   head: 'Oxanium',
+  main: 'Exo-2',
 );
+
 :root {
   --color-bg: #0b0f19;
   // --color-bg: #0e111a;
+
+  --container-width: 1240px;
+  --container-padding-x: 100px;
+  --section-padding-y: 70px;
+
+  --transition: 0.25s ease-out;
 }
 
 h1,
@@ -12,6 +20,6 @@ h2,
 h3,
 h4 {
   font-family: 'Oxanium';
-  font-weight: 250;
+  font-weight: medium;
   color: white;
 }
