@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "type-check": "tsc --noEmit",
-    "sass:watch": "sass --watch .",
+    "sass:watch": "sass --watch src/assets/styles/main.scss:src/assets/styles/main.css",
     "scan": "node scripts/generate-structure.js",
     "test": "vitest",
     "test:watch": "vitest --watch",

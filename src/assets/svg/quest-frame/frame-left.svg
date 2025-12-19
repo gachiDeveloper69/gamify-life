@@ -1,0 +1,6 @@
+<svg viewBox="0 0 8 24" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- rail: отступ 2px сверху/снизу -->
+  <path id="rail" d="M4.45 2 V22" stroke="#008EB0" stroke-width="0.55" stroke-linecap="butt"/>
+  <!-- frame stroke на всю высоту -->
+  <path id="frame-stroke" d="M4.10 0 V24" stroke="#025774" stroke-width="0.2" stroke-linecap="butt"/>
+</svg>

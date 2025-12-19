@@ -1,0 +1,166 @@
+@use '../base/core' as *;
+
+@keyframes rail-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 1px rgba(4, 239, 249, 0.12));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(4, 239, 249, 0.28));
+  }
+}
+
+@keyframes rail-brightness {
+  0%,
+  100% {
+    opacity: 0.72;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.25);
+  }
+}
+
+.qframe {
+  /* темы/цвета */
+  --frame-bg: rgba(3, 45, 70, 1);
+
+  --color-frame-stroke: #025774;
+  --color-accent: #04eff9;
+  --color-inner: #014359;
+  --color-rail: #008eb0;
+
+  /* размеры 9-slice */
+  --tile: 24px; /* угол */
+  --edge: 8px; /* толщина side/top контейнера (как у тебя было) */
+
+  position: relative;
+  width: 100%;
+  height: 70vh;
+
+  display: grid;
+  grid-template-columns: var(--tile) 1fr var(--tile);
+  grid-template-rows: var(--tile) 1fr var(--tile);
+}
+
+/* Центр занимает середину сетки */
+.qframe__center {
+  grid-column: 2;
+  grid-row: 2;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Фон панели — отдельно, не в SVG */
+.qframe__bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(3, 45, 70, 0.92) 0%,
+    rgba(3, 45, 70, 0.55) 100%
+  );
+}
+
+/* Контент поверх фона */
+.qframe__content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+/* Углы — по углам грида, поверх всего */
+.qframe__corner {
+  width: 100%;
+  height: 100%;
+  z-index: 3; /* углы крышки */
+}
+
+.qframe__corner--tl {
+  grid-column: 1;
+  grid-row: 1;
+}
+.qframe__corner--tr {
+  grid-column: 3;
+  grid-row: 1;
+}
+.qframe__corner--bl {
+  grid-column: 1;
+  grid-row: 3;
+}
+.qframe__corner--br {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+/* Стороны — под углами */
+.qframe__edge {
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.qframe__edge--top {
+  grid-column: 2;
+  grid-row: 1;
+}
+.qframe__edge--bottom {
+  grid-column: 2;
+  grid-row: 3;
+}
+.qframe__edge--left {
+  grid-column: 1;
+  grid-row: 2;
+}
+.qframe__edge--right {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+/* Поворачиваем side svg-шки если ты экспортил их горизонтальными */
+.qframe__edge--left,
+.qframe__edge--right {
+  /* если left/right экспортированы вертикальными — удали transform */
+  /* transform: rotate(90deg); transform-origin: center; */
+}
+
+/* ---- Стилизация через id из SVG (Figma) ---- */
+
+/* rail: дыхание + brightness */
+.qframe :is(svg) #rail {
+  animation: rail-glow 10s ease-in-out infinite;
+  will-change: filter;
+}
+
+.qframe :is(svg) #rail path,
+.qframe :is(svg) path#rail {
+  animation: rail-brightness 10s ease-in-out infinite;
+  will-change: opacity, filter;
+  fill: var(--color-rail);
+}
+
+/* внешний контур */
+.qframe :is(svg) #frame-stroke,
+.qframe :is(svg) path#frame-stroke {
+  stroke: var(--color-frame-stroke);
+}
+
+/* внутренний контур */
+.qframe :is(svg) #inner-stroke,
+.qframe :is(svg) path#inner-stroke {
+  stroke: var(--color-inner);
+}
+
+/* акцент */
+.qframe :is(svg) #accent,
+.qframe :is(svg) path#accent {
+  fill: var(--color-accent);
+}
+
+.qframe__edge,
+.qframe__corner {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

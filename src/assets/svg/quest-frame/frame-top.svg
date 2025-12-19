@@ -1,0 +1,19 @@
+<svg viewBox="0 0 24 8" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- rail -->
+  <path
+    id="rail"
+    d="M2 4.45 H22"
+    stroke="#008EB0"
+    stroke-width="0.55"
+    stroke-linecap="butt"
+  />
+
+  <!-- frame stroke -->
+  <path
+    id="frame-stroke"
+    d="M0 4.10 H24"
+    stroke="#025774"
+    stroke-width="0.2"
+    stroke-linecap="butt"
+  />
+</svg>

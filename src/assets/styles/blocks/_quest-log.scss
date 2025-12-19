@@ -1,54 +1,102 @@
 @use '../base/core' as *;
+
+// @keyframes rail-glow {
+//   0%,
+//   100% {
+//     filter: drop-shadow(0 0 1px rgba(4, 239, 249, 0.12));
+//   }
+//   25% {
+//     filter: drop-shadow(0 0 2px rgba(4, 239, 249, 0.16));
+//   }
+//   45% {
+//     filter: drop-shadow(0 0 3px rgba(4, 239, 249, 0.2));
+//   }
+//   65% {
+//     filter: drop-shadow(0 0 4px rgba(4, 239, 249, 0.26));
+//   }
+//   85% {
+//     filter: drop-shadow(0 0 5px rgba(4, 239, 249, 0.32));
+//   }
+// }
+
+// @keyframes rail-brightness {
+//   0%,
+//   100% {
+//     opacity: 0.72;
+//     filter: brightness(1);
+//   }
+//   50% {
+//     opacity: 1;
+//     filter: brightness(1.25);
+//   }
+// }
+
+// .quest-log__frame {
+//   overflow: visible;
+//   width: inherit;
+//   height: inherit;
+
+//   --frame-bg: rgba(3, 45, 70, 1);
+
+//   --color-quest-frame: #025774;
+//   --color-quest-corner-accent: #04eff9;
+//   --color-quest-corner-inner: #014359;
+//   --color-quest-pulse-rail: #008eb0;
+
+//   & .main-frame path {
+//     stroke: #025774;
+//   }
+
+//   & .corner-accent path {
+//     filter: drop-shadow(0 0 6px rgba(4, 239, 249, 0.25));
+//     fill: var(--color-quest-corner-accent);
+//   }
+
+//   & .corner-inner path {
+//     stroke: var(--color-quest-corner-inner);
+//   }
+//   & .rail {
+//     // glow — медленный и не агрессивный
+//     animation: rail-glow 10s ease-in-out infinite;
+//     will-change: filter;
+//   }
+
+//   & .rail path {
+//     // сама “полоска” оживает
+//     fill: var(--color-quest-pulse-rail);
+//     animation: rail-brightness 10s ease-in-out infinite;
+//     will-change: opacity, filter;
+//   }
+//   & .frame-bg__path {
+//     // animation: screen-flicker 8s ease-in-out infinite;
+//   }
+// }
+
 .quest-log {
-  position: relative;
-  width: 720px;
-  height: 480px;
-  filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.5)); /* общий внешний glow */
-}
+  //temp
 
-.border-glow,
-.side-glow {
-  position: absolute;
-  inset: 0;
   width: 100%;
-  height: 100%;
-}
+  height: auto;
 
-.border-glow path {
-  filter: drop-shadow(0 0 8px #00e5ff) drop-shadow(0 0 20px #00e5ff);
-}
+  &__container {
+    position: relative;
+  }
 
-.side-glow path {
-  filter: drop-shadow(0 0 25px #00e5ff) drop-shadow(0 0 50px #00e5ff);
-}
+  &__content {
+    // border: 2px solid red;
+    position: absolute;
+    inset: 0;
+    padding-inline: 12%;
+    padding-top: 25px;
+    width: auto;
+    height: auto;
 
-.quest-log__content {
-  position: absolute;
-  inset: 8px; /* отступ под жирные уголки */
-  background: linear-gradient(180deg, #012029 0%, #043e4f 100%);
-  clip-path: polygon(
-    55% 0,
-    65% 12%,
-    96% 12%,
-    100% 22%,
-    100% 90%,
-    90% 100%,
-    10% 100%,
-    0 90%,
-    0 10%,
-    10% 0
-  );
-  border-radius: 10px;
-  padding: 50px 60px;
-  color: #fff;
-  backdrop-filter: blur(4px);
-}
+    // padding: 40 px 40 px;
+  }
 
-.quest-log__title {
-  margin: 0 0 30px;
-  font-size: 3rem;
-  font-weight: 800;
-  letter-spacing: 4px;
-  text-shadow: 0 0 20px #00e5ff;
-  color: #fff;
+  &__header {
+  }
+  &__title {
+    font-family: 'Orbitron';
+  }
 }

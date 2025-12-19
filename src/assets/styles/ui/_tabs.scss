@@ -1,0 +1,22 @@
+@use '../base/core' as *;
+
+.tabs {
+  &__frame {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 4px;
+
+    border: 1px solid #025774;
+
+    // &::before {
+    //   position: absolute;
+    //   content: '';
+    //   height: 100%;
+    //   border: 1px solid #025774;
+    //   top: 0;
+    //   left: 1%;
+    //   z-index: 100 !important;
+    // }
+  }
+}
