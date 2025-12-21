@@ -1,22 +1,110 @@
 @use '../base/core' as *;
 
 .tabs {
+  --tab-h: 40px;
+
+  --glow-c: rgba(4, 239, 249, 0.95);
+  --glow-soft: rgba(4, 239, 249, 0.35);
+
+  --glow: rgba(4, 239, 249, 0.55);
+
+  --border: 1px solid #0681ab;
+
+  position: relative;
+  width: 100%;
+
   &__frame {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    color: rgba(0, 142, 176, 0.7); // цвет контура
+    border-top: var(--border);
+    border-bottom: var(--border);
+    @supports (corner-shape: bevel) {
+      border: var(--border);
+      border-radius: 25px 0px 15px 0px;
+      corner-shape: bevel;
+    }
+  }
+
+  &__list {
     position: relative;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    padding: 4px;
+    height: var(--tab-h);
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    gap: 0;
+    padding: 0 10px 0 15px; // чтобы кнопки не упирались в скосы
+  }
 
-    border: 1px solid #025774;
+  //скользящий glow-индикатор
+  &__glow {
+    position: absolute;
+    left: 0;
 
-    // &::before {
-    //   position: absolute;
-    //   content: '';
-    //   height: 100%;
-    //   border: 1px solid #025774;
-    //   top: 0;
-    //   left: 1%;
-    //   z-index: 100 !important;
-    // }
+    /* прибиваем к нижнему контуру */
+    bottom: 0px; // подстрой под твой SVG stroke
+    height: 1px; // толщина "энергии"
+
+    /* ширина/позиция из JS */
+    width: 0;
+
+    background: linear-gradient(
+      to right,
+      rgba(4, 239, 249, 0),
+      var(--glow-c),
+      rgba(4, 239, 249, 0)
+    );
+
+    /* “неоновая пыль” */
+    box-shadow:
+      0 0 8px var(--glow-soft),
+      0 0 18px rgba(4, 239, 249, 0.25);
+
+    /* мягкие края */
+    border-radius: 999px;
+
+    transition:
+      transform 180ms ease,
+      width 180ms ease,
+      opacity 180ms ease;
+    pointer-events: none;
+  }
+}
+
+// .tabs__outline {
+//   width: 100%;
+//   height: 100%;
+//   display: block;
+// }
+
+.tab {
+  --c-hover: rgba(4, 239, 249, 0.65);
+  --c-active: rgba(4, 239, 249, 0.95);
+  --c-inactive: rgba(0, 180, 220, 0.35);
+  --pad-x: 16px;
+
+  @include reset-button;
+  position: relative;
+  height: 100%;
+  padding: 0 var(--pad-x);
+  background: transparent;
+  border: 0;
+  color: var(--c-inactive);
+  font-family: 'Exo-2';
+  letter-spacing: 0.06em;
+  cursor: pointer;
+
+  transition:
+    color 140ms ease,
+    text-shadow 140ms ease;
+
+  &:hover {
+    color: var(--c-hover);
+  }
+
+  &--active {
+    color: var(--c-active);
+    text-shadow: 0 0 10px rgba(4, 239, 249, 0.25);
   }
 }

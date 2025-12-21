@@ -3,7 +3,7 @@
   --color-bg: #0b0f19;
   --color-font-head: #d9e1f2;
   --color-font-main: #8c9bb5;
-  --container-width: 1240px;
+  --container-width: 70vw;
   --container-padding-x: 100px;
   --section-padding-y: 70px;
   --transition: 0.25s ease-out;
@@ -301,12 +301,82 @@ svg * {
   font-style: normal;
   font-display: swap;
 }
-.tabs__frame {
+.tabs {
+  --tab-h: 40px;
+  --glow-c: rgba(4, 239, 249, 0.95);
+  --glow-soft: rgba(4, 239, 249, 0.35);
+  --glow: rgba(4, 239, 249, 0.55);
+  --border: 1px solid #0681ab;
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 4px;
-  border: 1px solid #025774;
+  width: 100%;
+}
+.tabs__frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  color: rgba(0, 142, 176, 0.7);
+  border-top: var(--border);
+  border-bottom: var(--border);
+}
+@supports (corner-shape: bevel) {
+  .tabs__frame {
+    border: var(--border);
+    border-radius: 25px 0px 15px 0px;
+    corner-shape: bevel;
+  }
+}
+.tabs__list {
+  position: relative;
+  height: var(--tab-h);
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  gap: 0;
+  padding: 0 10px 0 15px;
+}
+.tabs__glow {
+  position: absolute;
+  left: 0;
+  /* прибиваем к нижнему контуру */
+  bottom: 0px;
+  height: 1px;
+  /* ширина/позиция из JS */
+  width: 0;
+  background: linear-gradient(to right, rgba(4, 239, 249, 0), var(--glow-c), rgba(4, 239, 249, 0));
+  /* “неоновая пыль” */
+  box-shadow: 0 0 8px var(--glow-soft), 0 0 18px rgba(4, 239, 249, 0.25);
+  /* мягкие края */
+  border-radius: 999px;
+  transition: transform 180ms ease, width 180ms ease, opacity 180ms ease;
+  pointer-events: none;
+}
+
+.tab {
+  --c-hover: rgba(4, 239, 249, 0.65);
+  --c-active: rgba(4, 239, 249, 0.95);
+  --c-inactive: rgba(0, 180, 220, 0.35);
+  --pad-x: 16px;
+  padding: 0;
+  border-color: transparent;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  height: 100%;
+  padding: 0 var(--pad-x);
+  background: transparent;
+  border: 0;
+  color: var(--c-inactive);
+  font-family: "Exo-2";
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: color 140ms ease, text-shadow 140ms ease;
+}
+.tab:hover {
+  color: var(--c-hover);
+}
+.tab--active {
+  color: var(--c-active);
+  text-shadow: 0 0 10px rgba(4, 239, 249, 0.25);
 }
 
 @keyframes rail-glow {
@@ -336,13 +406,31 @@ svg * {
   --color-rail: #008eb0;
   /* размеры 9-slice */
   --tile: 24px; /* угол */
-  --edge: 8px; /* толщина side/top контейнера (как у тебя было) */
+  --edge: 8px; /* толщина side/top контейнера*/
   position: relative;
   width: 100%;
-  height: 70vh;
+  height: 100%;
   display: grid;
   grid-template-columns: var(--tile) 1fr var(--tile);
   grid-template-rows: var(--tile) 1fr var(--tile);
+}
+
+.qframe__corner,
+.qframe__edge,
+.qframe__center {
+  position: relative;
+}
+
+.qframe__corner {
+  z-index: 3;
+}
+
+.qframe__edge {
+  z-index: 2;
+}
+
+.qframe__center {
+  z-index: 1;
 }
 
 /* Центр занимает середину сетки */
@@ -735,18 +823,30 @@ svg * {
 
 .quest-log {
   width: 100%;
-  height: auto;
 }
 .quest-log__container {
   position: relative;
+  height: 80vh;
+  /*
+    Дальше (позже) делаем так:
+      Контейнер пусть растёт от контента (height: auto)
+      А рамка пусть тянется вместе с контейнером (absolute inset:0)
+      Но тогда надо учитывать минимум, чтобы рамка не схлопывалась.
+      Это можно будет сделать когда закончим с табами и карточками.
+  */
 }
-.quest-log__content {
+.quest-log__frame {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+.quest-log__content {
+  position: relative;
+  z-index: 1;
   padding-inline: 12%;
   padding-top: 25px;
-  width: auto;
-  height: auto;
 }
 .quest-log__title {
   font-family: "Orbitron";

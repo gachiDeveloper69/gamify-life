@@ -33,15 +33,31 @@
 
   /* размеры 9-slice */
   --tile: 24px; /* угол */
-  --edge: 8px; /* толщина side/top контейнера (как у тебя было) */
+  --edge: 8px; /* толщина side/top контейнера*/
 
   position: relative;
   width: 100%;
-  height: 70vh;
+  height: 100%;
 
   display: grid;
   grid-template-columns: var(--tile) 1fr var(--tile);
   grid-template-rows: var(--tile) 1fr var(--tile);
+}
+
+.qframe__corner,
+.qframe__edge,
+.qframe__center {
+  position: relative;
+}
+
+.qframe__corner {
+  z-index: 3;
+}
+.qframe__edge {
+  z-index: 2;
+}
+.qframe__center {
+  z-index: 1;
 }
 
 /* Центр занимает середину сетки */
