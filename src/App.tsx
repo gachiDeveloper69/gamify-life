@@ -23,9 +23,15 @@ function App() {
           <QuestFrame className="quest-log__frame" />
           <div className="quest-log__content">
             <header className="quest-log__header">
-              <h1 className="quest-log__title">Quest log</h1>
+              <h1 className="quest-log__title">QUEST LOG</h1>
+              <div className="quest-log__status">
+                <span className="quest-log__statusLabel">XP</span>
+                <span className="quest-log__statusValue">+35</span>
+                <span className="quest-log__statusMeta">TODAY</span>
+              </div>
             </header>
             <QuestTabs />
+            <div className="quest-log__tabsDivider" />
             <div className="quest-log__body ">
               <ul className="quest-log__list">
                 <li className="quest-log__item">Задача 1</li>

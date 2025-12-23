@@ -24,41 +24,50 @@ export function QuestTabs() {
   const [glow, setGlow] = useState({ x: 0, w: 0 });
 
   useLayoutEffect(() => {
+    //сглаживание setGlow
+    let raf = 0;
+    const recalc = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const list = listRef.current;
+        const btn = btnRefs.current[active];
+        if (!list || !btn) return;
+
+        const listBox = list.getBoundingClientRect();
+        const btnBox = btn.getBoundingClientRect();
+
+        setGlow({
+          x: btnBox.left - listBox.left + PADDING,
+          w: Math.max(0, btnBox.width - PADDING * 2),
+        });
+      });
+
+      return () => cancelAnimationFrame(raf);
+    };
+
+    recalc();
+
+    //окно
+    window.addEventListener('resize', recalc);
+
+    //ловим изменения размеров
     const list = listRef.current;
-    const btn = btnRefs.current[active];
-    if (!list || !btn) return;
+    let ro: ResizeObserver | null = null;
 
-    const listBox = list.getBoundingClientRect();
-    const btnBox = btn.getBoundingClientRect();
+    if (list && 'ResizeObserver' in window) {
+      ro = new ResizeObserver(() => recalc());
+      ro.observe(list);
+    }
 
-    setGlow({
-      x: btnBox.left - listBox.left + PADDING,
-      w: Math.max(0, btnBox.width - PADDING * 2),
-    });
+    return () => {
+      window.removeEventListener('resize', recalc);
+      ro?.disconnect();
+    };
   }, [active]);
 
   return (
     <div className="tabs">
-      <div className="tabs__frame" aria-hidden="true">
-        {/* svg-контур */}
-        {/* <div className="tabs__outlinne" /> */}
-        {/* <svg
-          className="tabs__outline"
-          preserveAspectRatio="none"
-          // width="47"
-          // height="8"
-          viewBox="0 0 47 7.15"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          vectorEffect="non-scaling-stroke"
-        >
-          <path
-            d="M0.149994 7.14999H43.15L46.15 4.14999V0.149994H5.14999L0.149994 5.14999V7.14999Z"
-            stroke="#0681AB"
-            strokeWidth="0.3"
-          />
-        </svg> */}
-      </div>
+      <div className="tabs__frame" aria-hidden="true"></div>
 
       <div className="tabs__list" role="tablist" ref={listRef}>
         {/* glow-индикатор */}

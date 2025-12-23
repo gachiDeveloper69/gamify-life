@@ -1,6 +1,7 @@
 @use '../base/core' as *;
 
 .quest-log {
+  user-select: none;
   //temp
 
   width: 100%;
@@ -34,8 +35,85 @@
   }
 
   &__header {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 6px, 4px, 14px;
+    margin-bottom: 10px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 2px;
+      height: 1px;
+
+      background: linear-gradient(
+        to right,
+        rgba(4, 239, 249, 0),
+        rgba(4, 239, 249, 0.55),
+        rgba(4, 239, 249, 0)
+      );
+
+      box-shadow: 0 0 14px rgba(4, 239, 249, 0.12);
+      opacity: 0.9;
+    }
   }
+
   &__title {
     font-family: 'Orbitron';
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 34px;
+
+    color: rgba(210, 245, 255, 0.92);
+    text-shadow:
+      0 0 10px rgba(4, 239, 249, 0.12),
+      0 0 22px rgba(4, 239, 249, 0.06);
+  }
+
+  &__status {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+
+    font-family: 'Exo-2';
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    color: rgba(120, 220, 245, 0.7);
+  }
+
+  &__statusLabel {
+    font-size: 16px;
+    opacity: 0.8;
+  }
+
+  &__statusValue {
+    font-size: 28px;
+    color: rgba(4, 239, 249, 0.92);
+    text-shadow:
+      0 0 10px rgba(4, 239, 249, 0.18),
+      0 0 24px rgba(4, 239, 249, 0.08);
+  }
+
+  &__statusMeta {
+    font-size: 16px;
+    opacity: 0.65;
+  }
+
+  &__tabsDivider {
+    height: 1px;
+    margin: 10px 0 16px;
+    background: linear-gradient(
+      to right,
+      rgba(4, 239, 249, 0),
+      rgba(4, 239, 249, 0.32),
+      rgba(4, 239, 249, 0)
+    );
+    opacity: 0.8;
   }
 }

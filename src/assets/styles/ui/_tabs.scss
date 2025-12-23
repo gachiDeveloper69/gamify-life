@@ -20,6 +20,14 @@
     color: rgba(0, 142, 176, 0.7); // цвет контура
     border-top: var(--border);
     border-bottom: var(--border);
+    border-top: 1px solid rgba(4, 239, 249, 0.55);
+    border-bottom: 1px solid rgba(4, 239, 249, 0.35);
+
+    /* внутренняя “техническая” полоска */
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 0 22px rgba(4, 239, 249, 0.06);
+    opacity: 0.9;
     @supports (corner-shape: bevel) {
       border: var(--border);
       border-radius: 25px 0px 15px 0px;
@@ -99,8 +107,28 @@
     color 140ms ease,
     text-shadow 140ms ease;
 
+  /* вертикальные разделители */
+  &:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 11px;
+    right: 0;
+    width: 1px;
+    height: calc(100% - 22px);
+
+    background: linear-gradient(
+      to bottom,
+      rgba(4, 239, 249, 0),
+      rgba(4, 239, 249, 0.22),
+      rgba(4, 239, 249, 0)
+    );
+    opacity: 0.8;
+  }
+
   &:hover {
-    color: var(--c-hover);
+    &:not(.tab--active) {
+      color: var(--c-hover);
+    }
   }
 
   &--active {

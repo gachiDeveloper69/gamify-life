@@ -72,11 +72,54 @@
 .qframe__bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(3, 45, 70, 0.92) 0%,
-    rgba(3, 45, 70, 0.55) 100%
-  );
+
+  /* База + виньетка */
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(10, 70, 95, 0.45) 0%,
+      rgba(3, 45, 70, 0.6) 52%,
+      rgba(2, 22, 35, 0.92) 100%
+    ),
+    radial-gradient(circle at 12% 20%, rgba(4, 239, 249, 0.06) 0%, rgba(4, 239, 249, 0) 40%),
+    radial-gradient(circle at 88% 18%, rgba(4, 239, 249, 0.05) 0%, rgba(4, 239, 249, 0) 45%);
+
+  overflow: hidden;
+}
+
+/* dotted layer */
+.qframe__bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  background-image: radial-gradient(rgba(180, 245, 255, 0.12) 1px, rgba(0, 0, 0, 0) 1px);
+
+  background-size: 16px 16px;
+  background-position: 2px 6px;
+  opacity: 0.35;
+
+  /* чуть-чуть “вдавить” в фон */
+  filter: blur(0.1px);
+}
+
+/* noise / grime layer */
+.qframe__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  /* SVG turbulence noise data-uri */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+  background-size: 280px 280px;
+  opacity: 0.1;
+
+  mix-blend-mode: overlay;
+
+  /* лёгкая виньетка сверху/снизу как “грязь” */
+  box-shadow:
+    inset 0 80px 120px rgba(0, 0, 0, 0.22),
+    inset 0 -110px 160px rgba(0, 0, 0, 0.3);
 }
 
 /* Контент поверх фона */
