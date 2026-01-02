@@ -6,7 +6,7 @@ import type { Task, TaskDataToValidate, TaskCategory } from '../../types/task';
  * @returns {category is TaskCategory} type guard
  */
 export function isTaskCategory(category: any): category is TaskCategory {
-  return ['small', 'medium', 'large'].includes(category);
+  return ['easy', 'medium', 'hard'].includes(category);
 }
 
 /**

@@ -7,8 +7,12 @@
 //theme
 
 //components
-@forward './ui/tabs.scss';
-@forward './ui/quest-frame-composite';
+@forward './components/qbutton';
+@forward './ui/quest-log/quest-button';
+@forward './ui/quest-log/tabs';
+@forward './ui/quest-log/quest-modal';
+@forward './ui/quest-log/quest-frame-composite';
+@forward './ui/quest-log/quest-board';
+@forward './ui/quest-log/quest-card';
 //blocks
-@forward './blocks/task-test';
 @forward './blocks/quest-log';

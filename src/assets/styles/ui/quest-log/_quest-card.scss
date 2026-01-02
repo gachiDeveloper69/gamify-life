@@ -1,0 +1,213 @@
+@use '../../base/core' as *;
+
+.qcard {
+  --stroke: rgba(4, 239, 249, 0.35);
+  --inner: rgba(4, 239, 249, 0.12);
+  --bg: rgba(2, 22, 35, 0.42);
+
+  /* цвета сложности */
+  --diff: rgba(80, 255, 160, 0.9); /* easy default */
+
+  --indicator-width: 20px;
+
+  position: relative;
+
+  padding: 14px 14px 14px 10px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0)), var(--bg);
+
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 18px rgba(4, 239, 249, 0.05);
+
+  cursor: pointer;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+
+  &:hover {
+    border-color: rgba(4, 239, 249, 0.55);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 0 26px rgba(4, 239, 249, 0.07);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &__main {
+    display: grid;
+    grid-template-columns: 1fr 30%;
+    gap: 14px;
+    align-items: center;
+  }
+
+  &__indicator {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    @include flex-center;
+    width: 10px;
+    aspect-ratio: 1;
+  }
+
+  &__dot {
+    justify-self: flex-end;
+    position: relative;
+    width: 10px;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: var(--diff);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--diff), transparent 70%);
+
+    &::before {
+      position: absolute;
+      @include abs-center;
+      content: '';
+      width: 180%;
+      aspect-ratio: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(4, 239, 249, 0.18);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0));
+    }
+  }
+
+  &__body {
+    min-width: 0; /* чтобы title нормально обрезался */
+  }
+
+  &__top {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__title {
+    font-family: 'Exo-2';
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: rgba(220, 250, 255, 0.92);
+    margin: 0;
+    height: 3em;
+    display: flex;
+    align-items: center;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__tag-line {
+    flex: 0 0 auto;
+    font-family: 'Exo-2';
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+
+  &__tag {
+    padding: 4px 10px;
+    border-radius: 5px;
+    border: 1px solid color-mix(in srgb, var(--diff), rgba(4, 239, 249, 0.25) 40%);
+    color: color-mix(in srgb, var(--diff), rgba(220, 250, 255, 0.9) 45%);
+    background: rgba(0, 0, 0, 0.16);
+  }
+
+  &__divider {
+    height: 1px;
+    margin: 10px 0 8px;
+    background: linear-gradient(
+      to right,
+      rgba(4, 239, 249, 0),
+      rgba(4, 239, 249, 0.22),
+      rgba(4, 239, 249, 0)
+    );
+    opacity: 0.9;
+  }
+
+  &__descWrap {
+    max-height: 46px; /* для форм-фактора with-desc */
+    overflow: hidden;
+  }
+
+  &__desc {
+    margin: 0;
+    color: rgba(180, 245, 255, 0.55);
+    font-family: 'Exo-2';
+    font-size: 13px;
+    line-height: 1.25;
+
+    max-height: 46px;
+    overflow: auto;
+    padding-right: 6px; /* под скроллбар */
+
+    // @include custom-scrollbar;
+    @include tiny-scrollbar;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+  }
+
+  &__xp {
+    font-family: 'Exo-2';
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(4, 239, 249, 0.55);
+    font-size: 14px;
+  }
+
+  &--no-desc {
+    height: 110px;
+  }
+
+  &--with-desc {
+    height: 160px;
+  }
+}
+
+//скошенные углы
+
+@supports (corner-shape: bevel) {
+  .qcard {
+    border-radius: 18px 0 12px 0;
+    corner-shape: bevel;
+  }
+}
+
+// @supports (corner-shape: bevel) {
+//   .qcard__tag {
+//     border-radius: 10px 0 8px 0;
+//     corner-shape: bevel;
+//   }
+// }
+
+// показываем прокрутку “по намерению”
+@media (hover: hover) and (pointer: fine) {
+  .qcard__desc {
+    scrollbar-gutter: stable;
+    overflow: hidden;
+  }
+  .qcard:hover .qcard__desc {
+    overflow: auto;
+  }
+}
+
+.qcard--easy {
+  --diff: rgba(80, 255, 160, 0.9);
+}
+.qcard--medium {
+  --diff: rgba(255, 214, 80, 0.95);
+}
+.qcard--hard {
+  // --diff: rgb(255, 0, 0);
+  --diff: rgba(255, 90, 90, 0.95);
+}

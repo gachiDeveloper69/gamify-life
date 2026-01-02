@@ -1,4 +1,4 @@
-@use '../base/core' as *;
+@use '../../base/core' as *;
 
 @keyframes rail-glow {
   0%,
@@ -121,6 +121,61 @@
     inset 0 80px 120px rgba(0, 0, 0, 0.22),
     inset 0 -110px 160px rgba(0, 0, 0, 0.3);
 }
+/* попытки сделать сканлайн
+@media (prefers-reduced-motion: no-preference) {
+  .qframe__bg > .scanline {
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    // Длина шлейфа (НЕ на весь экран)
+    height: 140px;
+
+    // стартуем выше экрана
+    top: calc(-1 * 140px);
+
+    pointer-events: none;
+
+    // Голова (1px) + хвост, который быстро затухает 
+    background: linear-gradient(
+      to bottom,
+      rgba(4, 239, 249, 0) 0%,
+      rgba(4, 239, 249, 0.22) 8%,
+      rgba(255, 255, 255, 0.1) 9%,
+      rgba(4, 239, 249, 0.08) 12%,
+      rgba(4, 239, 249, 0.04) 22%,
+      rgba(4, 239, 249, 0.02) 45%,
+      rgba(4, 239, 249, 0) 100%
+    );
+
+    // делаем “голову” тоньше 
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) 12%,
+      rgba(0, 0, 0, 0) 100%
+    );
+
+    opacity: 0.35;
+    mix-blend-mode: screen;
+
+    filter: blur(0.25px) drop-shadow(0 0 10px rgba(4, 239, 249, 0.1));
+
+    animation: bg-scanline-tail 22s linear infinite;
+    will-change: transform;
+  }
+}
+
+@keyframes bg-scanline-tail {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    // проезжаем всю высоту контейнера + запас на хвост 
+    transform: translateY(calc(100% + 140px));
+  }
+}
+*/
 
 /* Контент поверх фона */
 .qframe__content {

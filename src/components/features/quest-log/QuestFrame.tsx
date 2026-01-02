@@ -30,7 +30,9 @@ export default function QuestFrame({ className = '', children }: QuestFrameProps
 
       {/* center */}
       <div className="qframe__center">
-        <div className="qframe__bg" />
+        <div className="qframe__bg">
+          <span className="scanline" aria-hidden />
+        </div>
         <div className="qframe__content">{children}</div>
       </div>
     </div>

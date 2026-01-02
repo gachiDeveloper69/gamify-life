@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use 'media' as *;
 @mixin fluid-text($max: 48, $min: 16) {
   font-size: clamp(#{$min}px, #{math.div($max, 1440) * 100}vw, #{$max}px);
 }
@@ -53,4 +54,65 @@
   clip-path: inset(100%) !important;
   clip: rect(0 0 0 0) !important;
   overflow: hidden !important;
+}
+
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 4px;
+
+    &-track {
+      background: var(--color-scrollbar-track);
+    }
+
+    &-thumb {
+      background: var(--color-scrollbar-thumb); // цвет полосы
+      border-radius: 8px;
+      transition: background 0.3s ease;
+
+      @include hover {
+        background: var(--color-scrollbar-thumb-hover);
+      }
+    }
+  }
+}
+
+@mixin tiny-scrollbar {
+  &::-webkit-scrollbar {
+    width: 2px;
+
+    &-track {
+      background: var(--color-scrollbar-track);
+      border-radius: 999px;
+    }
+
+    &-thumb {
+      background: linear-gradient(
+        to bottom,
+        rgba(4, 239, 249, 0.15),
+        var(--color-scrollbar-thumb),
+        rgba(4, 239, 249, 0.1)
+      );
+      border-radius: 999px;
+
+      box-shadow:
+        0 0 10px rgba(4, 239, 249, 0.18),
+        0 0 18px rgba(4, 239, 249, 0.1);
+
+      transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    // @include hover {
+    //   background: linear-gradient(
+    //     to bottom,
+    //     rgba(4, 239, 249, 0.2),
+    //     var(--color-scrollbar-thumb-hover),
+    //     rgba(4, 239, 249, 0.14)
+    //   );
+    //   box-shadow:
+    //     0 0 12px rgba(4, 239, 249, 0.24),
+    //     0 0 22px rgba(4, 239, 249, 0.14);
+    // }
+  }
 }

@@ -1,14 +1,16 @@
-@use '../base/core' as *;
+@use '../../base/core' as *;
 
 .tabs {
   --tab-h: 40px;
 
-  --glow-c: rgba(4, 239, 249, 0.95);
+  --glow-c: #04eff9f2;
   --glow-soft: rgba(4, 239, 249, 0.35);
-
   --glow: rgba(4, 239, 249, 0.55);
 
-  --border: 1px solid #0681ab;
+  --border-c: rgba(4, 239, 249, 0.55);
+  --border-c-soft: rgba(4, 239, 249, 0.35);
+  --border: 1px solid var(--border-c);
+  // --border: 1px solid #0681ab;
 
   position: relative;
   width: 100%;
@@ -18,8 +20,8 @@
     inset: 0;
     pointer-events: none;
     color: rgba(0, 142, 176, 0.7); // цвет контура
-    border-top: var(--border);
-    border-bottom: var(--border);
+    border-top: 1px solid var(--border-c);
+    border-bottom: 1px solid var(--border-c-soft);
     border-top: 1px solid rgba(4, 239, 249, 0.55);
     border-bottom: 1px solid rgba(4, 239, 249, 0.35);
 
@@ -59,15 +61,15 @@
 
     background: linear-gradient(
       to right,
-      rgba(4, 239, 249, 0),
+      rgba(4, 241, 249, 0),
       var(--glow-c),
-      rgba(4, 239, 249, 0)
+      rgba(4, 241, 249, 0)
     );
 
     /* “неоновая пыль” */
     box-shadow:
       0 0 8px var(--glow-soft),
-      0 0 18px rgba(4, 239, 249, 0.25);
+      0 0 8px rgba(4, 239, 249, 0.25);
 
     /* мягкие края */
     border-radius: 999px;
@@ -77,6 +79,22 @@
       width 180ms ease,
       opacity 180ms ease;
     pointer-events: none;
+  }
+
+  &__separator {
+    width: 2px;
+    height: calc(100% - 18px);
+    align-self: center;
+    background: linear-gradient(
+      to bottom,
+      rgba(4, 239, 249, 0),
+      rgba(4, 239, 249, 0.22),
+      rgba(4, 239, 249, 0)
+    );
+
+    opacity: 0.85;
+    pointer-events: none;
+    filter: drop-shadow(0 0 6px rgba(4, 239, 249, 0.08));
   }
 }
 
@@ -108,22 +126,28 @@
     text-shadow 140ms ease;
 
   /* вертикальные разделители */
-  &:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 11px;
-    right: 0;
-    width: 1px;
-    height: calc(100% - 22px);
+  // &__separator {
+  //   position: relative;
+  //   width: 1px !important;
 
-    background: linear-gradient(
-      to bottom,
-      rgba(4, 239, 249, 0),
-      rgba(4, 239, 249, 0.22),
-      rgba(4, 239, 249, 0)
-    );
-    opacity: 0.8;
-  }
+  //   height: calc(100% - 22px);
+  //   align-self: center;
+
+  //   &::after {
+  //     position: absolute;
+  //     content: '';
+  //     @include abs-center;
+  //     inset: 0;
+  //     width: 1px;
+  //     background: linear-gradient(
+  //       to bottom,
+  //       rgba(4, 239, 249, 0),
+  //       rgba(4, 239, 249, 0.22),
+  //       rgba(4, 239, 249, 0)
+  //     );
+  //     opacity: 0.8;
+  //   }
+  // }
 
   &:hover {
     &:not(.tab--active) {

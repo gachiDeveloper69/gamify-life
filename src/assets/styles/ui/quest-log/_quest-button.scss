@@ -1,0 +1,7 @@
+@use '../../base/core' as *;
+.qbtn--complete {
+  @include hover {
+    background: #003c59;
+    color: #1afafd;
+  }
+}

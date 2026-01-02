@@ -7,6 +7,9 @@
   --container-padding-x: 100px;
   --section-padding-y: 70px;
   --transition: 0.25s ease-out;
+  --color-scrollbar-track: rgba(0, 0, 0, 0.18);
+  --color-scrollbar-thumb: rgba(4, 239, 249, 0.38);
+  --color-scrollbar-thumb-hover: rgba(4, 239, 249, 0.58);
 }
 
 body {
@@ -301,12 +304,59 @@ svg * {
   font-style: normal;
   font-display: swap;
 }
+.qbtn {
+  padding: 0;
+  border-color: transparent;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  font-family: "Exo-2";
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 10px;
+  padding: 8px 13px;
+  border-radius: 10px;
+  border: 1px solid rgba(4, 239, 249, 0.55);
+  color: rgba(220, 250, 255, 0.92);
+  background: rgba(2, 22, 35, 0.26);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 18px rgba(4, 239, 249, 0.06);
+  cursor: pointer;
+  transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+.qbtn:hover {
+  border-color: rgba(4, 239, 249, 0.75);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 22px rgba(4, 239, 249, 0.08);
+}
+.qbtn:active {
+  transform: translateY(1px);
+}
+
+@supports (corner-shape: bevel) {
+  .qbtn {
+    border-radius: 16px 0 12px 0;
+    corner-shape: bevel;
+  }
+}
+@media (hover: hover) {
+  .qbtn--complete:hover {
+    background: #003c59;
+    color: #1afafd;
+  }
+}
+@media (hover: none) {
+  .qbtn--complete:active {
+    background: #003c59;
+    color: #1afafd;
+  }
+}
+
 .tabs {
   --tab-h: 40px;
-  --glow-c: rgba(4, 239, 249, 0.95);
+  --glow-c: #04eff9f2;
   --glow-soft: rgba(4, 239, 249, 0.35);
   --glow: rgba(4, 239, 249, 0.55);
-  --border: 1px solid #0681ab;
+  --border-c: rgba(4, 239, 249, 0.55);
+  --border-c-soft: rgba(4, 239, 249, 0.35);
+  --border: 1px solid var(--border-c);
   position: relative;
   width: 100%;
 }
@@ -315,8 +365,8 @@ svg * {
   inset: 0;
   pointer-events: none;
   color: rgba(0, 142, 176, 0.7);
-  border-top: var(--border);
-  border-bottom: var(--border);
+  border-top: 1px solid var(--border-c);
+  border-bottom: 1px solid var(--border-c-soft);
   border-top: 1px solid rgba(4, 239, 249, 0.55);
   border-bottom: 1px solid rgba(4, 239, 249, 0.35);
   /* внутренняя “техническая” полоска */
@@ -347,13 +397,22 @@ svg * {
   height: 1px;
   /* ширина/позиция из JS */
   width: 0;
-  background: linear-gradient(to right, rgba(4, 239, 249, 0), var(--glow-c), rgba(4, 239, 249, 0));
+  background: linear-gradient(to right, rgba(4, 241, 249, 0), var(--glow-c), rgba(4, 241, 249, 0));
   /* “неоновая пыль” */
-  box-shadow: 0 0 8px var(--glow-soft), 0 0 18px rgba(4, 239, 249, 0.25);
+  box-shadow: 0 0 8px var(--glow-soft), 0 0 8px rgba(4, 239, 249, 0.25);
   /* мягкие края */
   border-radius: 999px;
   transition: transform 180ms ease, width 180ms ease, opacity 180ms ease;
   pointer-events: none;
+}
+.tabs__separator {
+  width: 2px;
+  height: calc(100% - 18px);
+  align-self: center;
+  background: linear-gradient(to bottom, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.22), rgba(4, 239, 249, 0));
+  opacity: 0.85;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(4, 239, 249, 0.08));
 }
 
 .tab {
@@ -377,16 +436,6 @@ svg * {
   transition: color 140ms ease, text-shadow 140ms ease;
   /* вертикальные разделители */
 }
-.tab:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  top: 11px;
-  right: 0;
-  width: 1px;
-  height: calc(100% - 22px);
-  background: linear-gradient(to bottom, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.22), rgba(4, 239, 249, 0));
-  opacity: 0.8;
-}
 .tab:hover:not(.tab--active) {
   color: var(--c-hover);
 }
@@ -395,6 +444,98 @@ svg * {
   text-shadow: 0 0 10px rgba(4, 239, 249, 0.25);
 }
 
+.qmodal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+}
+.qmodal__panel {
+  position: relative;
+  width: min(860px, 100%);
+  max-height: min(80vh, 720px);
+  overflow: hidden;
+  border: 1px solid rgba(4, 239, 249, 0.45);
+  border-radius: 18px 0 12px 0;
+  background: radial-gradient(circle at 50% 25%, rgba(10, 70, 95, 0.55), rgba(2, 22, 35, 0.92));
+  box-shadow: 0 0 40px rgba(4, 239, 249, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: 18px 18px 16px;
+}
+.qmodal__close {
+  padding: 0;
+  border-color: transparent;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(4, 239, 249, 0.25);
+  background: rgba(0, 0, 0, 0.2);
+  color: rgba(220, 250, 255, 0.8);
+  cursor: pointer;
+}
+.qmodal__close:hover {
+  border-color: rgba(4, 239, 249, 0.5);
+}
+.qmodal__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-right: 42px;
+}
+.qmodal__title {
+  margin: 0;
+  font-family: "Orbitron";
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 22px;
+  color: rgba(220, 250, 255, 0.95);
+}
+.qmodal__xp {
+  font-family: "Exo-2";
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(4, 239, 249, 0.65);
+}
+.qmodal__divider {
+  height: 1px;
+  margin: 12px 0 12px;
+  background: linear-gradient(to right, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.26), rgba(4, 239, 249, 0));
+}
+.qmodal__content {
+  overflow: auto;
+  max-height: calc(80vh - 220px);
+  padding-right: 6px;
+}
+.qmodal__desc {
+  margin: 0;
+  color: rgba(180, 245, 255, 0.62);
+  font-family: "Exo-2";
+  font-size: 14px;
+  line-height: 1.45;
+}
+.qmodal__desc--muted {
+  opacity: 0.7;
+}
+.qmodal__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+@supports (corner-shape: bevel) {
+  .qmodal__panel {
+    corner-shape: bevel;
+  }
+}
 @keyframes rail-glow {
   0%, 100% {
     filter: drop-shadow(0 0 1px rgba(4, 239, 249, 0.12));
@@ -493,6 +634,61 @@ svg * {
   box-shadow: inset 0 80px 120px rgba(0, 0, 0, 0.22), inset 0 -110px 160px rgba(0, 0, 0, 0.3);
 }
 
+/* попытки сделать сканлайн
+@media (prefers-reduced-motion: no-preference) {
+  .qframe__bg > .scanline {
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    // Длина шлейфа (НЕ на весь экран)
+    height: 140px;
+
+    // стартуем выше экрана
+    top: calc(-1 * 140px);
+
+    pointer-events: none;
+
+    // Голова (1px) + хвост, который быстро затухает 
+    background: linear-gradient(
+      to bottom,
+      rgba(4, 239, 249, 0) 0%,
+      rgba(4, 239, 249, 0.22) 8%,
+      rgba(255, 255, 255, 0.1) 9%,
+      rgba(4, 239, 249, 0.08) 12%,
+      rgba(4, 239, 249, 0.04) 22%,
+      rgba(4, 239, 249, 0.02) 45%,
+      rgba(4, 239, 249, 0) 100%
+    );
+
+    // делаем “голову” тоньше 
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) 12%,
+      rgba(0, 0, 0, 0) 100%
+    );
+
+    opacity: 0.35;
+    mix-blend-mode: screen;
+
+    filter: blur(0.25px) drop-shadow(0 0 10px rgba(4, 239, 249, 0.1));
+
+    animation: bg-scanline-tail 22s linear infinite;
+    will-change: transform;
+  }
+}
+
+@keyframes bg-scanline-tail {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    // проезжаем всю высоту контейнера + запас на хвост 
+    transform: translateY(calc(100% + 140px));
+  }
+}
+*/
 /* Контент поверх фона */
 .qframe__content {
   position: relative;
@@ -600,270 +796,234 @@ svg * {
   display: block;
 }
 
-.testTasks__overlay {
-  position: fixed;
-  inset: 0;
+.quest-board {
   display: grid;
-  place-items: center;
-  background: rgba(0, 0, 0, 0.5);
-  font-family: system-ui, sans-serif;
-  z-index: 1000;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 14px;
 }
-.testTasks__modal {
-  width: min(90vw, 1000px);
-  height: min(90vh, 800px);
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+
+.quest-col {
   display: grid;
-  grid-template-columns: 380px 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 10px;
+}
+.quest-col__header {
+  font-family: "Exo-2";
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(180, 245, 255, 0.55);
+  padding: 2px 6px;
+}
+.quest-col__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch; /* ширина ок */
+}
+.quest-col__list::-webkit-scrollbar {
+  width: 4px;
+}
+.quest-col__list::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track);
+}
+.quest-col__list::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb);
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+@media (hover: hover) {
+  .quest-col__list::-webkit-scrollbar-thumb:hover {
+    background: var(--color-scrollbar-thumb-hover);
+  }
+}
+@media (hover: none) {
+  .quest-col__list::-webkit-scrollbar-thumb:active {
+    background: var(--color-scrollbar-thumb-hover);
+  }
+}
+
+@media (max-width: 767px) {
+  .quest-board {
+    grid-template-columns: 1fr;
+  }
+}
+.qcard {
+  --stroke: rgba(4, 239, 249, 0.35);
+  --inner: rgba(4, 239, 249, 0.12);
+  --bg: rgba(2, 22, 35, 0.42);
+  /* цвета сложности */
+  --diff: rgba(80, 255, 160, 0.9); /* easy default */
+  --indicator-width: 20px;
+  position: relative;
+  padding: 14px 14px 14px 10px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0)), var(--bg);
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 18px rgba(4, 239, 249, 0.05);
+  cursor: pointer;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+.qcard:hover {
+  border-color: rgba(4, 239, 249, 0.55);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 26px rgba(4, 239, 249, 0.07);
+}
+.qcard:active {
+  transform: translateY(1px);
+}
+.qcard__main {
+  display: grid;
+  grid-template-columns: 1fr 30%;
+  gap: 14px;
+  align-items: center;
+}
+.qcard__indicator {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10px;
+  aspect-ratio: 1;
+}
+.qcard__dot {
+  justify-self: flex-end;
+  position: relative;
+  width: 10px;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: var(--diff);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--diff), transparent 70%);
+}
+.qcard__dot::before {
+  position: absolute;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  content: "";
+  width: 180%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  border: 1px solid rgba(4, 239, 249, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0));
+}
+.qcard__body {
+  min-width: 0; /* чтобы title нормально обрезался */
+}
+.qcard__top {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.qcard__title {
+  font-family: "Exo-2";
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 16px;
+  color: rgba(220, 250, 255, 0.92);
+  margin: 0;
+  height: 3em;
+  display: flex;
+  align-items: center;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.qcard__tag-line {
+  flex: 0 0 auto;
+  font-family: "Exo-2";
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+.qcard__tag {
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: 1px solid color-mix(in srgb, var(--diff), rgba(4, 239, 249, 0.25) 40%);
+  color: color-mix(in srgb, var(--diff), rgba(220, 250, 255, 0.9) 45%);
+  background: rgba(0, 0, 0, 0.16);
+}
+.qcard__divider {
+  height: 1px;
+  margin: 10px 0 8px;
+  background: linear-gradient(to right, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.22), rgba(4, 239, 249, 0));
+  opacity: 0.9;
+}
+.qcard__descWrap {
+  max-height: 46px; /* для форм-фактора with-desc */
   overflow: hidden;
 }
-.testTasks__leftPanel {
-  padding: 2rem;
-  background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+.qcard__desc {
+  margin: 0;
+  color: rgba(180, 245, 255, 0.55);
+  font-family: "Exo-2";
+  font-size: 13px;
+  line-height: 1.25;
+  max-height: 46px;
+  overflow: auto;
+  padding-right: 6px; /* под скроллбар */
+}
+.qcard__desc::-webkit-scrollbar {
+  width: 2px;
+}
+.qcard__desc::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track);
+  border-radius: 999px;
+}
+.qcard__desc::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, rgba(4, 239, 249, 0.15), var(--color-scrollbar-thumb), rgba(4, 239, 249, 0.1));
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(4, 239, 249, 0.18), 0 0 18px rgba(4, 239, 249, 0.1);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.qcard__meta {
   display: flex;
   flex-direction: column;
+  padding-left: 10px;
 }
-.testTasks__rightPanel {
-  padding: 2rem;
-  background: #f9fafb;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
+.qcard__xp {
+  font-family: "Exo-2";
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(4, 239, 249, 0.55);
+  font-size: 14px;
 }
-.testTasks__title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: #1f2937;
+.qcard--no-desc {
+  height: 110px;
 }
-.testTasks__subtitle {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: #1f2937;
+.qcard--with-desc {
+  height: 160px;
 }
-.testTasks__emptyState {
-  text-align: center;
-  color: #6b7280;
-  margin-top: 5rem;
-  font-size: 1.125rem;
+
+@supports (corner-shape: bevel) {
+  .qcard {
+    border-radius: 18px 0 12px 0;
+    corner-shape: bevel;
+  }
 }
-.testTasks__form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+@media (hover: hover) and (pointer: fine) {
+  .qcard__desc {
+    scrollbar-gutter: stable;
+    overflow: hidden;
+  }
+  .qcard:hover .qcard__desc {
+    overflow: auto;
+  }
 }
-.testTasks__inputGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.qcard--easy {
+  --diff: rgba(80, 255, 160, 0.9);
 }
-.testTasks__input, .testTasks__select, .testTasks__textarea {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #d1d5db;
-  font-size: 1rem;
-  transition: all 0.2s;
+
+.qcard--medium {
+  --diff: rgba(255, 214, 80, 0.95);
 }
-.testTasks__input:focus, .testTasks__select:focus, .testTasks__textarea:focus {
-  outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-}
-.testTasks__input::placeholder, .testTasks__select::placeholder, .testTasks__textarea::placeholder {
-  color: #9ca3af;
-}
-.testTasks__textarea {
-  resize: none;
-  min-height: 6rem;
-  font-family: inherit;
-}
-.testTasks__select {
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 1rem;
-  padding-right: 2.5rem;
-}
-.testTasks__button {
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-size: 0.875rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.testTasks__button--primary {
-  background: linear-gradient(to right, #4f46e5, #7c3aed);
-  color: white;
-  font-size: 1rem;
-  padding: 1rem;
-}
-.testTasks__button--primary:hover {
-  background: linear-gradient(to right, #4338ca, #6d28d9);
-  transform: translateY(-1px);
-  box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
-}
-.testTasks__button--success {
-  background-color: #10b981;
-  color: white;
-}
-.testTasks__button--success:hover {
-  background-color: #059669;
-}
-.testTasks__button--warning {
-  background-color: #f59e0b;
-  color: white;
-}
-.testTasks__button--warning:hover {
-  background-color: #d97706;
-}
-.testTasks__button--danger {
-  background-color: #ef4444;
-  color: white;
-}
-.testTasks__button--danger:hover {
-  background-color: #dc2626;
-}
-.testTasks__stats {
-  margin-top: 2rem;
-  padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 0.75rem;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-.testTasks__statValue {
-  font-size: 1.875rem;
-  font-weight: 900;
-  color: #4f46e5;
-  line-height: 1;
-}
-.testTasks__statLabel {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-top: 0.25rem;
-}
-.testTasks__dailyStat {
-  margin-top: 0.75rem;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #7c3aed;
-}
-.testTasks__taskList {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.testTasks__task {
-  padding: 1.25rem;
-  border-radius: 0.75rem;
-  border: 2px solid #e5e7eb;
-  background: white;
-  transition: all 0.2s;
-}
-.testTasks__task:hover {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  transform: translateY(-2px);
-}
-.testTasks__task--completed {
-  background-color: #f3f4f6;
-  opacity: 0.7;
-  border-color: #d1d5db;
-}
-.testTasks__taskHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.testTasks__taskContent {
-  flex: 1;
-}
-.testTasks__taskTitle {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 0.5rem;
-}
-.testTasks__taskTitle--completed {
-  text-decoration: line-through;
-  color: #6b7280;
-}
-.testTasks__taskDescription {
-  color: #6b7280;
-  margin-bottom: 0.75rem;
-  line-height: 1.5;
-}
-.testTasks__taskMeta {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-.testTasks__tag {
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  border: 1px solid;
-}
-.testTasks__tag--small {
-  background-color: #d1fae5;
-  color: #065f46;
-  border-color: #a7f3d0;
-}
-.testTasks__tag--medium {
-  background-color: #dbeafe;
-  color: #1e40af;
-  border-color: #bfdbfe;
-}
-.testTasks__tag--large {
-  background-color: #f3e8ff;
-  color: #5b21b6;
-  border-color: #e9d5ff;
-}
-.testTasks__tag--deadline {
-  background-color: #fef3c7;
-  color: #92400e;
-  border-color: #fde68a;
-}
-.testTasks__tag--deadline--overdue {
-  background-color: #fee2e2;
-  color: #991b1b;
-  border-color: #fecaca;
-}
-.testTasks__taskActions {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 10px;
-}
-.testTasks__completionDate {
-  margin-top: 0.75rem;
-  font-size: 0.75rem;
-  color: #6b7280;
-}
-.testTasks__jsonOutput {
-  margin-top: 1rem;
-  width: 100%;
-  min-height: 10rem;
-  padding: 0.75rem;
-  background-color: #f3f4f6;
-  border-radius: 0.5rem;
-  border: 1px solid #d1d5db;
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-  font-size: 0.75rem;
-  line-height: 1.5;
-  resize: vertical;
-  color: #374151;
+
+.qcard--hard {
+  --diff: rgba(255, 90, 90, 0.95);
 }
 
 .quest-log {

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useLayoutEffect, useRef, useState } from 'react';
 
 type TabKey = 'active' | 'daily' | 'done';
@@ -24,8 +25,8 @@ export function QuestTabs() {
   const [glow, setGlow] = useState({ x: 0, w: 0 });
 
   useLayoutEffect(() => {
-    //сглаживание setGlow
     let raf = 0;
+
     const recalc = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
@@ -41,25 +42,20 @@ export function QuestTabs() {
           w: Math.max(0, btnBox.width - PADDING * 2),
         });
       });
-
-      return () => cancelAnimationFrame(raf);
     };
 
     recalc();
-
-    //окно
     window.addEventListener('resize', recalc);
 
-    //ловим изменения размеров
     const list = listRef.current;
     let ro: ResizeObserver | null = null;
-
     if (list && 'ResizeObserver' in window) {
-      ro = new ResizeObserver(() => recalc());
+      ro = new ResizeObserver(recalc);
       ro.observe(list);
     }
 
     return () => {
+      cancelAnimationFrame(raf);
       window.removeEventListener('resize', recalc);
       ro?.disconnect();
     };
@@ -76,9 +72,33 @@ export function QuestTabs() {
           style={{ transform: `translateX(${glow.x}px)`, width: glow.w * WIDTH_COEF }}
           aria-hidden="true"
         />
-        {TABS.map(t => {
+        {TABS.map((t, index) => {
           const isActive = t.key === active;
           return (
+            <React.Fragment key={t.key}>
+              {index > 0 && <div className="tabs__separator" aria-hidden="true" />}
+
+              <button
+                key={t.key}
+                ref={el => {
+                  btnRefs.current[t.key] = el;
+                }}
+                type="button"
+                role="tab"
+                className={`tab ${isActive ? 'tab--active' : ''}`}
+                aria-selected={isActive}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => setActive(t.key)}
+              >
+                {t.label}
+              </button>
+            </React.Fragment>
+          );
+        })}
+        {/* {TABS.map(t => {
+          const isActive = t.key === active;
+          return (
+
             <button
               key={t.key}
               ref={el => {
@@ -94,7 +114,7 @@ export function QuestTabs() {
               {t.label}
             </button>
           );
-        })}
+        })} */}
       </div>
     </div>
   );

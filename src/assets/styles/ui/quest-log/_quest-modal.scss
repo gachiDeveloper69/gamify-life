@@ -1,0 +1,118 @@
+@use '../../base/core' as *;
+
+.qmodal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: grid;
+  place-items: center;
+  padding: 18px;
+
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+
+  &__panel {
+    position: relative;
+    width: min(860px, 100%);
+    max-height: min(80vh, 720px);
+    overflow: hidden;
+
+    border: 1px solid rgba(4, 239, 249, 0.45);
+    border-radius: 18px 0 12px 0;
+
+    background: radial-gradient(circle at 50% 25%, rgba(10, 70, 95, 0.55), rgba(2, 22, 35, 0.92));
+
+    box-shadow:
+      0 0 40px rgba(4, 239, 249, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+    padding: 18px 18px 16px;
+  }
+
+  &__close {
+    @include reset-button;
+    position: absolute;
+    top: 10px;
+    right: 12px;
+
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    border: 1px solid rgba(4, 239, 249, 0.25);
+    background: rgba(0, 0, 0, 0.2);
+    color: rgba(220, 250, 255, 0.8);
+
+    cursor: pointer;
+
+    &:hover {
+      border-color: rgba(4, 239, 249, 0.5);
+    }
+  }
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-right: 42px;
+  }
+
+  &__title {
+    margin: 0;
+    font-family: 'Orbitron';
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 22px;
+    color: rgba(220, 250, 255, 0.95);
+  }
+
+  &__xp {
+    font-family: 'Exo-2';
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(4, 239, 249, 0.65);
+  }
+
+  &__divider {
+    height: 1px;
+    margin: 12px 0 12px;
+    background: linear-gradient(
+      to right,
+      rgba(4, 239, 249, 0),
+      rgba(4, 239, 249, 0.26),
+      rgba(4, 239, 249, 0)
+    );
+  }
+
+  &__content {
+    overflow: auto;
+    max-height: calc(80vh - 220px);
+    padding-right: 6px;
+  }
+
+  &__desc {
+    margin: 0;
+    color: rgba(180, 245, 255, 0.62);
+    font-family: 'Exo-2';
+    font-size: 14px;
+    line-height: 1.45;
+
+    &--muted {
+      opacity: 0.7;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+  }
+}
+
+//скошенные углы
+@supports (corner-shape: bevel) {
+  .qmodal__panel {
+    corner-shape: bevel;
+  }
+}
