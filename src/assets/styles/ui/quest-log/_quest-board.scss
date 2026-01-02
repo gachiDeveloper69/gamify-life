@@ -5,12 +5,17 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
   margin-top: 14px;
+  flex: 1;
+  height: 100%; /* ← ДОБАВЬ ЭТУ СТРОКУ */
+  min-height: 0; /* ← И ЭТУ (как на body) */
 }
 
 .quest-col {
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 10px;
+  height: 100%;
+  min-height: 0; /* ← И ЭТУ */
 
   &__header {
     font-family: 'Exo-2';
@@ -22,12 +27,18 @@
   }
 
   &__list {
+    --fade-h: 18px; /* высота фейда */
+    --fade-pad-top: 10px; /* безопасная зона */
+    --fade-pad-bot: 14px; /* безопасная зона */
+
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    align-items: stretch; /* ширина ок */
-
-    @include custom-scrollbar;
+    align-items: stretch;
+    overflow-y: auto;
+    padding: 4px 8px 20px 8px; /* немного отступа снизу, чтобы fade не обрезал карточку */
+    @include tiny-scrollbar(3);
   }
 }
 @include mobile {

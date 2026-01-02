@@ -76,9 +76,9 @@
   }
 }
 
-@mixin tiny-scrollbar {
+@mixin tiny-scrollbar($width: 4) {
   &::-webkit-scrollbar {
-    width: 2px;
+    width: #{$width}px;
 
     &-track {
       background: var(--color-scrollbar-track);
