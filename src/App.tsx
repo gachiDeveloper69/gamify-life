@@ -47,7 +47,7 @@ const MOCK_QUESTS: Task[] = [
 */
 const MANY: Task[] = Array.from({ length: 18 }, (_, i) => ({
   id: `e-${i}`,
-  title: `ЛЕГКОЕ ЗАДАНИЕ ${i + 1}`,
+  title: i % 2 ? `ЛЕГКОЕ ЗАДАНИЕ ${i + 1}` : `ЛЕГКОЕ ЗАДАНИЕ ${i + 1} `.repeat(5),
   category: 'easy',
   points: 5,
   createdAt: new Date(),

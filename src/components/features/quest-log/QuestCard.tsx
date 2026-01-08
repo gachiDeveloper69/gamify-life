@@ -1,9 +1,10 @@
 import React from 'react';
-
+import { useRef } from 'react';
 import { type Task } from '@/types/task';
 import { type TaskCategory } from '@/types/task';
 import { getPointsByCategory } from '@/types/task';
 import { QButton } from '@/components/ui/QButton';
+import { useScrollFade } from '@/hooks/useScrollFade';
 
 type QuestCardProps = {
   quest: Task;
@@ -18,6 +19,8 @@ const DIFF_LABEL: Record<TaskCategory, string> = {
 };
 
 export function QuestCard({ quest, onOpen, onComplete }: QuestCardProps) {
+  const descRef = useRef<HTMLDivElement | null>(null);
+  useScrollFade(descRef, { offset: 5 });
   const hasDesc = Boolean(quest.description?.trim());
 
   const onCardClick = () => onOpen();
@@ -48,7 +51,9 @@ export function QuestCard({ quest, onOpen, onComplete }: QuestCardProps) {
       <div className="qcard__main">
         <div className="qcard__body">
           <div className="qcard__top">
-            <h3 className="qcard__title">{quest.title}</h3>
+            <h3 className="qcard__title" title={quest.title}>
+              {quest.title}
+            </h3>
             <div className="qcard__tag-line">
               <span className="qcard__tag">{DIFF_LABEL[quest.category]}</span>
             </div>
@@ -67,7 +72,9 @@ export function QuestCard({ quest, onOpen, onComplete }: QuestCardProps) {
         <div className="qcard__secondary">
           <div className="qcard__divider" aria-hidden="true"></div>
           <div className="qcard__descWrap">
-            <p className="qcard__desc">{quest.description}</p>
+            <p className="qcard__desc" ref={descRef}>
+              {quest.description}
+            </p>
           </div>
         </div>
       )}

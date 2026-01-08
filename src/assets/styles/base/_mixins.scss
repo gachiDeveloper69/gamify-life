@@ -116,3 +116,39 @@
     // }
   }
 }
+
+@mixin scroll-fade($heigth) {
+  &::before,
+  &::after {
+    // display: block;
+    content: '';
+    position: sticky;
+    left: 0;
+    right: 0;
+    display: block;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 5;
+  }
+
+  &::before {
+    top: 0;
+    background: linear-gradient(to bottom, rgb(3, 46, 70), rgba(8, 20, 30, 0));
+  }
+
+  &::after {
+    bottom: 0;
+    background: linear-gradient(to top, rgb(3, 46, 70), rgba(8, 20, 30, 0));
+  }
+
+  &.is-top-fade::before {
+    min-height: #{$heigth}px;
+    opacity: 1;
+  }
+
+  &.is-bottom-fade::after {
+    min-height: #{$heigth}px;
+    opacity: 1;
+  }
+}

@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import { type Task } from '@/types/task';
 import { type TaskCategory } from '@/types/task';
 import { QuestDetailsModal } from './QuestDetailsModal';
 import { QuestCard } from './QuestCard';
+import { useScrollFade } from '@/hooks/useScrollFade';
 
 type QuestBoardProps = {
   quests: Task[];
@@ -10,6 +11,13 @@ type QuestBoardProps = {
 
 export function QuestBoard({ quests }: QuestBoardProps) {
   const [opened, setOpened] = useState<Task | null>(null);
+  const easyRef = useRef<HTMLDivElement | null>(null);
+  const mediumRef = useRef<HTMLDivElement | null>(null);
+  const hardRef = useRef<HTMLDivElement | null>(null);
+
+  useScrollFade(easyRef, { offset: 60 });
+  useScrollFade(mediumRef, { offset: 60 });
+  useScrollFade(hardRef, { offset: 60 });
 
   const grouped = useMemo(() => {
     const by: Record<TaskCategory, Task[]> = { easy: [], medium: [], hard: [] };
@@ -22,43 +30,49 @@ export function QuestBoard({ quests }: QuestBoardProps) {
       <section className="quest-board" aria-label="Доска заданий">
         <div className="quest-col quest-col--easy">
           <header className="quest-col__header">ЛЕГКО</header>
-          <div className="quest-col__list">
-            {grouped.easy.map(q => (
-              <QuestCard
-                key={q.id}
-                quest={q}
-                onOpen={() => setOpened(q)}
-                onComplete={() => console.log('complete', q.id)}
-              />
-            ))}
+          <div className="quest-col__list" ref={easyRef}>
+            <div className="quest-col__inner">
+              {grouped.easy.map(q => (
+                <QuestCard
+                  key={q.id}
+                  quest={q}
+                  onOpen={() => setOpened(q)}
+                  onComplete={() => console.log('complete', q.id)}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
         <div className="quest-col quest-col--medium">
           <header className="quest-col__header">СРЕДНЕ</header>
-          <div className="quest-col__list">
-            {grouped.medium.map(q => (
-              <QuestCard
-                key={q.id}
-                quest={q}
-                onOpen={() => setOpened(q)}
-                onComplete={() => console.log('complete', q.id)}
-              />
-            ))}
+          <div className="quest-col__list" ref={mediumRef}>
+            <div className="quest-col__inner">
+              {grouped.medium.map(q => (
+                <QuestCard
+                  key={q.id}
+                  quest={q}
+                  onOpen={() => setOpened(q)}
+                  onComplete={() => console.log('complete', q.id)}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
         <div className="quest-col quest-col--hard">
           <header className="quest-col__header">СЛОЖНО</header>
-          <div className="quest-col__list">
-            {grouped.hard.map(q => (
-              <QuestCard
-                key={q.id}
-                quest={q}
-                onOpen={() => setOpened(q)}
-                onComplete={() => console.log('complete', q.id)}
-              />
-            ))}
+          <div className="quest-col__list" ref={hardRef}>
+            <div className="quest-col__inner">
+              {grouped.hard.map(q => (
+                <QuestCard
+                  key={q.id}
+                  quest={q}
+                  onOpen={() => setOpened(q)}
+                  onComplete={() => console.log('complete', q.id)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>

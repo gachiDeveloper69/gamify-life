@@ -95,9 +95,17 @@
     @include fluid-text(16, 10);
     color: rgba(220, 250, 255, 0.92);
     margin: 0;
-    height: 3em;
-    display: flex;
-    align-items: center;
+    // height: 3em;
+    // display: flex;
+    // align-items: center;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; // ← 2 строки
+    overflow: hidden;
+
+    line-height: 1.3;
+    min-height: calc(2 * 1.2em); // чтобы высота была стабильной
     white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -198,6 +206,7 @@
   }
   .qcard:hover .qcard__desc {
     overflow: auto;
+    @include scroll-fade(10);
   }
 }
 
