@@ -53,6 +53,10 @@ const MANY: Task[] = Array.from({ length: 18 }, (_, i) => ({
   createdAt: new Date(),
   completed: false,
   description: i % 2 ? 'Короткое описание.' : undefined,
+  deadline:
+    i % 2
+      ? new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
+      : new Date(Date.now() + 6 * 60 * 60 * 1000),
 }));
 
 const MANY_MED: Task[] = Array.from({ length: 10 }, (_, i) => ({
@@ -63,6 +67,7 @@ const MANY_MED: Task[] = Array.from({ length: 10 }, (_, i) => ({
   createdAt: new Date(),
   completed: false,
   description: i % 3 === 0 ? 'Длинное описание. '.repeat(12) : undefined,
+  deadline: i % 2 ? new Date(Date.now() + 35 * 60 * 1000) : new Date(Date.now() - 5 * 60 * 1000),
 }));
 
 const MANY_HARD: Task[] = Array.from({ length: 6 }, (_, i) => ({

@@ -4,6 +4,7 @@ import { type Task } from '@/types/task';
 import { type TaskCategory } from '@/types/task';
 import { getPointsByCategory } from '@/types/task';
 import { QButton } from '@/components/ui/QButton';
+import { QuestDeadline } from '@/components/features/quest-log/QuestDeadline';
 import { useScrollFade } from '@/hooks/useScrollFade';
 
 type QuestCardProps = {
@@ -62,6 +63,12 @@ export function QuestCard({ quest, onOpen, onComplete }: QuestCardProps) {
 
         <div className="qcard__meta">
           <span className="qcard__xp">+{quest.points} XP</span>
+          {quest.deadline && (
+            <>
+              <span className="qcard__metaSep" aria-hidden="true" />
+              <QuestDeadline deadline={quest.deadline} />
+            </>
+          )}
           <QButton className="qbtn--primary qbtn--complete" onClick={onBtnclick}>
             <span className="qcard__complete">ВЫПОЛНИТЬ</span>
           </QButton>

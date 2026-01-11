@@ -2,7 +2,6 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 type QButtonProps = {
   children: ReactNode;
-  ClassName?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function QButton({

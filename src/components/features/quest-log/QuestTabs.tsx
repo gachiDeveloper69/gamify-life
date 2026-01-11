@@ -5,7 +5,7 @@ type TabKey = 'active' | 'daily' | 'done';
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: 'active', label: 'АКТИВНЫЕ' },
-  { key: 'daily', label: 'РЕГУЛЯРНЫЕ' },
+  // { key: 'daily', label: 'РЕГУЛЯРНЫЕ' },
   { key: 'done', label: 'ЗАВЕРШЕННЫЕ' },
 ];
 
