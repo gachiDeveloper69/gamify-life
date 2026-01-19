@@ -102,7 +102,7 @@ function App() {
             <div className="quest-log__content">
               <header className="quest-log__header">
                 <h1 className="quest-log__title">QUEST LOG</h1>
-                <button className="qbtn qbtn--primary" type="button">
+                <button className="qbtn qbtn--primary qbtn--cta" type="button">
                   НОВАЯ МИССИЯ
                 </button>
               </header>

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { type Task } from '@/types/task';
 
+import Stripe from '@/assets/icons/stripe-hard-2.svg?react';
+
 type Props = {
   quest: Task | null;
   onClose: () => void;
@@ -31,11 +33,13 @@ export function QuestDetailsModal({ quest, onClose }: Props) {
       }}
     >
       <div className="qmodal__panel">
+        <div className="qmodal__chrome" aria-hidden="true" />
+        <div className="qmodal__grid" aria-hidden="true" />
         <button className="qmodal__close" type="button" onClick={onClose} aria-label="Закрыть">
           ✕
         </button>
         <div className="qmodal__head">
-          <h2 className="qmodal__title">{quest.title}</h2>
+          <h2 className="qmodal__title">БРИФИНГ МИССИИ</h2>
           <div className="qmodal__right">
             <span className="qmodal__xp">+{quest.points} XP</span>
           </div>
@@ -44,6 +48,11 @@ export function QuestDetailsModal({ quest, onClose }: Props) {
         <div className="qmodal__divider" aria-hidden="true" />
 
         <div className="qmodal__content">
+          <div className="qbrief__header">
+            <div className={`qbrief__chevron qbrief__chevron--${quest.category}`}>
+              <Stripe className="qbrief__icon" />
+            </div>
+          </div>
           {quest.description ? (
             <p className="qmodal__desc">{quest.description}</p>
           ) : (

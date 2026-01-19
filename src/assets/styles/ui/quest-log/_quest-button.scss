@@ -7,3 +7,95 @@
     color: #1afafd;
   }
 }
+
+.qbtn--cta {
+  position: relative;
+  overflow: hidden; // важно для заливки
+  align-self: center;
+  padding: 10px 16px;
+  font-size: 11px;
+
+  border-color: rgba(4, 239, 249, 0.55);
+  background: rgba(2, 22, 35, 0.18);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 26px rgba(4, 239, 249, 0.08);
+
+  /* слой "энергозаливки" (растёт из центра) */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+
+    /* сама заливка — мягкая, чтобы не стало “кислотно” */
+    background: linear-gradient(to bottom, rgba(4, 239, 249, 0.22), rgba(4, 239, 249, 0.06));
+
+    transform: scaleX(0);
+    transform-origin: 50% 50%;
+    transition: transform 260ms ease;
+  }
+
+  /* слой "тех-полосок" как HUD */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.9;
+
+    background:
+      linear-gradient(
+        to right,
+        rgba(4, 239, 249, 0),
+        rgba(4, 239, 249, 0.16),
+        rgba(4, 239, 249, 0)
+      ),
+      repeating-linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0px,
+        rgba(255, 255, 255, 0) 10px,
+        rgba(255, 255, 255, 0.04) 11px,
+        rgba(255, 255, 255, 0) 12px
+      );
+
+    mix-blend-mode: screen;
+  }
+
+  /* контент всегда поверх слоёв */
+  > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  @include hover {
+    border-color: rgba(4, 239, 249, 0.9);
+    color: rgba(220, 250, 255, 0.96);
+
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 34px rgba(4, 239, 249, 0.12);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &:active {
+    transform: translateY(1px);
+
+    /* нажатие чуть “собирает” энергию */
+    &::after {
+      transform: scaleX(0.92);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      transition: none;
+    }
+  }
+}

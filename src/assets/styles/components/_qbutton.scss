@@ -38,6 +38,10 @@
   &:active {
     transform: translateY(1px);
   }
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
 }
 //скошенные углы
 @supports (corner-shape: bevel) {

@@ -12,22 +12,99 @@
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(6px);
 
+  /* лёгкий “пыльный” градиент поверх оверлея */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 20%, rgba(4, 239, 249, 0.08), transparent 55%),
+      radial-gradient(circle at 20% 80%, rgba(4, 239, 249, 0.05), transparent 60%);
+    opacity: 0.9;
+  }
+
   &__panel {
+    --c: rgba(4, 239, 249, 0.65);
+    --c2: rgba(4, 239, 249, 0.28);
+    --dark: rgba(2, 22, 35, 0.92);
+    --glass: rgba(10, 70, 95, 0.55);
+
     position: relative;
-    width: min(860px, 100%);
+    width: min(920px, 100%);
     max-height: min(80vh, 720px);
     overflow: hidden;
 
-    border: 1px solid rgba(4, 239, 249, 0.45);
-    border-radius: 18px 0 12px 0;
+    background:
+      radial-gradient(circle at 50% 20%, rgba(10, 70, 95, 0.62), rgba(2, 22, 35, 0.94)),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03), transparent 40%);
 
-    background: radial-gradient(circle at 50% 25%, rgba(10, 70, 95, 0.55), rgba(2, 22, 35, 0.92));
+    border: 1px solid rgba(4, 239, 249, 0.38);
+    border-radius: 18px 0 12px 0;
 
     box-shadow:
       0 0 40px rgba(4, 239, 249, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      0 0 0 1px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
     padding: 18px 18px 16px;
+
+    /* “угловые акценты” (4 скобы) */
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0px;
+      pointer-events: none;
+      border-radius: 18px 0 12px 0;
+      background:
+        /* TR */
+        linear-gradient(to left, rgba(4, 239, 249, 0.9), rgba(4, 239, 249, 0)) top right / 64px 1px
+          no-repeat,
+        linear-gradient(to bottom, rgba(4, 239, 249, 0.9), rgba(4, 239, 249, 0)) top right / 1px
+          44px no-repeat,
+        /* BL */ linear-gradient(to right, rgba(4, 239, 249, 0.75), rgba(4, 239, 249, 0)) bottom
+          left / 44px 1px no-repeat,
+        linear-gradient(to top, rgba(4, 239, 249, 0.75), rgba(4, 239, 249, 0)) bottom left / 1px
+          44px no-repeat;
+
+      filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.1));
+      opacity: 0.75;
+    }
+  }
+
+  /* ===== Decorative layers (optional, если добавил .qmodal__chrome/.qmodal__grid) ===== */
+  &__chrome {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.95;
+
+    /* “технические” верхние/нижние полосы */
+    background:
+      /* лёгкая подсветка по верхней кромке */ linear-gradient(
+        to bottom,
+        rgba(4, 239, 249, 0.1),
+        rgba(0, 0, 0, 0)
+      )
+      0 0 / 100% 120px no-repeat;
+
+    mix-blend-mode: screen;
+  }
+
+  &__grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.18;
+
+    /* dotted + лёгкая сетка */
+    background:
+      radial-gradient(rgba(180, 245, 255, 0.12) 1px, transparent 1px) 2px 6px / 18px 18px,
+      linear-gradient(to right, rgba(255, 255, 255, 0.04), transparent 35%) 0 0 / 220px 100%
+        no-repeat;
+
+    filter: blur(0.15px);
+    mix-blend-mode: overlay;
   }
 
   &__close {
@@ -35,7 +112,7 @@
     position: absolute;
     top: 10px;
     right: 12px;
-
+    z-index: 100;
     width: 34px;
     height: 34px;
     border-radius: 10px;
@@ -45,33 +122,55 @@
 
     cursor: pointer;
 
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 0 18px rgba(4, 239, 249, 0.06);
+
+    transition:
+      transform 120ms ease,
+      border-color 140ms ease,
+      box-shadow 140ms ease,
+      background 140ms ease;
+
     &:hover {
-      border-color: rgba(4, 239, 249, 0.5);
+      border-color: rgba(4, 239, 249, 0.55);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 0 22px rgba(4, 239, 249, 0.1);
+      background: rgba(0, 60, 89, 0.22);
+      color: #1afafd;
+    }
+
+    &:active {
+      transform: translateY(1px);
     }
   }
 
   &__head {
+    position: relative;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 16px;
-    padding-right: 42px;
+    padding-right: 54px; /* под close */
+    margin-bottom: 10px;
   }
 
   &__title {
     margin: 0;
-    font-family: 'Orbitron';
+    font-family: 'Exo-2';
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-size: 22px;
     color: rgba(220, 250, 255, 0.95);
+    text-shadow: 0 0 18px rgba(4, 239, 249, 0.06);
   }
 
   &__xp {
     font-family: 'Exo-2';
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(4, 239, 249, 0.65);
+    color: rgba(4, 239, 249, 0.7);
   }
 
   &__divider {
@@ -89,6 +188,7 @@
     overflow: auto;
     max-height: calc(80vh - 220px);
     padding-right: 6px;
+    overflow: hidden;
   }
 
   &__desc {
@@ -107,6 +207,7 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 14px;
+    padding-top: 12px;
   }
 }
 
@@ -114,5 +215,124 @@
 @supports (corner-shape: bevel) {
   .qmodal__panel {
     corner-shape: bevel;
+    &::after {
+      corner-shape: bevel;
+    }
   }
+}
+
+.qbrief {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__chevron {
+    --c: rgba(4, 239, 249, 0.9); /* базовый неон */
+    --c-soft: rgba(4, 239, 249, 0.22); /* мягкий */
+    --c-dim: rgba(4, 239, 249, 0.12);
+
+    width: 84px;
+    aspect-ratio: 1;
+    position: relative;
+    flex: 0 0 auto;
+
+    /* форма (октагон/шеврон-ish) */
+    clip-path: polygon(18% 0%, 82% 0%, 100% 18%, 100% 82%, 82% 100%, 18% 100%, 0% 82%, 0% 18%);
+
+    /* корпус */
+    background:
+    /* решётка */
+      repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.06) 0px,
+        rgba(255, 255, 255, 0.06) 2px,
+        rgba(0, 0, 0, 0) 2px,
+        rgba(0, 0, 0, 0) 8px
+      ),
+      radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0) 55%),
+      linear-gradient(to bottom, rgba(2, 22, 35, 0.35), rgba(2, 22, 35, 0.85));
+
+    border: 1px solid rgba(4, 239, 249, 0.4);
+    box-shadow:
+      0 0 22px rgba(4, 239, 249, 0.1),
+      inset 0 0 0 1px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+    /* “расходящийся” решётчатый glow */
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -22px -64px; /* вот тут магия “в стороны” */
+      pointer-events: none;
+
+      background:
+      /* решётка внутри свечения */
+        repeating-linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.06) 0px,
+          rgba(255, 255, 255, 0.06) 2px,
+          rgba(0, 0, 0, 0) 2px,
+          rgba(0, 0, 0, 0) 10px
+        ),
+        radial-gradient(circle at 50% 50%, var(--c-soft), rgba(4, 239, 249, 0) 60%);
+
+      /* маска, чтобы свет был сильнее у шеврона и уходил в стороны */
+      -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 65%);
+      mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 65%);
+
+      opacity: 0.65;
+      filter: blur(0.6px);
+      mix-blend-mode: screen;
+    }
+
+    /* внутренний “акцентный контур” */
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      clip-path: inherit;
+      border: 1px solid rgba(4, 239, 249, 0.18);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+      pointer-events: none;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    inset: -20px;
+    display: grid;
+    place-items: center;
+    @include abs-center;
+    // width: 100%;
+    aspect-ratio: 1;
+    height: auto;
+    & path {
+      fill: red;
+    }
+
+    &::before {
+      font-size: 30px;
+      color: rgba(220, 250, 255, 0.9);
+      text-shadow: 0 0 16px rgba(4, 239, 249, 0.12);
+      transform: translateY(-1px);
+    }
+  }
+
+  /* цвета по сложности */
+  &--easy {
+    --c: #{$color-easy};
+    --c-soft: rgba(80, 255, 160, 0.22);
+  }
+  &--medium {
+    --c: #{$color-medium};
+    --c-soft: rgba(255, 214, 80, 0.22);
+  }
+  &--hard {
+    --c: #{$color-hard};
+    --c-soft: rgba(255, 90, 90, 0.22);
+  }
+
+  /* подкрашиваем контур под сложность */
+  // border-color: color-mix(in srgb, var(--c), rgba(4, 239, 249, 0.2) 40%);
 }

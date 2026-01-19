@@ -3,13 +3,13 @@
   --color-bg: #0b0f19;
   --color-font-head: #d9e1f2;
   --color-font-main: #8c9bb5;
+  --color-scrollbar-track: rgba(0, 0, 0, 0.18);
+  --color-scrollbar-thumb: rgba(4, 239, 249, 0.38);
+  --color-scrollbar-thumb-hover: rgba(4, 239, 249, 0.58);
   --container-width: 70vw;
   --container-padding-x: 100px;
   --section-padding-y: 70px;
   --transition: 0.25s ease-out;
-  --color-scrollbar-track: rgba(0, 0, 0, 0.18);
-  --color-scrollbar-thumb: rgba(4, 239, 249, 0.38);
-  --color-scrollbar-thumb-hover: rgba(4, 239, 249, 0.58);
 }
 
 body {
@@ -331,6 +331,10 @@ svg * {
 .qbtn:active {
   transform: translateY(1px);
 }
+.qbtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
 
 @supports (corner-shape: bevel) {
   .qbtn {
@@ -434,6 +438,82 @@ svg * {
   .qbtn--complete:active {
     background: #003c59;
     color: #1afafd;
+  }
+}
+
+.qbtn--cta {
+  position: relative;
+  overflow: hidden;
+  align-self: center;
+  padding: 10px 16px;
+  font-size: 11px;
+  border-color: rgba(4, 239, 249, 0.55);
+  background: rgba(2, 22, 35, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 26px rgba(4, 239, 249, 0.08);
+  /* слой "энергозаливки" (растёт из центра) */
+}
+.qbtn--cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* сама заливка — мягкая, чтобы не стало “кислотно” */
+  background: linear-gradient(to bottom, rgba(4, 239, 249, 0.22), rgba(4, 239, 249, 0.06));
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+  transition: transform 260ms ease;
+}
+.qbtn--cta {
+  /* слой "тех-полосок" как HUD */
+}
+.qbtn--cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.9;
+  background: linear-gradient(to right, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.16), rgba(4, 239, 249, 0)), repeating-linear-gradient(to right, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 10px, rgba(255, 255, 255, 0.04) 11px, rgba(255, 255, 255, 0) 12px);
+  mix-blend-mode: screen;
+}
+.qbtn--cta {
+  /* контент всегда поверх слоёв */
+}
+.qbtn--cta > * {
+  position: relative;
+  z-index: 2;
+}
+@media (hover: hover) {
+  .qbtn--cta:hover {
+    border-color: rgba(4, 239, 249, 0.9);
+    color: rgba(220, 250, 255, 0.96);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 34px rgba(4, 239, 249, 0.12);
+  }
+  .qbtn--cta:hover::after {
+    transform: scaleX(1);
+  }
+}
+@media (hover: none) {
+  .qbtn--cta:active {
+    border-color: rgba(4, 239, 249, 0.9);
+    color: rgba(220, 250, 255, 0.96);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 34px rgba(4, 239, 249, 0.12);
+  }
+  .qbtn--cta:active::after {
+    transform: scaleX(1);
+  }
+}
+.qbtn--cta:active {
+  transform: translateY(1px);
+  /* нажатие чуть “собирает” энергию */
+}
+.qbtn--cta:active::after {
+  transform: scaleX(0.92);
+}
+@media (prefers-reduced-motion: reduce) {
+  .qbtn--cta::after {
+    transition: none;
   }
 }
 
@@ -541,17 +621,63 @@ svg * {
   padding: 18px;
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(6px);
+  /* лёгкий “пыльный” градиент поверх оверлея */
+}
+.qmodal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 20%, rgba(4, 239, 249, 0.08), transparent 55%), radial-gradient(circle at 20% 80%, rgba(4, 239, 249, 0.05), transparent 60%);
+  opacity: 0.9;
 }
 .qmodal__panel {
+  --c: rgba(4, 239, 249, 0.65);
+  --c2: rgba(4, 239, 249, 0.28);
+  --dark: rgba(2, 22, 35, 0.92);
+  --glass: rgba(10, 70, 95, 0.55);
   position: relative;
-  width: min(860px, 100%);
+  width: min(920px, 100%);
   max-height: min(80vh, 720px);
   overflow: hidden;
-  border: 1px solid rgba(4, 239, 249, 0.45);
+  background: radial-gradient(circle at 50% 20%, rgba(10, 70, 95, 0.62), rgba(2, 22, 35, 0.94)), linear-gradient(to bottom, rgba(255, 255, 255, 0.03), transparent 40%);
+  border: 1px solid rgba(4, 239, 249, 0.38);
   border-radius: 18px 0 12px 0;
-  background: radial-gradient(circle at 50% 25%, rgba(10, 70, 95, 0.55), rgba(2, 22, 35, 0.92));
-  box-shadow: 0 0 40px rgba(4, 239, 249, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 40px rgba(4, 239, 249, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   padding: 18px 18px 16px;
+  /* “угловые акценты” (4 скобы) */
+}
+.qmodal__panel::after {
+  content: "";
+  position: absolute;
+  inset: 0px;
+  pointer-events: none;
+  border-radius: 18px 0 12px 0;
+  background: linear-gradient(to left, rgba(4, 239, 249, 0.9), rgba(4, 239, 249, 0)) top right/64px 1px no-repeat, linear-gradient(to bottom, rgba(4, 239, 249, 0.9), rgba(4, 239, 249, 0)) top right/1px 44px no-repeat, linear-gradient(to right, rgba(4, 239, 249, 0.75), rgba(4, 239, 249, 0)) bottom left/44px 1px no-repeat, linear-gradient(to top, rgba(4, 239, 249, 0.75), rgba(4, 239, 249, 0)) bottom left/1px 44px no-repeat;
+  filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.1));
+  opacity: 0.75;
+}
+.qmodal {
+  /* ===== Decorative layers (optional, если добавил .qmodal__chrome/.qmodal__grid) ===== */
+}
+.qmodal__chrome {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.95;
+  /* “технические” верхние/нижние полосы */
+  background: linear-gradient(to bottom, rgba(4, 239, 249, 0.1), rgba(0, 0, 0, 0)) 0 0/100% 120px no-repeat;
+  mix-blend-mode: screen;
+}
+.qmodal__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  /* dotted + лёгкая сетка */
+  background: radial-gradient(rgba(180, 245, 255, 0.12) 1px, transparent 1px) 2px 6px/18px 18px, linear-gradient(to right, rgba(255, 255, 255, 0.04), transparent 35%) 0 0/220px 100% no-repeat;
+  filter: blur(0.15px);
+  mix-blend-mode: overlay;
 }
 .qmodal__close {
   padding: 0;
@@ -561,6 +687,7 @@ svg * {
   position: absolute;
   top: 10px;
   right: 12px;
+  z-index: 100;
   width: 34px;
   height: 34px;
   border-radius: 10px;
@@ -568,30 +695,41 @@ svg * {
   background: rgba(0, 0, 0, 0.2);
   color: rgba(220, 250, 255, 0.8);
   cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 18px rgba(4, 239, 249, 0.06);
+  transition: transform 120ms ease, border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
 }
 .qmodal__close:hover {
-  border-color: rgba(4, 239, 249, 0.5);
+  border-color: rgba(4, 239, 249, 0.55);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 22px rgba(4, 239, 249, 0.1);
+  background: rgba(0, 60, 89, 0.22);
+  color: #1afafd;
+}
+.qmodal__close:active {
+  transform: translateY(1px);
 }
 .qmodal__head {
+  position: relative;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  padding-right: 42px;
+  padding-right: 54px; /* под close */
+  margin-bottom: 10px;
 }
 .qmodal__title {
   margin: 0;
-  font-family: "Orbitron";
+  font-family: "Exo-2";
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-size: 22px;
   color: rgba(220, 250, 255, 0.95);
+  text-shadow: 0 0 18px rgba(4, 239, 249, 0.06);
 }
 .qmodal__xp {
   font-family: "Exo-2";
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(4, 239, 249, 0.65);
+  color: rgba(4, 239, 249, 0.7);
 }
 .qmodal__divider {
   height: 1px;
@@ -602,6 +740,7 @@ svg * {
   overflow: auto;
   max-height: calc(80vh - 220px);
   padding-right: 6px;
+  overflow: hidden;
 }
 .qmodal__desc {
   margin: 0;
@@ -617,13 +756,102 @@ svg * {
   display: flex;
   justify-content: flex-end;
   margin-top: 14px;
+  padding-top: 12px;
 }
 
 @supports (corner-shape: bevel) {
   .qmodal__panel {
     corner-shape: bevel;
   }
+  .qmodal__panel::after {
+    corner-shape: bevel;
+  }
 }
+.qbrief__header {
+  display: flex;
+  justify-content: space-between;
+}
+.qbrief__chevron {
+  --c: rgba(4, 239, 249, 0.9); /* базовый неон */
+  --c-soft: rgba(4, 239, 249, 0.22); /* мягкий */
+  --c-dim: rgba(4, 239, 249, 0.12);
+  width: 84px;
+  aspect-ratio: 1;
+  position: relative;
+  flex: 0 0 auto;
+  /* форма (октагон/шеврон-ish) */
+  clip-path: polygon(18% 0%, 82% 0%, 100% 18%, 100% 82%, 82% 100%, 18% 100%, 0% 82%, 0% 18%);
+  /* корпус */
+  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.06) 0px, rgba(255, 255, 255, 0.06) 2px, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, 0) 8px), radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0) 55%), linear-gradient(to bottom, rgba(2, 22, 35, 0.35), rgba(2, 22, 35, 0.85));
+  border: 1px solid rgba(4, 239, 249, 0.4);
+  box-shadow: 0 0 22px rgba(4, 239, 249, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  /* “расходящийся” решётчатый glow */
+}
+.qbrief__chevron::before {
+  content: "";
+  position: absolute;
+  inset: -22px -64px; /* вот тут магия “в стороны” */
+  pointer-events: none;
+  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.06) 0px, rgba(255, 255, 255, 0.06) 2px, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, 0) 10px), radial-gradient(circle at 50% 50%, var(--c-soft), rgba(4, 239, 249, 0) 60%);
+  /* маска, чтобы свет был сильнее у шеврона и уходил в стороны */
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 65%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 65%);
+  opacity: 0.65;
+  filter: blur(0.6px);
+  mix-blend-mode: screen;
+}
+.qbrief__chevron {
+  /* внутренний “акцентный контур” */
+}
+.qbrief__chevron::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  clip-path: inherit;
+  border: 1px solid rgba(4, 239, 249, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+.qbrief__icon {
+  position: absolute;
+  inset: -20px;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  aspect-ratio: 1;
+  height: auto;
+}
+.qbrief__icon path {
+  fill: red;
+}
+.qbrief__icon::before {
+  font-size: 30px;
+  color: rgba(220, 250, 255, 0.9);
+  text-shadow: 0 0 16px rgba(4, 239, 249, 0.12);
+  transform: translateY(-1px);
+}
+.qbrief {
+  /* цвета по сложности */
+}
+.qbrief--easy {
+  --c: rgba(80, 255, 160, 0.9);
+  --c-soft: rgba(80, 255, 160, 0.22);
+}
+.qbrief--medium {
+  --c: rgba(255, 214, 80, 0.95);
+  --c-soft: rgba(255, 214, 80, 0.22);
+}
+.qbrief--hard {
+  --c: rgba(255, 90, 90, 0.95);
+  --c-soft: rgba(255, 90, 90, 0.22);
+}
+.qbrief {
+  /* подкрашиваем контур под сложность */
+}
+
 @keyframes rail-glow {
   0%, 100% {
     filter: drop-shadow(0 0 1px rgba(4, 239, 249, 0.12));

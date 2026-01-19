@@ -11,13 +11,13 @@ $fonts: (
   --color-font-head: #d9e1f2;
   --color-font-main: #8c9bb5;
 
+  --color-scrollbar-track: rgba(0, 0, 0, 0.18);
+  --color-scrollbar-thumb: rgba(4, 239, 249, 0.38);
+  --color-scrollbar-thumb-hover: rgba(4, 239, 249, 0.58);
+
   --container-width: 70vw;
   --container-padding-x: 100px;
   --section-padding-y: 70px;
 
   --transition: 0.25s ease-out;
-
-  --color-scrollbar-track: rgba(0, 0, 0, 0.18);
-  --color-scrollbar-thumb: rgba(4, 239, 249, 0.38);
-  --color-scrollbar-thumb-hover: rgba(4, 239, 249, 0.58);
 }
