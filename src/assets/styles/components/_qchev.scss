@@ -1,0 +1,203 @@
+@use '../base/core' as *;
+
+.qchev {
+  &__chevron {
+    --c: rgba(4, 239, 249, 0.9); /* базовый неон */
+    --c-soft: rgba(4, 239, 249, 0.22); /* мягкий */
+    --c-dim: rgba(4, 239, 249, 0.12);
+
+    flex: 0 0 auto; /* не растягивается, не сжимается */
+    /* или подробнее: */
+    flex-grow: 0; /* не растягивается */
+    flex-shrink: 0; /* не сжимается */
+    flex-basis: auto; /* исходный размер */
+    width: 84px;
+    aspect-ratio: 1;
+    position: relative;
+    flex: 0 0 auto;
+
+    /* форма (октагон/шеврон) */
+    clip-path: polygon(18% 0%, 82% 0%, 100% 18%, 100% 82%, 82% 100%, 18% 100%, 0% 82%, 0% 18%);
+
+    /* корпус */
+    background:
+      /* тёплый “экранный” блик */
+      radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.1), transparent 60%),
+      /* база */ linear-gradient(to bottom, rgba(2, 22, 35, 0.25), rgba(2, 22, 35, 0.88));
+
+    /* внешний неоновый контур + небольшая глубина */
+    box-shadow:
+      0 0 18px rgba(0, 0, 0, 0.45),
+      0 0 26px var(--c-dim),
+      inset 0 0 0 1px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+    /* ========== СЕТКА ВНУТРИ ОКТАГОНА (ТОНИРОВАННАЯ) ========== */
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      clip-path: inherit;
+
+      background:
+        /* “сотово-сетчатая” структура: две диагонали */
+        repeating-linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0) 0px,
+          rgba(255, 255, 255, 0) 6px,
+          rgba(255, 255, 255, 0.09) 6px,
+          rgba(255, 255, 255, 0.09) 7px
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          rgba(255, 255, 255, 0) 0px,
+          rgba(255, 255, 255, 0) 6px,
+          rgba(255, 255, 255, 0.06) 6px,
+          rgba(255, 255, 255, 0.06) 7px
+        ),
+        /* тонировка сетки цветом сложности */
+        radial-gradient(
+            circle at 50% 45%,
+            color-mix(in srgb, var(--c) 45%, transparent),
+            transparent 62%
+          );
+
+      /* делаем это “энергетическим”, не белым */
+      mix-blend-mode: screen;
+      opacity: 0.9;
+
+      /* мягкость как на рефе */
+      filter: blur(0.15px);
+    }
+
+    /* ========== СЕТЧАТЫЙ GLOW, РАЗЛЕТАЕТСЯ НАРУЖУ ========== */
+    &::after {
+      content: '';
+      position: absolute;
+      pointer-events: none;
+
+      /* важно: больше чем сам октагон, чтобы “разлеталось” */
+      inset: -22px -68px;
+
+      background:
+        /* сетка в свечении */
+        repeating-linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0) 0px,
+          rgba(255, 255, 255, 0) 7px,
+          rgba(255, 255, 255, 0.08) 7px,
+          rgba(255, 255, 255, 0.08) 8px
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          rgba(255, 255, 255, 0) 0px,
+          rgba(255, 255, 255, 0) 7px,
+          rgba(255, 255, 255, 0.05) 7px,
+          rgba(255, 255, 255, 0.05) 8px
+        ),
+        /* сам неоновый ореол */
+        radial-gradient(circle at 50% 50%, var(--c-soft) 0%, rgba(0, 0, 0, 0) 62%);
+
+      /* ключ: маска, чтобы glow был сильнее рядом с октагоном и уходил наружу */
+      -webkit-mask-image: radial-gradient(
+        circle at 50% 50%,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0) 70%
+      );
+      mask-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 70%);
+
+      opacity: 0.75;
+      filter: blur(0.7px);
+      mix-blend-mode: screen;
+    }
+
+    &--easy {
+      --c: #{$color-easy};
+      --c-soft: color-mix(in srgb, #{$color-easy} 28%, transparent);
+      --c-dim: color-mix(in srgb, #{$color-easy} 14%, transparent);
+    }
+    &--medium {
+      --c: #{$color-medium};
+      --c-soft: color-mix(in srgb, #{$color-medium} 30%, transparent);
+      --c-dim: color-mix(in srgb, #{$color-medium} 14%, transparent);
+    }
+    &--hard {
+      --c: #{$color-hard};
+      --c-soft: color-mix(in srgb, #{$color-hard} 30%, transparent);
+      --c-dim: color-mix(in srgb, #{$color-hard} 14%, transparent);
+    }
+  }
+
+  &__frame {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    clip-path: inherit;
+
+    /* внешний неоновый контур */
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--c) 55%, rgba(255, 255, 255, 0.12)),
+      0 0 18px var(--c-dim);
+
+    /* внутренняя рамка */
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      clip-path: inherit;
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 0 0 2px rgba(0, 0, 0, 0.35);
+      opacity: 0.9;
+    }
+
+    /* “технические” акценты по углам */
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      clip-path: inherit;
+
+      background:
+        linear-gradient(to left, rgba(255, 255, 255, 0.22), transparent 60%) top right / 26px 1px
+          no-repeat,
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.22), transparent 60%) top right / 1px 20px
+          no-repeat,
+        linear-gradient(to right, rgba(255, 255, 255, 0.16), transparent 60%) bottom left / 22px 1px
+          no-repeat,
+        linear-gradient(to top, rgba(255, 255, 255, 0.16), transparent 60%) bottom left / 1px 18px
+          no-repeat;
+
+      opacity: 0.65;
+      mix-blend-mode: screen;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    inset: -20px;
+    display: grid;
+    place-items: center;
+    @include abs-center;
+    // width: 100%;
+    aspect-ratio: 1;
+    height: auto;
+    & path {
+      fill: var(--c);
+      filter: drop-shadow(0 0 10px var(--c-dim));
+    }
+
+    &::before {
+      font-size: 30px;
+      color: rgba(220, 250, 255, 0.9);
+      text-shadow: 0 0 16px rgba(4, 239, 249, 0.12);
+      transform: translateY(-1px);
+    }
+  }
+
+  /* цвета по сложности */
+
+  /* подкрашиваем контур под сложность */
+  // border-color: color-mix(in srgb, var(--c), rgba(4, 239, 249, 0.2) 40%);
+}

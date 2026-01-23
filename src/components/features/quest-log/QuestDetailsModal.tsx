@@ -1,14 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { type Task } from '@/types/task';
+import { QButton } from '@/components/ui/QButton';
 
-import Stripe from '@/assets/icons/stripe-hard-2.svg?react';
+import StripeLight from '@/assets/icons/stripe-2.svg?react';
+import StripeMedium from '@/assets/icons/stripe-medium.svg?react';
+import StripeHard from '@/assets/icons/stripe-hard-2.svg?react';
+
+import { QuestDeadline } from '@/components/features/quest-log/QuestDeadline';
+import { useScrollFade } from '@/hooks/useScrollFade';
 
 type Props = {
   quest: Task | null;
   onClose: () => void;
+  onComplete: () => void;
 };
 
-export function QuestDetailsModal({ quest, onClose }: Props) {
+const STRIPE_BY_DIFFICULTY = {
+  easy: StripeLight,
+  medium: StripeMedium,
+  hard: StripeHard,
+} as const;
+
+export function QuestDetailsModal({ quest, onClose, onComplete }: Props) {
+  const StripeIcon = STRIPE_BY_DIFFICULTY[quest?.category || 'easy'];
+
+  const descRef = useRef<HTMLDivElement | null>(null);
+  useScrollFade(descRef, { offset: 1 });
+
+  const onBtnclick: React.MouseEventHandler<HTMLButtonElement> = e => {
+    e.stopPropagation();
+    onComplete();
+  };
+
   useEffect(() => {
     if (!quest) return;
 
@@ -40,34 +63,64 @@ export function QuestDetailsModal({ quest, onClose }: Props) {
         </button>
         <div className="qmodal__head">
           <h2 className="qmodal__title">БРИФИНГ МИССИИ</h2>
-          <div className="qmodal__right">
-            <span className="qmodal__xp">+{quest.points} XP</span>
-          </div>
         </div>
 
         <div className="qmodal__divider" aria-hidden="true" />
 
         <div className="qmodal__content">
-          <div className="qbrief__header">
-            <div className={`qbrief__chevron qbrief__chevron--${quest.category}`}>
-              <Stripe className="qbrief__icon" />
+          <div className="briefing">
+            <div className="briefing__header">
+              <div className="briefing__difficulty">
+                <div className={`qchev__chevron qchev__chevron--${quest.category}`}>
+                  <span className="qchev__frame" aria-hidden="true" />
+                  <StripeIcon className="qchev__icon" />
+                </div>
+              </div>
+
+              <div className="briefing__details">
+                {/* ЛЕЙБЛЫ */}
+                <div className={`briefing__line briefing__line--${quest.category}`}>
+                  <span className={`briefing__label briefing__label--${quest.category}`}>
+                    {quest.category.toUpperCase()}
+                  </span>
+                </div>
+
+                {/* НАЗВАНИЕ МИССИИ */}
+                <h3 className="briefing__mission-title" title={quest.title}>
+                  {quest.title}
+                </h3>
+
+                {/* МЕТАДАННЫЕ */}
+                <div className="briefing__meta">
+                  {quest.deadline && (
+                    <div className="bmeta__item">
+                      <QuestDeadline deadline={quest.deadline} />
+                    </div>
+                  )}
+                  <div className="bmeta__item bmeta__item--xp">
+                    <span className="bmeta__label">XP</span>
+                    <span className="bmeta__value">+{quest.points}</span>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            {quest.description ? (
+              <div className="briefing__body" ref={descRef}>
+                <p className="briefing__desc">{quest.description}</p>
+              </div>
+            ) : (
+              <div className="briefing__body briefing__body--empty">
+                <p className="briefing__desc briefing__desc--muted">Описание отсутствует</p>
+              </div>
+            )}
           </div>
-          {quest.description ? (
-            <p className="qmodal__desc">{quest.description}</p>
-          ) : (
-            <p className="qmodal__desc qmodal__desc--muted">Описание отсутствует</p>
-          )}
         </div>
 
         <div className="qmodal__actions">
-          <button
-            className="qbtn qbtn--primary"
-            type="button"
-            onClick={() => console.log('complete', quest.id)}
-          >
-            ВЫПОЛНИТЬ
-          </button>
+          <QButton className="qbtn--primary qbtn--complete" onClick={onBtnclick}>
+            <span className="qcard__complete">ВЫПОЛНИТЬ</span>
+          </QButton>
         </div>
       </div>
     </div>

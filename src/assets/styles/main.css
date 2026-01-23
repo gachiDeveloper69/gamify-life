@@ -342,6 +342,298 @@ svg * {
     corner-shape: bevel;
   }
 }
+.qchev__chevron {
+  --c: rgba(4, 239, 249, 0.9); /* базовый неон */
+  --c-soft: rgba(4, 239, 249, 0.22); /* мягкий */
+  --c-dim: rgba(4, 239, 249, 0.12);
+  flex: 0 0 auto; /* не растягивается, не сжимается */
+  /* или подробнее: */
+  flex-grow: 0; /* не растягивается */
+  flex-shrink: 0; /* не сжимается */
+  flex-basis: auto; /* исходный размер */
+  width: 84px;
+  aspect-ratio: 1;
+  position: relative;
+  flex: 0 0 auto;
+  /* форма (октагон/шеврон) */
+  clip-path: polygon(18% 0%, 82% 0%, 100% 18%, 100% 82%, 82% 100%, 18% 100%, 0% 82%, 0% 18%);
+  /* корпус */
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.1), transparent 60%), linear-gradient(to bottom, rgba(2, 22, 35, 0.25), rgba(2, 22, 35, 0.88));
+  /* внешний неоновый контур + небольшая глубина */
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.45), 0 0 26px var(--c-dim), inset 0 0 0 1px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  /* ========== СЕТКА ВНУТРИ ОКТАГОНА (ТОНИРОВАННАЯ) ========== */
+}
+.qchev__chevron::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  clip-path: inherit;
+  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 6px, rgba(255, 255, 255, 0.09) 6px, rgba(255, 255, 255, 0.09) 7px), repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 6px, rgba(255, 255, 255, 0.06) 6px, rgba(255, 255, 255, 0.06) 7px), radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--c) 45%, transparent), transparent 62%);
+  /* делаем это “энергетическим”, не белым */
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  /* мягкость как на рефе */
+  filter: blur(0.15px);
+}
+.qchev__chevron {
+  /* ========== СЕТЧАТЫЙ GLOW, РАЗЛЕТАЕТСЯ НАРУЖУ ========== */
+}
+.qchev__chevron::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  /* важно: больше чем сам октагон, чтобы “разлеталось” */
+  inset: -22px -68px;
+  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 7px, rgba(255, 255, 255, 0.08) 7px, rgba(255, 255, 255, 0.08) 8px), repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 7px, rgba(255, 255, 255, 0.05) 7px, rgba(255, 255, 255, 0.05) 8px), radial-gradient(circle at 50% 50%, var(--c-soft) 0%, rgba(0, 0, 0, 0) 62%);
+  /* ключ: маска, чтобы glow был сильнее рядом с октагоном и уходил наружу */
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 70%);
+  mask-image: radial-gradient(circle at 50% 50%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 70%);
+  opacity: 0.75;
+  filter: blur(0.7px);
+  mix-blend-mode: screen;
+}
+.qchev__chevron--easy {
+  --c: rgba(80, 255, 160, 0.9);
+  --c-soft: color-mix(in srgb, rgba(80, 255, 160, 0.9) 28%, transparent);
+  --c-dim: color-mix(in srgb, rgba(80, 255, 160, 0.9) 14%, transparent);
+}
+.qchev__chevron--medium {
+  --c: rgba(255, 214, 80, 0.95);
+  --c-soft: color-mix(in srgb, rgba(255, 214, 80, 0.95) 30%, transparent);
+  --c-dim: color-mix(in srgb, rgba(255, 214, 80, 0.95) 14%, transparent);
+}
+.qchev__chevron--hard {
+  --c: rgba(255, 90, 90, 0.95);
+  --c-soft: color-mix(in srgb, rgba(255, 90, 90, 0.95) 30%, transparent);
+  --c-dim: color-mix(in srgb, rgba(255, 90, 90, 0.95) 14%, transparent);
+}
+.qchev__frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  clip-path: inherit;
+  /* внешний неоновый контур */
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--c) 55%, rgba(255, 255, 255, 0.12)), 0 0 18px var(--c-dim);
+  /* внутренняя рамка */
+}
+.qchev__frame::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  clip-path: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 0 0 2px rgba(0, 0, 0, 0.35);
+  opacity: 0.9;
+}
+.qchev__frame {
+  /* “технические” акценты по углам */
+}
+.qchev__frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: inherit;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.22), transparent 60%) top right/26px 1px no-repeat, linear-gradient(to bottom, rgba(255, 255, 255, 0.22), transparent 60%) top right/1px 20px no-repeat, linear-gradient(to right, rgba(255, 255, 255, 0.16), transparent 60%) bottom left/22px 1px no-repeat, linear-gradient(to top, rgba(255, 255, 255, 0.16), transparent 60%) bottom left/1px 18px no-repeat;
+  opacity: 0.65;
+  mix-blend-mode: screen;
+}
+.qchev__icon {
+  position: absolute;
+  inset: -20px;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  aspect-ratio: 1;
+  height: auto;
+}
+.qchev__icon path {
+  fill: var(--c);
+  filter: drop-shadow(0 0 10px var(--c-dim));
+}
+.qchev__icon::before {
+  font-size: 30px;
+  color: rgba(220, 250, 255, 0.9);
+  text-shadow: 0 0 16px rgba(4, 239, 249, 0.12);
+  transform: translateY(-1px);
+}
+.qchev {
+  /* цвета по сложности */
+  /* подкрашиваем контур под сложность */
+}
+
+.briefing {
+  --color-difficulty: rgba(4, 239, 249, 0.9);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  height: 100%;
+}
+.briefing__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 12px;
+  flex: 0 0 auto;
+}
+.briefing__difficulty {
+  align-self: center;
+}
+.briefing__details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 4px;
+}
+.briefing__line {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 120px; /* запас под линию */
+}
+.briefing__line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1px;
+  background: linear-gradient(to right, var(--color-difficulty), color-mix(in srgb, var(--color-difficulty) 40%, transparent), transparent);
+  opacity: 0.75;
+  pointer-events: none;
+}
+.briefing__line--easy {
+  --color-difficulty: rgba(80, 255, 160, 0.9);
+}
+.briefing__line--medium {
+  --color-difficulty: rgba(255, 214, 80, 0.95);
+}
+.briefing__line--hard {
+  --color-difficulty: rgba(255, 90, 90, 0.95);
+}
+.briefing__label {
+  position: relative;
+  z-index: 1;
+  padding: 4px 14px;
+  font-family: "Orbitron";
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(10, 20, 24, 0.9);
+  background: var(--color-difficulty);
+  clip-path: polygon(12% 0%, 88% 0%, 100% 50%, 88% 100%, 12% 100%, 0% 50%);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--color-difficulty) 45%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.briefing__mission-title {
+  margin: 4px 0 2px;
+  font-family: "Exo-2";
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  color: rgba(225, 248, 255, 0.96);
+  text-shadow: 0 0 10px rgba(4, 239, 249, 0.12);
+}
+.briefing__meta {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  margin-top: 2px;
+}
+.briefing__body {
+  position: relative;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+.briefing__body::-webkit-scrollbar {
+  width: 4px;
+}
+.briefing__body::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track);
+}
+.briefing__body::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb);
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+@media (hover: hover) {
+  .briefing__body::-webkit-scrollbar-thumb:hover {
+    background: var(--color-scrollbar-thumb-hover);
+  }
+}
+@media (hover: none) {
+  .briefing__body::-webkit-scrollbar-thumb:active {
+    background: var(--color-scrollbar-thumb-hover);
+  }
+}
+.briefing__body {
+  background: radial-gradient(circle at 30% 20%, rgba(4, 239, 249, 0.08), transparent 55%), linear-gradient(to bottom, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0));
+  box-shadow: inset 0 0 0 1px rgba(4, 239, 249, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 18px rgba(4, 239, 249, 0.05);
+}
+.briefing__desc {
+  padding: 12px 14px;
+  position: relative;
+  color: rgba(180, 245, 255, 0.62);
+  font-family: "Exo-2";
+  font-size: 14px;
+  line-height: 1.55;
+  white-space: pre-wrap; /* если описание с переносами */
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.briefing__desc--muted {
+  opacity: 0.65;
+}
+
+/* Цвета сложности */
+.bmeta__item {
+  display: flex;
+  justify-content: center;
+  font-family: "Exo-2";
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  height: 22px;
+  min-width: 120px;
+  padding-inline: 10px;
+  color: rgba(180, 245, 255, 0.75);
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+  background: linear-gradient(to bottom, rgba(4, 239, 249, 0.14), rgba(4, 239, 249, 0.06));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 0 0 0px rgba(4, 239, 249, 0.16), 0 0 18px rgba(4, 239, 249, 0.06);
+}
+.bmeta__item--xp {
+  align-self: flex-end;
+  text-transform: uppercase;
+}
+.bmeta__item:not(:first-child) {
+  margin-left: -5px;
+}
+.bmeta__icon {
+  font-size: 14px;
+  color: rgba(4, 239, 249, 0.85);
+  filter: drop-shadow(0 0 6px rgba(4, 239, 249, 0.35));
+}
+.bmeta__label {
+  color: rgba(180, 245, 255, 0.55);
+}
+.bmeta__value {
+  color: rgba(220, 250, 255, 0.9);
+}
+
 .qdeadline {
   display: inline-flex;
   align-items: center;
@@ -640,6 +932,9 @@ svg * {
   width: min(920px, 100%);
   max-height: min(80vh, 720px);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   background: radial-gradient(circle at 50% 20%, rgba(10, 70, 95, 0.62), rgba(2, 22, 35, 0.94)), linear-gradient(to bottom, rgba(255, 255, 255, 0.03), transparent 40%);
   border: 1px solid rgba(4, 239, 249, 0.38);
   border-radius: 18px 0 12px 0;
@@ -711,7 +1006,7 @@ svg * {
   position: relative;
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
+  justify-content: center;
   gap: 16px;
   padding-right: 54px; /* под close */
   margin-bottom: 10px;
@@ -722,8 +1017,10 @@ svg * {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-size: 22px;
-  color: rgba(220, 250, 255, 0.95);
-  text-shadow: 0 0 18px rgba(4, 239, 249, 0.06);
+  /* “подсвеченный” цвет, не чисто белый */
+  color: rgba(210, 245, 255, 0.95);
+  /* мягкий общий glow */
+  text-shadow: 0 0 12px rgba(4, 239, 249, 0.18), 0 0 28px rgba(4, 239, 249, 0.08);
 }
 .qmodal__xp {
   font-family: "Exo-2";
@@ -732,13 +1029,30 @@ svg * {
   color: rgba(4, 239, 249, 0.7);
 }
 .qmodal__divider {
+  position: relative;
   height: 1px;
   margin: 12px 0 12px;
   background: linear-gradient(to right, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.26), rgba(4, 239, 249, 0));
+  /* НЕОНОВАЯ ПОЛОСКА СНИЗУ */
+}
+.qmodal__divider::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  transform: translateX(-50%);
+  width: 68%;
+  height: 2px;
+  background: linear-gradient(to right, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.85), rgba(4, 239, 249, 0));
+  /* вот он — glow вверх */
+  box-shadow: 0 -6px 14px rgba(4, 239, 249, 0.45), 0 -16px 32px rgba(4, 239, 249, 0.25);
+  border-radius: 2px;
 }
 .qmodal__content {
-  overflow: auto;
-  max-height: calc(80vh - 220px);
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
   padding-right: 6px;
   overflow: hidden;
 }
@@ -748,6 +1062,7 @@ svg * {
   font-family: "Exo-2";
   font-size: 14px;
   line-height: 1.45;
+  min-height: 0;
 }
 .qmodal__desc--muted {
   opacity: 0.7;
@@ -767,91 +1082,6 @@ svg * {
     corner-shape: bevel;
   }
 }
-.qbrief__header {
-  display: flex;
-  justify-content: space-between;
-}
-.qbrief__chevron {
-  --c: rgba(4, 239, 249, 0.9); /* базовый неон */
-  --c-soft: rgba(4, 239, 249, 0.22); /* мягкий */
-  --c-dim: rgba(4, 239, 249, 0.12);
-  width: 84px;
-  aspect-ratio: 1;
-  position: relative;
-  flex: 0 0 auto;
-  /* форма (октагон/шеврон-ish) */
-  clip-path: polygon(18% 0%, 82% 0%, 100% 18%, 100% 82%, 82% 100%, 18% 100%, 0% 82%, 0% 18%);
-  /* корпус */
-  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.06) 0px, rgba(255, 255, 255, 0.06) 2px, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, 0) 8px), radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0) 55%), linear-gradient(to bottom, rgba(2, 22, 35, 0.35), rgba(2, 22, 35, 0.85));
-  border: 1px solid rgba(4, 239, 249, 0.4);
-  box-shadow: 0 0 22px rgba(4, 239, 249, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  /* “расходящийся” решётчатый glow */
-}
-.qbrief__chevron::before {
-  content: "";
-  position: absolute;
-  inset: -22px -64px; /* вот тут магия “в стороны” */
-  pointer-events: none;
-  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.06) 0px, rgba(255, 255, 255, 0.06) 2px, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, 0) 10px), radial-gradient(circle at 50% 50%, var(--c-soft), rgba(4, 239, 249, 0) 60%);
-  /* маска, чтобы свет был сильнее у шеврона и уходил в стороны */
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 65%);
-  mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 65%);
-  opacity: 0.65;
-  filter: blur(0.6px);
-  mix-blend-mode: screen;
-}
-.qbrief__chevron {
-  /* внутренний “акцентный контур” */
-}
-.qbrief__chevron::after {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  clip-path: inherit;
-  border: 1px solid rgba(4, 239, 249, 0.18);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
-  pointer-events: none;
-}
-.qbrief__icon {
-  position: absolute;
-  inset: -20px;
-  display: grid;
-  place-items: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  aspect-ratio: 1;
-  height: auto;
-}
-.qbrief__icon path {
-  fill: red;
-}
-.qbrief__icon::before {
-  font-size: 30px;
-  color: rgba(220, 250, 255, 0.9);
-  text-shadow: 0 0 16px rgba(4, 239, 249, 0.12);
-  transform: translateY(-1px);
-}
-.qbrief {
-  /* цвета по сложности */
-}
-.qbrief--easy {
-  --c: rgba(80, 255, 160, 0.9);
-  --c-soft: rgba(80, 255, 160, 0.22);
-}
-.qbrief--medium {
-  --c: rgba(255, 214, 80, 0.95);
-  --c-soft: rgba(255, 214, 80, 0.22);
-}
-.qbrief--hard {
-  --c: rgba(255, 90, 90, 0.95);
-  --c-soft: rgba(255, 90, 90, 0.22);
-}
-.qbrief {
-  /* подкрашиваем контур под сложность */
-}
-
 @keyframes rail-glow {
   0%, 100% {
     filter: drop-shadow(0 0 1px rgba(4, 239, 249, 0.12));

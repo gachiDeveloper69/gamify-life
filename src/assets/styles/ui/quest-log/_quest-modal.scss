@@ -34,6 +34,9 @@
     width: min(920px, 100%);
     max-height: min(80vh, 720px);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
 
     background:
       radial-gradient(circle at 50% 20%, rgba(10, 70, 95, 0.62), rgba(2, 22, 35, 0.94)),
@@ -150,7 +153,7 @@
     position: relative;
     display: flex;
     align-items: baseline;
-    justify-content: space-between;
+    justify-content: center;
     gap: 16px;
     padding-right: 54px; /* под close */
     margin-bottom: 10px;
@@ -162,8 +165,13 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-size: 22px;
-    color: rgba(220, 250, 255, 0.95);
-    text-shadow: 0 0 18px rgba(4, 239, 249, 0.06);
+    /* “подсвеченный” цвет, не чисто белый */
+    color: rgba(210, 245, 255, 0.95);
+
+    /* мягкий общий glow */
+    text-shadow:
+      0 0 12px rgba(4, 239, 249, 0.18),
+      0 0 28px rgba(4, 239, 249, 0.08);
   }
 
   &__xp {
@@ -174,6 +182,7 @@
   }
 
   &__divider {
+    position: relative;
     height: 1px;
     margin: 12px 0 12px;
     background: linear-gradient(
@@ -182,11 +191,41 @@
       rgba(4, 239, 249, 0.26),
       rgba(4, 239, 249, 0)
     );
+
+    /* НЕОНОВАЯ ПОЛОСКА СНИЗУ */
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 0px;
+      transform: translateX(-50%);
+
+      width: 68%;
+      height: 2px;
+
+      background: linear-gradient(
+        to right,
+        rgba(4, 239, 249, 0),
+        rgba(4, 239, 249, 0.85),
+        rgba(4, 239, 249, 0)
+      );
+
+      /* вот он — glow вверх */
+      box-shadow:
+        0 -6px 14px rgba(4, 239, 249, 0.45),
+        0 -16px 32px rgba(4, 239, 249, 0.25);
+
+      border-radius: 2px;
+    }
   }
 
   &__content {
-    overflow: auto;
-    max-height: calc(80vh - 220px);
+    // overflow: auto;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    // max-height: calc(80vh - 220px);
     padding-right: 6px;
     overflow: hidden;
   }
@@ -197,6 +236,7 @@
     font-family: 'Exo-2';
     font-size: 14px;
     line-height: 1.45;
+    min-height: 0;
 
     &--muted {
       opacity: 0.7;
@@ -219,120 +259,4 @@
       corner-shape: bevel;
     }
   }
-}
-
-.qbrief {
-  &__header {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__chevron {
-    --c: rgba(4, 239, 249, 0.9); /* базовый неон */
-    --c-soft: rgba(4, 239, 249, 0.22); /* мягкий */
-    --c-dim: rgba(4, 239, 249, 0.12);
-
-    width: 84px;
-    aspect-ratio: 1;
-    position: relative;
-    flex: 0 0 auto;
-
-    /* форма (октагон/шеврон-ish) */
-    clip-path: polygon(18% 0%, 82% 0%, 100% 18%, 100% 82%, 82% 100%, 18% 100%, 0% 82%, 0% 18%);
-
-    /* корпус */
-    background:
-    /* решётка */
-      repeating-linear-gradient(
-        45deg,
-        rgba(255, 255, 255, 0.06) 0px,
-        rgba(255, 255, 255, 0.06) 2px,
-        rgba(0, 0, 0, 0) 2px,
-        rgba(0, 0, 0, 0) 8px
-      ),
-      radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0) 55%),
-      linear-gradient(to bottom, rgba(2, 22, 35, 0.35), rgba(2, 22, 35, 0.85));
-
-    border: 1px solid rgba(4, 239, 249, 0.4);
-    box-shadow:
-      0 0 22px rgba(4, 239, 249, 0.1),
-      inset 0 0 0 1px rgba(0, 0, 0, 0.35),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
-
-    /* “расходящийся” решётчатый glow */
-    &::before {
-      content: '';
-      position: absolute;
-      inset: -22px -64px; /* вот тут магия “в стороны” */
-      pointer-events: none;
-
-      background:
-      /* решётка внутри свечения */
-        repeating-linear-gradient(
-          45deg,
-          rgba(255, 255, 255, 0.06) 0px,
-          rgba(255, 255, 255, 0.06) 2px,
-          rgba(0, 0, 0, 0) 2px,
-          rgba(0, 0, 0, 0) 10px
-        ),
-        radial-gradient(circle at 50% 50%, var(--c-soft), rgba(4, 239, 249, 0) 60%);
-
-      /* маска, чтобы свет был сильнее у шеврона и уходил в стороны */
-      -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 65%);
-      mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 65%);
-
-      opacity: 0.65;
-      filter: blur(0.6px);
-      mix-blend-mode: screen;
-    }
-
-    /* внутренний “акцентный контур” */
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 8px;
-      clip-path: inherit;
-      border: 1px solid rgba(4, 239, 249, 0.18);
-      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
-      pointer-events: none;
-    }
-  }
-
-  &__icon {
-    position: absolute;
-    inset: -20px;
-    display: grid;
-    place-items: center;
-    @include abs-center;
-    // width: 100%;
-    aspect-ratio: 1;
-    height: auto;
-    & path {
-      fill: red;
-    }
-
-    &::before {
-      font-size: 30px;
-      color: rgba(220, 250, 255, 0.9);
-      text-shadow: 0 0 16px rgba(4, 239, 249, 0.12);
-      transform: translateY(-1px);
-    }
-  }
-
-  /* цвета по сложности */
-  &--easy {
-    --c: #{$color-easy};
-    --c-soft: rgba(80, 255, 160, 0.22);
-  }
-  &--medium {
-    --c: #{$color-medium};
-    --c-soft: rgba(255, 214, 80, 0.22);
-  }
-  &--hard {
-    --c: #{$color-hard};
-    --c-soft: rgba(255, 90, 90, 0.22);
-  }
-
-  /* подкрашиваем контур под сложность */
-  // border-color: color-mix(in srgb, var(--c), rgba(4, 239, 249, 0.2) 40%);
 }

@@ -8,6 +8,9 @@
 
 //components
 @forward './components/qbutton';
+@forward './components/qchev';
+@forward './components/briefing';
+//ui
 @forward './ui/quest-log/quest-deadline.scss';
 @forward './ui/quest-log/quest-button';
 @forward './ui/quest-log/tabs';
