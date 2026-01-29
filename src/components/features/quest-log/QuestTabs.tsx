@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLayoutEffect, useRef, useState } from 'react';
 
-type TabKey = 'active' | 'daily' | 'done';
+export type TabKey = 'active' | 'daily' | 'done';
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: 'active', label: 'АКТИВНЫЕ' },
@@ -9,11 +9,16 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: 'done', label: 'ЗАВЕРШЕННЫЕ' },
 ];
 
-const PADDING = 10; // “запас” по краям glow относительно кнопки
+type Props = {
+  value: TabKey;
+  onChange: (next: TabKey) => void;
+};
+
+const PADDING = 10; // запас по краям glow относительно кнопки
 const WIDTH_COEF = 0.9;
 
-export function QuestTabs() {
-  const [active, setActive] = useState<TabKey>('active');
+export function QuestTabs({ value, onChange }: Props) {
+  const active = value;
 
   const listRef = useRef<HTMLDivElement | null>(null);
   const btnRefs = useRef<Record<TabKey, HTMLButtonElement | null>>({
@@ -79,42 +84,22 @@ export function QuestTabs() {
               {index > 0 && <div className="tabs__separator" aria-hidden="true" />}
 
               <button
-                key={t.key}
                 ref={el => {
                   btnRefs.current[t.key] = el;
                 }}
+                key={t.key}
                 type="button"
                 role="tab"
                 className={`tab ${isActive ? 'tab--active' : ''}`}
                 aria-selected={isActive}
                 tabIndex={isActive ? 0 : -1}
-                onClick={() => setActive(t.key)}
+                onClick={() => onChange(t.key)}
               >
                 {t.label}
               </button>
             </React.Fragment>
           );
         })}
-        {/* {TABS.map(t => {
-          const isActive = t.key === active;
-          return (
-
-            <button
-              key={t.key}
-              ref={el => {
-                btnRefs.current[t.key] = el;
-              }}
-              type="button"
-              role="tab"
-              className={`tab ${isActive ? 'tab--active' : ''}`}
-              aria-selected={isActive}
-              tabIndex={isActive ? 0 : -1}
-              onClick={() => setActive(t.key)}
-            >
-              {t.label}
-            </button>
-          );
-        })} */}
       </div>
     </div>
   );

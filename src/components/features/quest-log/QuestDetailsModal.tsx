@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { type Task } from '@/types/task';
 import { QButton } from '@/components/ui/QButton';
 
 import StripeLight from '@/assets/icons/stripe-2.svg?react';
 import StripeMedium from '@/assets/icons/stripe-medium.svg?react';
 import StripeHard from '@/assets/icons/stripe-hard-2.svg?react';
-
+import { QuestModalActions } from './QuestModalActions';
 import { QuestDeadline } from '@/components/features/quest-log/QuestDeadline';
 import { useScrollFade } from '@/hooks/useScrollFade';
 
@@ -23,9 +23,11 @@ const STRIPE_BY_DIFFICULTY = {
 
 export function QuestDetailsModal({ quest, onClose, onComplete }: Props) {
   const StripeIcon = STRIPE_BY_DIFFICULTY[quest?.category || 'easy'];
+  const [actionsOpen, setActionsOpen] = useState(false);
 
-  const descRef = useRef<HTMLDivElement | null>(null);
-  useScrollFade(descRef, { offset: 1 });
+  const fadeRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useScrollFade(fadeRef, scrollRef, { offset: 10 }, [quest?.id]);
 
   const onBtnclick: React.MouseEventHandler<HTMLButtonElement> = e => {
     e.stopPropagation();
@@ -42,6 +44,12 @@ export function QuestDetailsModal({ quest, onClose, onComplete }: Props) {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [quest, onClose]);
+
+  useEffect(() => {
+    if (!quest) return;
+    // при смене квеста закрываем панель, чтобы не было "протекания"
+    setActionsOpen(false);
+  }, [quest?.id]);
 
   if (!quest) return null;
 
@@ -106,8 +114,10 @@ export function QuestDetailsModal({ quest, onClose, onComplete }: Props) {
             </div>
 
             {quest.description ? (
-              <div className="briefing__body" ref={descRef}>
-                <p className="briefing__desc">{quest.description}</p>
+              <div className="briefing__body" ref={fadeRef}>
+                <div className="briefing__scroll" ref={scrollRef}>
+                  <p className="briefing__desc">{quest.description}</p>
+                </div>
               </div>
             ) : (
               <div className="briefing__body briefing__body--empty">
@@ -118,6 +128,18 @@ export function QuestDetailsModal({ quest, onClose, onComplete }: Props) {
         </div>
 
         <div className="qmodal__actions">
+          {/* LEFT: sliding actions */}
+          <QuestModalActions
+            isOpen={actionsOpen}
+            onToggle={() => setActionsOpen}
+            onEdit={() => console.log('edit')}
+            onPinToggle={() => console.log('pin')}
+            onClone={() => console.log('clone')}
+            onArchiveToggle={() => console.log('archive')}
+            onDelete={() => console.log('delete')}
+            isPinned={false}
+            isArchived={false}
+          />
           <QButton className="qbtn--primary qbtn--complete" onClick={onBtnclick}>
             <span className="qcard__complete">ВЫПОЛНИТЬ</span>
           </QButton>

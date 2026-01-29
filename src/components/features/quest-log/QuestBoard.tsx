@@ -1,16 +1,15 @@
-import { useMemo, useState, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { type Task } from '@/types/task';
 import { type TaskCategory } from '@/types/task';
-import { QuestDetailsModal } from './QuestDetailsModal';
 import { QuestCard } from './QuestCard';
 import { useScrollFade } from '@/hooks/useScrollFade';
 
 type QuestBoardProps = {
   quests: Task[];
+  onOpenQuest: (q: Task) => void;
 };
 
-export function QuestBoard({ quests }: QuestBoardProps) {
-  const [opened, setOpened] = useState<Task | null>(null);
+export function QuestBoard({ quests, onOpenQuest }: QuestBoardProps) {
   const easyRef = useRef<HTMLDivElement | null>(null);
   const mediumRef = useRef<HTMLDivElement | null>(null);
   const hardRef = useRef<HTMLDivElement | null>(null);
@@ -36,7 +35,7 @@ export function QuestBoard({ quests }: QuestBoardProps) {
                 <QuestCard
                   key={q.id}
                   quest={q}
-                  onOpen={() => setOpened(q)}
+                  onOpen={() => onOpenQuest(q)}
                   onComplete={() => console.log('complete', q.id)}
                 />
               ))}
@@ -52,7 +51,7 @@ export function QuestBoard({ quests }: QuestBoardProps) {
                 <QuestCard
                   key={q.id}
                   quest={q}
-                  onOpen={() => setOpened(q)}
+                  onOpen={() => onOpenQuest(q)}
                   onComplete={() => console.log('complete', q.id)}
                 />
               ))}
@@ -68,7 +67,7 @@ export function QuestBoard({ quests }: QuestBoardProps) {
                 <QuestCard
                   key={q.id}
                   quest={q}
-                  onOpen={() => setOpened(q)}
+                  onOpen={() => onOpenQuest(q)}
                   onComplete={() => console.log('complete', q.id)}
                 />
               ))}
@@ -76,8 +75,6 @@ export function QuestBoard({ quests }: QuestBoardProps) {
           </div>
         </div>
       </section>
-
-      <QuestDetailsModal quest={opened} onClose={() => setOpened(null)} />
     </>
   );
 }
