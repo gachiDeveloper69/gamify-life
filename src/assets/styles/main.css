@@ -1239,9 +1239,9 @@ svg * {
 }
 .qmodal__actions {
   display: flex;
-  height: fit-content;
+  flex: 0 0 auto;
   justify-content: space-between;
-  height: 65px;
+  height: 55px;
   align-items: flex-end;
   gap: 14px;
   margin-top: 14px;

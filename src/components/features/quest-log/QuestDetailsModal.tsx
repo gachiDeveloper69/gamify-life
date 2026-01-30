@@ -131,7 +131,7 @@ export function QuestDetailsModal({ quest, onClose, onComplete }: Props) {
           {/* LEFT: sliding actions */}
           <QuestModalActions
             isOpen={actionsOpen}
-            onToggle={() => setActionsOpen}
+            onToggle={() => setActionsOpen(v => !v)}
             onEdit={() => console.log('edit')}
             onPinToggle={() => console.log('pin')}
             onClone={() => console.log('clone')}

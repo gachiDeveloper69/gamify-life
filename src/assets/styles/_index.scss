@@ -12,12 +12,12 @@
 @forward './components/briefing';
 @forward './components/qactions';
 //ui
-@forward './ui/quest-log/quest-deadline.scss';
-@forward './ui/quest-log/quest-button';
-@forward './ui/quest-log/tabs';
-@forward './ui/quest-log/quest-modal';
-@forward './ui/quest-log/quest-frame-composite';
-@forward './ui/quest-log/quest-board';
-@forward './ui/quest-log/quest-card';
+@forward './features/quest-log/quest-deadline.scss';
+@forward './features/quest-log/quest-button';
+@forward './features/quest-log/tabs';
+@forward './features/quest-log/quest-modal';
+@forward './features/quest-log/quest-frame-composite';
+@forward './features/quest-log/quest-board';
+@forward './features/quest-log/quest-card';
 //blocks
-@forward './blocks/quest-log';
+@forward './features/quest-log/quest-log';

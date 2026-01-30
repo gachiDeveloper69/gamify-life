@@ -3,6 +3,7 @@ import { type Task } from '@/types/task';
 import { type TaskCategory } from '@/types/task';
 import { QuestCard } from './QuestCard';
 import { useScrollFade } from '@/hooks/useScrollFade';
+import QuestColumn from './QuestColumn';
 
 type QuestBoardProps = {
   quests: Task[];
@@ -27,7 +28,13 @@ export function QuestBoard({ quests, onOpenQuest }: QuestBoardProps) {
   return (
     <>
       <section className="quest-board" aria-label="Доска заданий">
-        <div className="quest-col quest-col--easy">
+        <QuestColumn
+          category="easy"
+          quests={grouped.easy}
+          onOpenQuest={q => onOpenQuest(q)}
+          onCompleteQuest={q => console.log('complete', q)}
+        />
+        {/* <div className="quest-col quest-col--easy">
           <header className="quest-col__header">ЛЕГКО</header>
           <div className="quest-col__list" ref={easyRef}>
             <div className="quest-col__inner">
@@ -41,7 +48,7 @@ export function QuestBoard({ quests, onOpenQuest }: QuestBoardProps) {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="quest-col quest-col--medium">
           <header className="quest-col__header">СРЕДНЕ</header>
