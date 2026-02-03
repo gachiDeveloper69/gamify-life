@@ -19,8 +19,10 @@
 
 import { useState, useEffect } from 'react';
 
+type Reviver<T> = (value: unknown) => T;
+
 //Дженерик-функция для работы с любым типом данных
-export function useLocalStorage<T>(key: string, initialValue: T) {
+export function useLocalStorage<T>(key: string, initialValue: T, revive?: Reviver<T>) {
   const [storedValue, setStoredValue] = useState<T>(initialValue);
 
   //инициализация из хранилища при монтировании
@@ -28,7 +30,8 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
     try {
       const item = window.localStorage.getItem(key);
       if (item) {
-        setStoredValue(JSON.parse(item));
+        const parsed = JSON.parse(item);
+        setStoredValue(revive ? revive(parsed) : parsed);
       }
     } catch (error) {
       console.log(`Error reading localStorage key "${key}":`, error);
@@ -40,11 +43,13 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
   const setValue = (value: T | ((val: T) => T)) => {
     try {
       //позволяет value быть функцией как useState
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      setStoredValue(prev => {
+        const valueToStore = value instanceof Function ? value(prev) : value;
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        return valueToStore;
+      });
     } catch (error) {
-      console.log(`Error setting localStorage key "${key}}":`, error);
+      console.log(`Error setting localStorage key "${key}":`, error);
       throw error;
     }
   };

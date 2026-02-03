@@ -44,9 +44,10 @@ import type { Task, CreateTaskData, TaskStats } from '../types/task';
 import { getPointsByCategory } from '../types/task';
 import { useEffect } from 'react';
 import { validate, setUpdates } from '../utils/tasks/tasksUtils';
+import { normalizeTasks } from '../utils/tasks/normalizeTasks';
 
 export function useTasks() {
-  const [tasks, setTasks] = useLocalStorage<Task[]>('tasks', []);
+  const [tasks, setTasks] = useLocalStorage<Task[]>('tasks', [], normalizeTasks);
   // const [filtered, setFiltered] = useState();
   const [stats, setStats] = useLocalStorage<TaskStats>('task-stats', {
     totalPoints: 0,
