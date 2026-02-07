@@ -37,7 +37,7 @@ export function useLocalStorage<T>(key: string, initialValue: T, revive?: Revive
       console.log(`Error reading localStorage key "${key}":`, error);
       throw error;
     }
-  }, [key]);
+  }, [key, revive, initialValue]);
 
   //Обертка для setStoredValue которая сохраняет в localStorage
   const setValue = (value: T | ((val: T) => T)) => {

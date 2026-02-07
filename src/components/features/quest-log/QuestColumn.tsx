@@ -9,6 +9,7 @@ type QuestColumnProps = {
   quests: Task[];
   onOpenQuest: (q: Task) => void;
   onCompleteQuest: (id: string) => void;
+  onCreateQuest?: (category: TaskCategory) => void;
 };
 
 const HEADER_BY_DIFFICULTY = {
@@ -23,13 +24,28 @@ export default function QuestColumn({
   quests,
   onOpenQuest,
   onCompleteQuest,
+  onCreateQuest,
 }: QuestColumnProps) {
   const colRef = useRef<HTMLDivElement | null>(null);
   useScrollFade(colRef, { offset: 60 });
   const headerText = category ? HEADER_BY_DIFFICULTY[category] : title;
   return (
     <div className={`quest-col ${category ? `quest-col--${category}` : ''}`}>
-      {(category || title) && <header className="quest-col__header">{headerText}</header>}
+      {(category || title) && (
+        <header className="quest-col__header">
+          {headerText}
+          {category && onCreateQuest && (
+            <button
+              className="quest-col__add"
+              type="button"
+              onClick={() => onCreateQuest?.(category)}
+              aria-label="Добавить миссию"
+            >
+              +
+            </button>
+          )}
+        </header>
+      )}
       <div className="quest-col__list" ref={colRef}>
         <div className="quest-col__inner">
           {quests.map(q => (
