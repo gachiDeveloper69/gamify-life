@@ -2,7 +2,10 @@
  * @see {@link file://./../../docs/types/TaskSystem.md Документация}
  */
 
-export type TaskCategory = 'easy' | 'medium' | 'hard';
+import { TASK_RULES } from '@/config/taskRules';
+import type { TaskCategory } from './common';
+// Re-export для обратной совместимости
+export type { TaskCategory };
 
 export interface TaskFilters {
   category?: TaskCategory | 'all';
@@ -42,10 +45,5 @@ export type TaskDataToValidate = Pick<CreateTaskData, 'title' | 'category' | 'de
 
 // Функция для автоматического определения очков по категории
 export const getPointsByCategory = (category: TaskCategory): number => {
-  const pointsMap: Record<TaskCategory, number> = {
-    easy: 5,
-    medium: 10,
-    hard: 50,
-  };
-  return pointsMap[category];
+  return TASK_RULES.defaultPointsByCategory[category];
 };

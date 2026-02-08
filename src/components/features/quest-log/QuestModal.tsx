@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   getPointsByCategory,
@@ -6,14 +7,17 @@ import {
   type TaskCategory,
 } from '@/types/task';
 import { generateNewQuestName } from '@/utils/tasks/generateNewQuestName';
+import { TASK_RULES } from '@/config/taskRules';
 import { QButton } from '@/components/ui/QButton';
 
 import StripeLight from '@/assets/icons/stripe-2.svg?react';
 import StripeMedium from '@/assets/icons/stripe-medium.svg?react';
 import StripeHard from '@/assets/icons/stripe-hard-2.svg?react';
+import ChevronArrow from '@/assets/icons/chevron-right.svg?react';
 import { QuestModalActions } from './QuestModalActions';
 import { QuestDeadline } from '@/components/features/quest-log/QuestDeadline';
 import { useScrollFade } from '@/hooks/useScrollFade';
+import { rotateCategory } from '@/utils/tasks/rotateCategory';
 
 type BaseProps = {
   onClose: () => void;
@@ -74,6 +78,24 @@ export function QuestModal(props: QuestModalProps) {
   const [actionsOpen, setActionsOpen] = useState(false);
 
   const [pointsTouched, setPointsTouched] = useState(false);
+  const [animating, setAnimating] = useState(false);
+
+  const rotateDifficulty = (dir: 1 | -1) => {
+    if (!canEdit) return;
+
+    setAnimating(true);
+
+    setDraft(prev => {
+      const next = rotateCategory(prev.category, dir);
+      return {
+        ...prev,
+        category: next,
+        points: pointsTouched ? prev.points : getPointsByCategory(next),
+      };
+    });
+
+    setTimeout(() => setAnimating(false), 160);
+  };
 
   const [draft, setDraft] = useState<Draft>(() => {
     if (props.mode === 'edit' || props.mode === 'view') {
@@ -118,6 +140,8 @@ export function QuestModal(props: QuestModalProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLInputElement | null>(null);
   useScrollFade(fadeRef, scrollRef, { offset: 10 }, [viewModel.id]);
+
+  const canEdit = props.mode !== 'view' && !viewModel.completed;
 
   // const onBtnclick: React.MouseEventHandler<HTMLButtonElement> = e => {
   //   e.stopPropagation();
@@ -182,6 +206,37 @@ export function QuestModal(props: QuestModalProps) {
     setActionsOpen(false);
   }, [viewModel.id]);
 
+  /*====XP====*/
+  const XP_STEP = 5;
+
+  const [xpEditing, setXpEditing] = useState(false);
+  const [xpPulse, setXpPulse] = useState<null | 'up' | 'down'>(null);
+  const xpInputRef = useRef<HTMLInputElement | null>(null);
+
+  const clampPoints = (n: number) =>
+    Math.max(TASK_RULES.pointsPerTask.min, Math.min(TASK_RULES.pointsPerTask.max, n));
+
+  const setPoints = (next: number) => {
+    setPointsTouched(true);
+    setDraft(prev => ({ ...prev, points: clampPoints(next) }));
+  };
+
+  const bumpPoints = (delta: number) => {
+    setPoints(draft.points + delta);
+    pulseXp(delta >= 0 ? 'up' : 'down');
+  };
+
+  const pulseXp = (dir: 'up' | 'down') => {
+    setXpPulse(dir);
+    window.setTimeout(() => setXpPulse(null), 160);
+  };
+
+  useEffect(() => {
+    if (!xpEditing) return;
+    xpInputRef.current?.focus();
+    xpInputRef.current?.select();
+  }, [xpEditing]);
+  /*====XP====*/
   return (
     <div
       className="qmodal"
@@ -213,10 +268,42 @@ export function QuestModal(props: QuestModalProps) {
           <div className="briefing">
             <div className="briefing__header">
               <div className="briefing__difficulty">
-                <div className={`qchev__chevron qchev__chevron--${viewModel.category}`}>
+                {canEdit && (
+                  <button
+                    className={clsx(
+                      'difficulty__arrow',
+                      'difficulty__arrow--up',
+                      `difficulty__arrow--${viewModel.category}`
+                    )}
+                    // className="difficulty__arrow difficulty__arrow--up"
+                    onClick={() => rotateDifficulty(1)}
+                  >
+                    <ChevronArrow />
+                  </button>
+                )}
+                <div
+                  className={clsx(
+                    'qchev__chevron',
+                    `qchev__chevron--${viewModel.category}`,
+                    animating && 'qchev__chevron--switching'
+                  )}
+                >
                   <span className="qchev__frame" aria-hidden="true" />
                   <StripeIcon className="qchev__icon" />
                 </div>
+                {canEdit && (
+                  <button
+                    className={clsx(
+                      'difficulty__arrow',
+                      'difficulty__arrow--down',
+                      `difficulty__arrow--${viewModel.category}`
+                    )}
+                    // className="difficulty__arrow difficulty__arrow--down"
+                    onClick={() => rotateDifficulty(-1)}
+                  >
+                    <ChevronArrow />
+                  </button>
+                )}
               </div>
 
               <div className="briefing__details">
@@ -240,6 +327,7 @@ export function QuestModal(props: QuestModalProps) {
                     placeholder="Название миссии"
                     aria-label="Название миссии"
                     ref={titleRef}
+                    maxLength={TASK_RULES.title.max}
                   />
                 )}
 
@@ -250,10 +338,81 @@ export function QuestModal(props: QuestModalProps) {
                       <QuestDeadline deadline={viewModel.deadline} />
                     </div>
                   )}
-                  <div className="bmeta__item bmeta__item--xp">
-                    <span className="bmeta__label">XP</span>
-                    <span className="bmeta__value">+{viewModel.points}</span>
-                  </div>
+                  {!canEdit ? (
+                    <div className="bmeta__item bmeta__item--xp">
+                      <span className="bmeta__label">XP</span>
+                      <span className="bmeta__value">+{viewModel.points}</span>
+                    </div>
+                  ) : (
+                    <div className="bmeta__item bmeta__item--xp bmeta__xp">
+                      {!xpEditing && (
+                        <button
+                          type="button"
+                          className="bmeta__xpBtn"
+                          onClick={() => bumpPoints(-XP_STEP)}
+                          aria-label={`Уменьшить XP на ${XP_STEP}`}
+                        >
+                          –
+                        </button>
+                      )}
+
+                      <span className="bmeta__label">XP</span>
+
+                      {xpEditing ? (
+                        <input
+                          ref={xpInputRef}
+                          className="bmeta__xpInput"
+                          type="number"
+                          inputMode="numeric"
+                          min={TASK_RULES.pointsPerTask.min}
+                          max={TASK_RULES.pointsPerTask.max}
+                          value={draft.points}
+                          onChange={e => {
+                            const raw = e.target.value;
+                            const next = raw === '' ? TASK_RULES.pointsPerTask.min : Number(raw);
+                            if (Number.isFinite(next)) setPoints(next);
+                          }}
+                          onBlur={() => setXpEditing(false)}
+                          onKeyDown={e => {
+                            if (e.key === 'Enter' || e.key === 'Escape') {
+                              (e.currentTarget as HTMLInputElement).blur();
+                            }
+                          }}
+                          aria-label="XP за выполнение"
+                        />
+                      ) : (
+                        <button
+                          type="button"
+                          className="bmeta__xpValue"
+                          onClick={() => setXpEditing(true)}
+                          aria-label="Изменить XP"
+                          title="Клик — изменить XP"
+                        >
+                          <span className="bmeta__xpBox">
+                            <span
+                              className={clsx(
+                                'bmeta__xpNum',
+                                xpPulse === 'up' && 'bmeta__xpNum--up',
+                                xpPulse === 'down' && 'bmeta__xpNum--down'
+                              )}
+                            >
+                              +{draft.points}
+                            </span>
+                          </span>
+                        </button>
+                      )}
+                      {!xpEditing && (
+                        <button
+                          type="button"
+                          className="bmeta__xpBtn"
+                          onClick={() => bumpPoints(XP_STEP)}
+                          aria-label={`Увеличить XP на ${XP_STEP}`}
+                        >
+                          +
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -277,6 +436,7 @@ export function QuestModal(props: QuestModalProps) {
                     placeholder="Описание миссии (необязательно)"
                     aria-label="Описание миссии"
                     rows={6}
+                    maxLength={TASK_RULES.description.max}
                   />
                 )}
               </div>

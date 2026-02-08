@@ -38,12 +38,9 @@ export function useScrollFade<
     (isSecondArgRef ? maybeOpts : (scrollerRefOrOpts as ScrollFadeOptions | undefined)) ?? {};
   const offset = opts.offset ?? 10;
 
-  console.log('hook mounted');
-
   useLayoutEffect(() => {
     const container = containerRef.current;
     const scroller = (scrollerRef?.current ?? container) as HTMLElement | null;
-    console.log('useLayoutEffect called');
     if (!container || !scroller) return;
 
     const update = () => {

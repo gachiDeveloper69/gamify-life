@@ -1,7 +1,6 @@
 import { useMemo, useRef } from 'react';
 import { type Task } from '@/types/task';
 import { type TaskCategory } from '@/types/task';
-import { QuestCard } from './QuestCard';
 import { useScrollFade } from '@/hooks/useScrollFade';
 import QuestColumn from './QuestColumn';
 
