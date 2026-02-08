@@ -17,13 +17,18 @@
   height: 100%;
   min-height: 0;
 
+  --color-title: rgba(180, 245, 255, 0.55);
+
   &__header {
     font-family: 'Exo-2';
     letter-spacing: 0.14em;
     text-transform: uppercase;
     font-size: 12px;
-    color: rgba(180, 245, 255, 0.55);
+    color: var(--color-title);
     padding: 2px 6px;
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 1em;
   }
 
   &__list {
@@ -42,6 +47,25 @@
     flex-direction: column;
     row-gap: 12px;
     align-items: stretch;
+  }
+
+  &__add {
+    @include reset-button;
+    transition: var(--transition);
+    background-color: transparent;
+    cursor: pointer;
+    width: 1.5em;
+    height: 1.5em;
+    aspect-ratio: 1;
+    color: var(--color-title);
+    @include hover {
+      color: var(--color-button-hover);
+    }
+    & svg {
+      path {
+        fill: currentColor;
+      }
+    }
   }
 }
 @include mobile {

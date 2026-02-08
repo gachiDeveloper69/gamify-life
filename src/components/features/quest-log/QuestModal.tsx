@@ -57,6 +57,19 @@ const STRIPE_BY_DIFFICULTY = {
   hard: StripeHard,
 } as const;
 
+function draftToCreateTaskData(draft: Draft): CreateTaskData {
+  const title = draft.title.trim();
+  const desc = draft.description.trim();
+
+  return {
+    title,
+    description: desc ? desc : undefined,
+    category: draft.category,
+    deadline: draft.deadlineAt ? new Date(draft.deadlineAt) : undefined,
+    points: draft.points,
+  };
+}
+
 export function QuestModal(props: QuestModalProps) {
   const [actionsOpen, setActionsOpen] = useState(false);
 
@@ -103,27 +116,35 @@ export function QuestModal(props: QuestModalProps) {
   const StripeIcon = STRIPE_BY_DIFFICULTY[viewModel.category || 'easy'];
   const fadeRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLInputElement | null>(null);
   useScrollFade(fadeRef, scrollRef, { offset: 10 }, [viewModel.id]);
 
   // const onBtnclick: React.MouseEventHandler<HTMLButtonElement> = e => {
   //   e.stopPropagation();
   //   props.onComplete(viewModel.id);
   // };
+  const primaryLabel =
+    props.mode === 'view' ? 'ВЫПОЛНИТЬ' : props.mode === 'edit' ? 'СОХРАНИТЬ' : 'ПРИНЯТЬ';
+
+  const isTitleValid = draft.title.trim().length > 0;
 
   const onPrimaryClick = (e: React.MouseEvent) => {
     e.stopPropagation();
 
     if (props.mode === 'view') {
       props.onComplete(props.quest.id);
+      return;
     }
 
-    // if (props.mode === 'edit') {
-    //   props.onUpdate(props.quest.id, buildCreateTaskData(draft));
-    // }
+    const data = draftToCreateTaskData(draft);
 
-    // if (props.mode === 'create') {
-    //   props.onCreate(buildCreateTaskData(draft));
-    // }
+    if (props.mode === 'create') {
+      props.onCreate(data);
+      return;
+    }
+    if (props.mode === 'edit') {
+      props.onUpdate(props.quest.id, data);
+    }
   };
 
   useEffect(() => {
@@ -134,6 +155,13 @@ export function QuestModal(props: QuestModalProps) {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [props.onClose]);
+
+  useEffect(() => {
+    if (props.mode === 'edit' || props.mode === 'create') {
+      titleRef.current?.focus();
+      titleRef.current?.select();
+    }
+  }, [props.mode, props.mode === 'create' ? 'draft' : props.quest.id]);
 
   useEffect(() => {
     if (props.mode === 'edit' || props.mode === 'view') {
@@ -200,9 +228,20 @@ export function QuestModal(props: QuestModalProps) {
                 </div>
 
                 {/* НАЗВАНИЕ МИССИИ */}
-                <h3 className="briefing__mission-title" title={viewModel.title}>
-                  {viewModel.title}
-                </h3>
+                {props.mode === 'view' ? (
+                  <h3 className="briefing__mission-title" title={viewModel.title}>
+                    {viewModel.title}
+                  </h3>
+                ) : (
+                  <input
+                    className="briefing__mission-title briefing__mission-title--input"
+                    value={draft.title}
+                    onChange={e => setDraft(prev => ({ ...prev, title: e.target.value }))}
+                    placeholder="Название миссии"
+                    aria-label="Название миссии"
+                    ref={titleRef}
+                  />
+                )}
 
                 {/* МЕТАДАННЫЕ */}
                 <div className="briefing__meta">
@@ -219,23 +258,35 @@ export function QuestModal(props: QuestModalProps) {
               </div>
             </div>
 
-            {viewModel.description ? (
-              <div className="briefing__body" ref={fadeRef}>
-                <div className="briefing__scroll" ref={scrollRef}>
-                  <p className="briefing__desc">{viewModel.description}</p>
-                </div>
+            <div
+              className={`briefing__body ${props.mode === 'edit' || props.mode === 'create' ? `briefing__body--editable` : ``}`}
+              ref={props.mode === 'view' ? fadeRef : undefined}
+            >
+              <div className="briefing__scroll" ref={props.mode === 'view' ? scrollRef : undefined}>
+                {props.mode === 'view' ? (
+                  viewModel.description ? (
+                    <p className="briefing__desc">{viewModel.description}</p>
+                  ) : (
+                    <p className="briefing__desc briefing__desc--muted">Описание отсутствует</p>
+                  )
+                ) : (
+                  <textarea
+                    className="briefing__desc briefing__desc--textarea"
+                    value={draft.description}
+                    onChange={e => setDraft(prev => ({ ...prev, description: e.target.value }))}
+                    placeholder="Описание миссии (необязательно)"
+                    aria-label="Описание миссии"
+                    rows={6}
+                  />
+                )}
               </div>
-            ) : (
-              <div className="briefing__body briefing__body--empty">
-                <p className="briefing__desc briefing__desc--muted">Описание отсутствует</p>
-              </div>
-            )}
+            </div>
           </div>
         </div>
 
-        {props.mode === 'view' && (
-          <div className="qmodal__actions">
-            {/* LEFT: sliding actions */}
+        <div className="qmodal__actions">
+          {/* LEFT: sliding actions */}
+          {props.mode === 'view' && (
             <QuestModalActions
               isOpen={actionsOpen}
               onToggle={() => setActionsOpen(v => !v)}
@@ -247,11 +298,16 @@ export function QuestModal(props: QuestModalProps) {
               isPinned={false}
               isArchived={false}
             />
-            <QButton className="qbtn--primary qbtn--complete" onClick={onPrimaryClick}>
-              <span className="qcard__complete">ВЫПОЛНИТЬ</span>
-            </QButton>
-          </div>
-        )}
+          )}
+
+          <QButton
+            className="qbtn--primary qbtn--complete"
+            onClick={onPrimaryClick}
+            disabled={props.mode !== 'view' && !isTitleValid}
+          >
+            <span className="qcard__complete">{primaryLabel}</span>
+          </QButton>
+        </div>
       </div>
     </div>
   );

@@ -9,6 +9,16 @@ body {
   background-color: var(--color-bg);
 }
 
+::selection {
+  background: rgba(4, 239, 249, 0.25);
+  color: rgba(225, 248, 255, 0.98);
+}
+
+::-moz-selection {
+  background: rgba(4, 239, 249, 0.25);
+  color: rgba(225, 248, 255, 0.98);
+}
+
 a,
 button,
 input,

@@ -36,7 +36,7 @@ export interface TaskStats {
 }
 
 // Тип для создания новой задачи (без id и дат)
-export type CreateTaskData = Omit<Task, 'id' | 'createdAt' | 'completedAt'>;
+export type CreateTaskData = Omit<Task, 'id' | 'createdAt' | 'completedAt' | 'completed'>;
 
 export type TaskDataToValidate = Pick<CreateTaskData, 'title' | 'category' | 'deadline' | 'points'>;
 

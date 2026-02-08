@@ -4,7 +4,7 @@
   @include fluid-text(9, 5);
   @include hover {
     background: #003c59;
-    color: #1afafd;
+    color: var(--color-button-hover);
   }
 }
 

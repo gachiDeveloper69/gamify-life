@@ -6,6 +6,7 @@
   --color-scrollbar-track: rgba(0, 0, 0, 0.18);
   --color-scrollbar-thumb: rgba(4, 239, 249, 0.38);
   --color-scrollbar-thumb-hover: rgba(4, 239, 249, 0.58);
+  --color-button-hover: #1afafd;
   --container-width: 70vw;
   --container-padding-x: 100px;
   --section-padding-y: 70px;
@@ -19,6 +20,16 @@ body {
   line-height: 1.28;
   color: var(--color-font-main);
   background-color: var(--color-bg);
+}
+
+::selection {
+  background: rgba(4, 239, 249, 0.25);
+  color: rgba(225, 248, 255, 0.98);
+}
+
+::-moz-selection {
+  background: rgba(4, 239, 249, 0.25);
+  color: rgba(225, 248, 255, 0.98);
 }
 
 a,
@@ -561,6 +572,35 @@ svg * {
   color: rgba(225, 248, 255, 0.96);
   text-shadow: 0 0 10px rgba(4, 239, 249, 0.12);
 }
+.briefing__mission-title--input {
+  appearance: none;
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  margin: 4px 0 2px;
+  font-family: "Exo-2";
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(225, 248, 255, 0.96);
+  text-shadow: 0 0 10px rgba(4, 239, 249, 0.12);
+  caret-color: rgba(4, 239, 249, 0.95);
+  border-radius: 10px;
+  padding: 6px 10px;
+  margin-left: -10px;
+  margin-right: -10px;
+  transition: background 140ms ease, box-shadow 140ms ease;
+}
+.briefing__mission-title--input::placeholder {
+  color: rgba(180, 245, 255, 0.35);
+  text-shadow: none;
+}
+.briefing__mission-title--input:focus {
+  background: linear-gradient(to bottom, rgba(4, 239, 249, 0.08), rgba(0, 0, 0, 0));
+  box-shadow: inset 0 0 0 1px rgba(4, 239, 249, 0.22), 0 0 20px rgba(4, 239, 249, 0.06);
+}
 .briefing__meta {
   display: flex;
   align-items: center;
@@ -603,6 +643,15 @@ svg * {
 .briefing__body.is-bottom-fade::after {
   opacity: 1;
 }
+.briefing__body--editable {
+  transition: box-shadow 160ms ease;
+}
+.briefing__body--editable:hover {
+  box-shadow: inset 0 0 0 1px rgba(4, 239, 249, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 22px rgba(4, 239, 249, 0.07);
+}
+.briefing__body--editable:focus-within {
+  box-shadow: inset 0 0 0 1px rgba(4, 239, 249, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 26px rgba(4, 239, 249, 0.09);
+}
 .briefing__scroll {
   height: 100%;
   overflow-y: auto;
@@ -636,12 +685,34 @@ svg * {
   font-family: "Exo-2";
   font-size: 14px;
   line-height: 1.55;
-  white-space: normal; /* если описание с переносами */
+  white-space: pre-wrap; /* если описание с переносами */
   flex: 1 1 auto;
   min-height: 0;
 }
 .briefing__desc--muted {
   opacity: 0.65;
+}
+.briefing__desc--textarea {
+  width: 100%;
+  min-height: 100%;
+  resize: none;
+  border: 0;
+  outline: none;
+  background: transparent;
+  padding: 12px 14px;
+  color: rgba(180, 245, 255, 0.72);
+  font-family: "Exo-2";
+  font-size: 14px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  caret-color: rgba(4, 239, 249, 0.95);
+  transition: background 140ms ease, box-shadow 140ms ease;
+}
+.briefing__desc--textarea::placeholder {
+  color: rgba(180, 245, 255, 0.35);
+}
+.briefing__desc--textarea:focus {
+  background: radial-gradient(circle at 30% 20%, rgba(4, 239, 249, 0.06), transparent 60%);
 }
 
 /* Цвета сложности */
@@ -893,13 +964,13 @@ svg * {
 @media (hover: hover) {
   .qbtn--complete:hover {
     background: #003c59;
-    color: #1afafd;
+    color: var(--color-button-hover);
   }
 }
 @media (hover: none) {
   .qbtn--complete:active {
     background: #003c59;
-    color: #1afafd;
+    color: var(--color-button-hover);
   }
 }
 
@@ -1532,14 +1603,18 @@ svg * {
   gap: 10px;
   height: 100%;
   min-height: 0;
+  --color-title: rgba(180, 245, 255, 0.55);
 }
 .quest-col__header {
   font-family: "Exo-2";
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-size: 12px;
-  color: rgba(180, 245, 255, 0.55);
+  color: var(--color-title);
   padding: 2px 6px;
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 1em;
 }
 .quest-col__list {
   position: relative;
@@ -1591,6 +1666,32 @@ svg * {
   flex-direction: column;
   row-gap: 12px;
   align-items: stretch;
+}
+.quest-col__add {
+  padding: 0;
+  border-color: transparent;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: var(--transition);
+  background-color: transparent;
+  cursor: pointer;
+  width: 1.5em;
+  height: 1.5em;
+  aspect-ratio: 1;
+  color: var(--color-title);
+}
+@media (hover: hover) {
+  .quest-col__add:hover {
+    color: var(--color-button-hover);
+  }
+}
+@media (hover: none) {
+  .quest-col__add:active {
+    color: var(--color-button-hover);
+  }
+}
+.quest-col__add svg path {
+  fill: currentColor;
 }
 
 @media (max-width: 767px) {

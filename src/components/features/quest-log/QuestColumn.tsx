@@ -2,6 +2,7 @@ import type { TaskCategory, Task } from '@/types/task';
 import { QuestCard } from './QuestCard';
 import { useScrollFade } from '@/hooks/useScrollFade';
 import { useRef } from 'react';
+import Plus from '@/assets/icons/plus.svg?react';
 
 type QuestColumnProps = {
   category?: TaskCategory;
@@ -34,14 +35,16 @@ export default function QuestColumn({
       {(category || title) && (
         <header className="quest-col__header">
           {headerText}
+
           {category && onCreateQuest && (
             <button
               className="quest-col__add"
               type="button"
               onClick={() => onCreateQuest?.(category)}
               aria-label="Добавить миссию"
+              title="Новая миссия"
             >
-              +
+              <Plus />
             </button>
           )}
         </header>
