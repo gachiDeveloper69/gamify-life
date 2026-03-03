@@ -14,6 +14,8 @@ import StripeLight from '@/assets/icons/stripe-2.svg?react';
 import StripeMedium from '@/assets/icons/stripe-medium.svg?react';
 import StripeHard from '@/assets/icons/stripe-hard-2.svg?react';
 import ChevronArrow from '@/assets/icons/chevron-right.svg?react';
+import Plus from '@/assets/icons/plus.svg?react';
+import Minus from '@/assets/icons/minus.svg?react';
 import { QuestModalActions } from './QuestModalActions';
 import { QuestDeadline } from '@/components/features/quest-log/QuestDeadline';
 import { useScrollFade } from '@/hooks/useScrollFade';
@@ -236,6 +238,42 @@ export function QuestModal(props: QuestModalProps) {
     xpInputRef.current?.focus();
     xpInputRef.current?.select();
   }, [xpEditing]);
+
+  const repeatRef = useRef<number | null>(null);
+  const repeatTimeoutRef = useRef<number | null>(null);
+
+  const stopRepeat = () => {
+    if (repeatTimeoutRef.current) {
+      window.clearTimeout(repeatTimeoutRef.current);
+      repeatTimeoutRef.current = null;
+    }
+    if (repeatRef.current) {
+      window.clearInterval(repeatRef.current);
+      repeatRef.current = null;
+    }
+  };
+
+  const startRepeat = (delta: number) => {
+    bumpPoints(delta);
+
+    //задержка перед накруткой
+    repeatTimeoutRef.current = window.setTimeout(() => {
+      repeatRef.current = window.setInterval(() => {
+        setDraft(prev => {
+          const next = clampPoints(prev.points + delta);
+          if (next === prev.points) {
+            stopRepeat();
+            return prev;
+          }
+          setPointsTouched(true);
+          return { ...prev, points: next };
+        });
+      }, 60);
+    }, 250);
+  };
+
+  useEffect(() => stopRepeat, []);
+
   /*====XP====*/
   return (
     <div
@@ -349,10 +387,13 @@ export function QuestModal(props: QuestModalProps) {
                         <button
                           type="button"
                           className="bmeta__xpBtn"
-                          onClick={() => bumpPoints(-XP_STEP)}
+                          onPointerDown={() => startRepeat(-XP_STEP)}
+                          onPointerUp={stopRepeat}
+                          onPointerCancel={stopRepeat}
+                          onPointerLeave={stopRepeat}
                           aria-label={`Уменьшить XP на ${XP_STEP}`}
                         >
-                          –
+                          <Minus />
                         </button>
                       )}
 
@@ -405,10 +446,13 @@ export function QuestModal(props: QuestModalProps) {
                         <button
                           type="button"
                           className="bmeta__xpBtn"
-                          onClick={() => bumpPoints(XP_STEP)}
+                          onPointerDown={() => startRepeat(XP_STEP)}
+                          onPointerUp={stopRepeat}
+                          onPointerCancel={stopRepeat}
+                          onPointerLeave={stopRepeat}
                           aria-label={`Увеличить XP на ${XP_STEP}`}
                         >
-                          +
+                          <Plus />
                         </button>
                       )}
                     </div>

@@ -17,42 +17,55 @@
  * - Обрабатывает ошибки парсинга
  */
 
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type Reviver<T> = (value: unknown) => T;
 
-//Дженерик-функция для работы с любым типом данных
 export function useLocalStorage<T>(key: string, initialValue: T, revive?: Reviver<T>) {
-  const [storedValue, setStoredValue] = useState<T>(initialValue);
+  const reviveRef = useRef(revive);
+  reviveRef.current = revive;
 
-  //инициализация из хранилища при монтировании
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      if (!item) return initialValue;
+
+      const parsed = JSON.parse(item);
+      return reviveRef.current ? reviveRef.current(parsed) : parsed;
+    } catch (error) {
+      console.log(`Error reading localStorage key "${key}":`, error);
+      return initialValue;
+    }
+  });
+
+  // если key поменялся — перечитать
   useEffect(() => {
     try {
       const item = window.localStorage.getItem(key);
-      if (item) {
-        const parsed = JSON.parse(item);
-        setStoredValue(revive ? revive(parsed) : parsed);
+      if (!item) {
+        setStoredValue(initialValue);
+        return;
       }
+      const parsed = JSON.parse(item);
+      setStoredValue(reviveRef.current ? reviveRef.current(parsed) : parsed);
     } catch (error) {
       console.log(`Error reading localStorage key "${key}":`, error);
-      throw error;
+      setStoredValue(initialValue);
     }
-  }, [key, revive, initialValue]);
+  }, [key]);
 
-  //Обертка для setStoredValue которая сохраняет в localStorage
-  const setValue = (value: T | ((val: T) => T)) => {
+  // запись при изменении значения
+  useEffect(() => {
     try {
-      //позволяет value быть функцией как useState
-      setStoredValue(prev => {
-        const valueToStore = value instanceof Function ? value(prev) : value;
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
-        return valueToStore;
-      });
+      window.localStorage.setItem(key, JSON.stringify(storedValue));
     } catch (error) {
       console.log(`Error setting localStorage key "${key}":`, error);
-      throw error;
     }
-  };
+  }, [key, storedValue]);
+
+  const setValue = useCallback((value: T | ((val: T) => T)) => {
+    setStoredValue(prev => (value instanceof Function ? value(prev) : value));
+  }, []);
 
   return [storedValue, setValue] as const;
 }
