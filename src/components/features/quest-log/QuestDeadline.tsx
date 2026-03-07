@@ -2,7 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import Lightning from '@/assets/icons/lightning.svg?react';
 
-type DeadlineState = 'ok' | 'warn' | 'danger' | 'overdue';
+import { getState } from '@/utils/deadline/getState';
+
+export type DeadlineState = 'ok' | 'warn' | 'danger' | 'overdue';
 
 type Props = {
   deadline: Date | string;
@@ -35,13 +37,6 @@ function formatRemaining(ms: number) {
   }
 
   return { text: `${Math.max(0, totalMin)}м`, unit: 'm' as const };
-}
-
-function getState(ms: number): DeadlineState {
-  if (ms <= 0) return 'overdue';
-  if (ms <= 60 * 60 * 1000) return 'danger'; //<1h
-  if (ms <= 24 * 60 * 60 * 1000) return 'warn'; //<1d
-  return 'ok';
 }
 
 function getLabel(state: DeadlineState) {

@@ -1,0 +1,254 @@
+@use '../../base/core' as *;
+
+.bmeta {
+  --color-icon-set: #04eff9;
+  --color-icon-unset: rgba(180, 245, 255, 0.45);
+
+  &__deadlineWrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &--open {
+      margin-right: 1em;
+    }
+  }
+
+  &__deadlineToggle {
+    position: relative;
+    overflow: hidden;
+
+    @include reset-button;
+    // width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 8px;
+
+    clip-path: polygon(30% 0, 100% 0, 70% 100%, 0% 100%);
+    // border-radius: 10px;
+    color: var(--color-icon-unset);
+    background: linear-gradient(to bottom, rgba(4, 239, 249, 0.12), rgba(4, 239, 249, 0.04));
+
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 0 14px rgba(4, 239, 249, 0.05);
+    transition: all 140ms ease;
+
+    &:hover:not(:disabled) {
+      background:
+        radial-gradient(circle at 30% 30%, rgba(4, 239, 249, 0.22), transparent 60%),
+        linear-gradient(to bottom, rgba(0, 60, 89, 0.22), rgba(2, 22, 35, 0.12));
+
+      box-shadow:
+        0 0 16px rgba(4, 239, 249, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      --color-icon-unset: rgba(4, 239, 249, 0.9);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    &::after {
+      content: '';
+
+      position: absolute;
+      inset: -40%;
+
+      background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(4, 239, 249, 0.35),
+        transparent 70%
+      );
+
+      opacity: 0;
+      transform: translateX(-120%);
+    }
+
+    &.is-open {
+      filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.22));
+
+      &::after {
+        opacity: 0.6;
+        animation: dl-scan 3s linear infinite;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: none;
+    }
+  }
+
+  /* панель скрыта по дефолту */
+  &__deadlinePanel {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    opacity: 0;
+    transform: translateX(-8px);
+    max-width: 0;
+    overflow: hidden;
+
+    transition:
+      max-width 260ms ease,
+      opacity 180ms ease,
+      transform 260ms ease;
+  }
+
+  &__deadlinePanel.is-open {
+    opacity: 1;
+    transform: translateX(0);
+    max-width: 260px; // хватит на 3 поля
+  }
+
+  &__dlUnit {
+    display: grid;
+    grid-template-rows: 10px auto 10px;
+    align-items: center;
+    justify-items: center;
+    gap: 10px;
+  }
+
+  &__dlBtn {
+    @include reset-button;
+    width: 18px;
+    height: 10px;
+    line-height: 10px;
+
+    color: rgba(180, 245, 255, 0.55);
+    opacity: 0.45;
+
+    transition:
+      opacity 120ms ease,
+      filter 120ms ease,
+      transform 120ms ease,
+      color 120ms ease;
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+      color: rgba(220, 250, 255, 0.92);
+      filter: drop-shadow(0 0 8px rgba(4, 239, 249, 0.25));
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+
+    &:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+  }
+
+  &__dlField {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+
+    padding: 2px 3px;
+    border-radius: 10px;
+
+    background: rgba(2, 22, 35, 0.18);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 0 0 1px rgba(4, 239, 249, 0.08);
+
+    transform-origin: center;
+    transition:
+      transform 120ms ease,
+      filter 140ms ease;
+  }
+
+  /* pulse как на XP */
+  &__dlField.is-pulse-up {
+    transform: translateY(-1px) scale(1.05);
+    filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.18));
+  }
+
+  &__dlField.is-pulse-down {
+    transform: translateY(1px) scale(0.98);
+    filter: drop-shadow(0 0 8px rgba(4, 239, 249, 0.12));
+  }
+
+  &__dlInput {
+    width: 28px;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+
+    font-family: 'Exo-2';
+    font-size: 13px;
+    letter-spacing: 0.06em;
+
+    color: rgba(220, 250, 255, 0.9);
+    text-align: right;
+
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    appearance: textfield;
+  }
+
+  &__dlLabel {
+    font-family: 'Exo-2';
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(180, 245, 255, 0.55);
+  }
+
+  &__dlIcon {
+    height: 100%;
+    transition:
+      color 160ms ease,
+      filter 160ms ease;
+    &--set {
+      color: var(--color-icon-set);
+      filter: drop-shadow(0 0 6px rgba(4, 239, 249, 0.35))
+        drop-shadow(0 0 14px rgba(4, 239, 249, 0.15));
+
+      animation: dl-energy 2.2s ease-in-out infinite;
+    }
+
+    &--unset {
+      color: var(--color-icon-unset);
+    }
+  }
+}
+
+@keyframes dl-energy {
+  0% {
+    filter: drop-shadow(0 0 4px rgba(4, 239, 249, 0.25))
+      drop-shadow(0 0 10px rgba(4, 239, 249, 0.12));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.55))
+      drop-shadow(0 0 20px rgba(4, 239, 249, 0.25));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 4px rgba(4, 239, 249, 0.25))
+      drop-shadow(0 0 10px rgba(4, 239, 249, 0.12));
+  }
+}
+
+@keyframes dl-scan {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(120%);
+  }
+}

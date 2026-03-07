@@ -18,6 +18,7 @@ import Plus from '@/assets/icons/plus.svg?react';
 import Minus from '@/assets/icons/minus.svg?react';
 import { QuestModalActions } from './QuestModalActions';
 import { QuestDeadline } from '@/components/features/quest-log/QuestDeadline';
+import { QuestDeadlineStepper } from '@/components/features/quest-log/QuestDeadlineStepper';
 import { useScrollFade } from '@/hooks/useScrollFade';
 import { rotateCategory } from '@/utils/tasks/rotateCategory';
 
@@ -371,11 +372,21 @@ export function QuestModal(props: QuestModalProps) {
 
                 {/* МЕТАДАННЫЕ */}
                 <div className="briefing__meta">
-                  {viewModel.deadline && (
-                    <div className="bmeta__item">
-                      <QuestDeadline deadline={viewModel.deadline} />
-                    </div>
+                  {props.mode === 'view' ? (
+                    viewModel.deadline && (
+                      <div className="bmeta__item">
+                        <QuestDeadline deadline={viewModel.deadline} />
+                      </div>
+                    )
+                  ) : (
+                    <QuestDeadlineStepper
+                      value={draft.deadlineAt}
+                      onChange={next => setDraft(prev => ({ ...prev, deadlineAt: next }))}
+                      disabled={!canEdit}
+                      defaultDurationMs={0}
+                    />
                   )}
+
                   {!canEdit ? (
                     <div className="bmeta__item bmeta__item--xp">
                       <span className="bmeta__label">XP</span>

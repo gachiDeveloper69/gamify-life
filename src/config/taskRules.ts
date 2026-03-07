@@ -17,6 +17,7 @@ export const TASK_RULES = {
     medium: 10,
     hard: 50,
   } satisfies Record<TaskCategory, number>,
+  deadlineMaxDays: 365,
 } as const;
 
 export type TaskRules = typeof TASK_RULES;

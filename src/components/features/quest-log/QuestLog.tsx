@@ -13,15 +13,29 @@ type ModalState =
   | { mode: 'create'; initialCategory?: TaskCategory }
   | null;
 
+const MANY: Task[] = Array.from({ length: 18 }, (_, i) => ({
+  id: `e-${i}`,
+  title: i % 2 ? `ЛЕГКОЕ ЗАДАНИЕ ${i + 1}` : `ЛЕГКОЕ ЗАДАНИЕ ${i + 1} `.repeat(5),
+  category: 'easy',
+  points: 5,
+  createdAt: new Date(),
+  completed: false,
+  description: i % 2 ? 'Короткое описание.' : undefined,
+  deadline:
+    i % 2
+      ? new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
+      : new Date(Date.now() + 6 * 60 * 60 * 1000),
+}));
+
 export function QuestLog() {
   const { tasks, createTask, markCompleted, updateTask } = useTasks();
   const [tab, setTab] = useState<TabKey>('active');
   const [modal, setModal] = useState<ModalState>(null);
 
   const visibleQuests = useMemo(() => {
-    if (tab === 'done') return tasks.filter(q => q.completed);
-    return tasks.filter(q => !q.completed);
-  }, [tab, tasks]);
+    if (tab === 'done') return MANY.filter(q => q.completed);
+    return MANY.filter(q => !q.completed);
+  }, [tab, MANY]);
 
   return (
     <>
