@@ -1,5 +1,10 @@
 @use '../../base/core' as *;
 
+$qmodal-enter-duration: 420ms;
+$qmodal-exit-duration: 320ms;
+$qmodal-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+$qmodal-ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
+
 .qmodal {
   position: fixed;
   inset: 0;
@@ -11,6 +16,9 @@
 
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(6px);
+
+  opacity: 1;
+  animation: qmodal-overlay-in 280ms ease-out both;
 
   /* лёгкий “пыльный” градиент поверх оверлея */
   &::before {
@@ -52,6 +60,11 @@
 
     padding: 18px 18px 16px;
 
+    transform-origin: 50% 30%;
+    will-change: transform, opacity, filter;
+    animation: qmodal-panel-in $qmodal-enter-duration $qmodal-ease-enter both;
+    // qmodal-holo-flicker $qmodal-enter-duration $qmodal-ease-enter both;
+
     /* “угловые акценты” (4 скобы) */
     &::after {
       content: '';
@@ -92,6 +105,8 @@
       0 0 / 100% 120px no-repeat;
 
     mix-blend-mode: screen;
+    animation: qmodal-chrome-in 520ms ease-out both;
+    animation-delay: 70ms;
   }
 
   &__grid {
@@ -108,6 +123,27 @@
 
     filter: blur(0.15px);
     mix-blend-mode: overlay;
+
+    animation: qmodal-grid-in 460ms ease-out both;
+    animation-delay: 100ms;
+  }
+
+  &__scan {
+    position: absolute;
+    inset: -20% -10%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(4, 239, 249, 0.03) 35%,
+      rgba(4, 239, 249, 0.2) 48%,
+      rgba(255, 255, 255, 0.18) 50%,
+      rgba(4, 239, 249, 0.08) 54%,
+      transparent 100%
+    );
+    mix-blend-mode: screen;
   }
 
   &__close {
@@ -254,6 +290,34 @@
     margin-top: 14px;
     padding-top: 12px;
   }
+
+  &--idle {
+    .qmodal__scan {
+      animation: qmodal-scan-pass 900ms ease-out both;
+      animation-delay: 120ms;
+    }
+  }
+
+  &--exit {
+    animation: qmodal-overlay-out $qmodal-exit-duration ease-in both;
+
+    .qmodal__panel {
+      animation: qmodal-panel-out $qmodal-exit-duration $qmodal-ease-exit both;
+    }
+
+    .qmodal__chrome,
+    .qmodal__grid,
+    .qmodal__scan {
+      animation-duration: 180ms;
+      animation-fill-mode: both;
+      animation-timing-function: ease-in;
+      opacity: 0;
+    }
+
+    .qmodal__scan {
+      animation-name: qmodal-scan-out;
+    }
+  }
 }
 
 //скошенные углы
@@ -263,5 +327,141 @@
     &::after {
       corner-shape: bevel;
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qmodal,
+  .qmodal__panel,
+  .qmodal__chrome,
+  .qmodal__grid,
+  .qmodal__scan {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ===== KEYFRAMES ===== */
+
+@keyframes qmodal-overlay-in {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(6px);
+  }
+}
+
+@keyframes qmodal-overlay-out {
+  from {
+    opacity: 1;
+    backdrop-filter: blur(6px);
+  }
+  to {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+}
+
+@keyframes qmodal-panel-in {
+  0% {
+    opacity: 0;
+    transform: perspective(1200px) translateY(20px) scale(0.94) rotateX(8deg);
+    filter: blur(10px) saturate(0.85);
+  }
+  45% {
+    opacity: 1;
+    transform: perspective(1200px) translateY(-2px) scale(1.01) rotateX(0deg);
+    filter: blur(0px) saturate(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1200px) translateY(0) scale(1) rotateX(0deg);
+    filter: blur(0px) saturate(1);
+  }
+}
+
+@keyframes qmodal-panel-out {
+  0% {
+    opacity: 1;
+    transform: perspective(1200px) translateY(0) scale(1) rotateX(0deg);
+    filter: blur(0px) saturate(1);
+  }
+  100% {
+    opacity: 0;
+    transform: perspective(1200px) translateY(12px) scale(0.965) rotateX(6deg);
+    filter: blur(8px) saturate(0.8);
+  }
+}
+
+@keyframes qmodal-grid-in {
+  0% {
+    opacity: 0;
+    transform: scale(1.02);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 0.18;
+    transform: scale(1);
+    filter: blur(0.15px);
+  }
+}
+
+@keyframes qmodal-chrome-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 0.95;
+    transform: translateY(0);
+  }
+}
+
+@keyframes qmodal-scan-pass {
+  0% {
+    opacity: 0;
+    transform: translateY(-110%);
+  }
+  12% {
+    opacity: 0.95;
+  }
+  68% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(110%);
+  }
+}
+
+@keyframes qmodal-scan-out {
+  from {
+    opacity: 0.18;
+    transform: translateY(0%);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(25%);
+  }
+}
+
+@keyframes qmodal-holo-flicker {
+  0% {
+    opacity: 0.92;
+  }
+  20% {
+    opacity: 0.86;
+  }
+  40% {
+    opacity: 0.98;
+  }
+  60% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 1;
   }
 }

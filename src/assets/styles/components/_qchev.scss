@@ -74,6 +74,7 @@
 
       /* мягкость как на рефе */
       filter: blur(0.15px);
+      animation: qchev-flicker 5.2s linear infinite;
     }
 
     /* ========== СЕТЧАТЫЙ GLOW, РАЗЛЕТАЕТСЯ НАРУЖУ ========== */
@@ -273,5 +274,48 @@
     opacity: 0.25;
     cursor: not-allowed;
     filter: none;
+  }
+}
+
+@keyframes qchev-flicker {
+  0%,
+  100% {
+    opacity: 0.9;
+    filter: blur(0.15px) brightness(1);
+  }
+
+  31% {
+    opacity: 0.9;
+    filter: blur(0.15px) brightness(1);
+  }
+
+  32% {
+    opacity: 0.62;
+    filter: blur(0.25px) brightness(0.72);
+  }
+
+  33% {
+    opacity: 0.84;
+    filter: blur(0.18px) brightness(0.94);
+  }
+
+  34% {
+    opacity: 0.68;
+    filter: blur(0.22px) brightness(0.8);
+  }
+
+  36% {
+    opacity: 0.9;
+    filter: blur(0.15px) brightness(1);
+  }
+
+  72% {
+    opacity: 0.82;
+    filter: blur(0.18px) brightness(0.9);
+  }
+
+  74% {
+    opacity: 0.9;
+    filter: blur(0.15px) brightness(1);
   }
 }

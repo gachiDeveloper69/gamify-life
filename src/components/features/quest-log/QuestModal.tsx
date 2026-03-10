@@ -56,6 +56,8 @@ type Draft = {
   deadlineAt: number | null; // timestamp (ms), null = нет дедлайна
 };
 
+type QuestModalAnimPhase = 'enter' | 'idle' | 'exit';
+
 type QuestModalMode = 'view' | 'edit' | 'create';
 
 const STRIPE_BY_DIFFICULTY = {
@@ -82,6 +84,32 @@ export function QuestModal(props: QuestModalProps) {
 
   const [pointsTouched, setPointsTouched] = useState(false);
   const [animating, setAnimating] = useState(false);
+  const [phase, setPhase] = useState<QuestModalAnimPhase>('enter');
+  const closeTimerRef = useRef<number | null>(null);
+  const isClosingRef = useRef(false);
+
+  const requestClose = () => {
+    if (isClosingRef.current) return;
+    isClosingRef.current = true;
+    setPhase('exit');
+
+    closeTimerRef.current = window.setTimeout(() => {
+      props.onClose();
+    }, 360);
+  };
+
+  useEffect(() => {
+    const id = window.requestAnimationFrame(() => {
+      setPhase('idle');
+    });
+
+    return () => {
+      window.cancelAnimationFrame(id);
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+      }
+    };
+  }, []);
 
   const rotateDifficulty = (dir: 1 | -1) => {
     if (!canEdit) return;
@@ -176,12 +204,12 @@ export function QuestModal(props: QuestModalProps) {
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') props.onClose();
+      if (e.key === 'Escape') requestClose();
     };
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [props.onClose]);
+  }, []);
 
   useEffect(() => {
     if (props.mode === 'edit' || props.mode === 'create') {
@@ -278,23 +306,19 @@ export function QuestModal(props: QuestModalProps) {
   /*====XP====*/
   return (
     <div
-      className="qmodal"
+      className={clsx('qmodal', `qmodal--${phase}`)}
       role="dialog"
       aria-modal="true"
       aria-label={`Детали задания: ${viewModel.title}`}
       onMouseDown={e => {
-        if (e.target === e.currentTarget) props.onClose();
+        if (e.target === e.currentTarget) requestClose();
       }}
     >
       <div className="qmodal__panel">
         <div className="qmodal__chrome" aria-hidden="true" />
         <div className="qmodal__grid" aria-hidden="true" />
-        <button
-          className="qmodal__close"
-          type="button"
-          onClick={props.onClose}
-          aria-label="Закрыть"
-        >
+        <div className="qmodal__scan" aria-hidden="true" />
+        <button className="qmodal__close" type="button" onClick={requestClose} aria-label="Закрыть">
           ✕
         </button>
         <div className="qmodal__head">
