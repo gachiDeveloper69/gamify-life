@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { TASK_RULES } from '@/config/taskRules';
-import { getState } from '@/utils/deadline/getState';
+// import { getState } from '@/utils/deadline/getState';
 
 import Lightning from '@/assets/icons/lightning.svg?react';
 
@@ -88,6 +88,7 @@ export function QuestDeadlineStepper({
 
   const iconState: IconState = enabled && partsToTotalMinutes(parts) > 0 ? 'set' : 'unset';
   const selfUpdateRef = useRef(false);
+  const partsRef = useRef(parts);
 
   // pulse
   const [pulse, setPulse] = useState<{ unit: Unit; dir: 'up' | 'down' } | null>(null);
@@ -126,24 +127,32 @@ export function QuestDeadlineStepper({
     if (totalMin > 0) lastNonZeroRef.current = normalized;
     if (!nextEnabled || totalMin <= 0) {
       selfUpdateRef.current = true;
-      onChange(baseNowRef.current + totalMin * 60_000);
       onChange(null);
       return;
     }
 
+    selfUpdateRef.current = true;
     onChange(baseNowRef.current + totalMin * 60_000);
   }
 
   const setUnit = (unit: Unit, raw: number) => {
     const meta = UNIT_META[unit];
-    const next = { ...parts, [unit]: clamp(Number.isFinite(raw) ? raw : 0, 0, meta.max) } as Parts;
+    const current = partsRef.current;
+    const next = {
+      ...current,
+      [unit]: clamp(Number.isFinite(raw) ? raw : 0, 0, meta.max),
+    } as Parts;
+
     commit(next);
   };
 
   const bumpUnit = (unit: Unit, delta: number) => {
     const meta = UNIT_META[unit];
-    const nextVal = clamp(parts[unit] + delta, 0, meta.max);
-    const next = { ...parts, [unit]: nextVal } as Parts;
+    const current = partsRef.current;
+
+    const nextVal = clamp(current[unit] + delta, 0, meta.max);
+    const next = { ...current, [unit]: nextVal } as Parts;
+
     commit(next);
     pulseUnit(unit, delta >= 0 ? 'up' : 'down');
   };
@@ -210,6 +219,10 @@ export function QuestDeadlineStepper({
     });
   }, [parts, focusedUnit]);
 
+  useEffect(() => {
+    partsRef.current = parts;
+  }, [parts]);
+
   const panelOpen = enabled && !disabled;
 
   return (
@@ -232,7 +245,7 @@ export function QuestDeadlineStepper({
         <div className={clsx('bmeta__deadlinePanel', panelOpen && 'is-open')}>
           {(Object.keys(UNIT_META) as Unit[]).map(unit => {
             const meta = UNIT_META[unit];
-            const val = parts[unit];
+            // const val = parts[unit];
 
             const pulsing =
               pulse?.unit === unit ? (pulse.dir === 'up' ? 'is-pulse-up' : 'is-pulse-down') : null;

@@ -4,7 +4,7 @@ import { type Task, type TaskCategory } from '@/types/task';
 import { QuestBoard } from '@/components/features/quest-log/QuestBoard';
 import QuestFrame from '@/components/features/quest-log/QuestFrame';
 import { QuestTabs, type TabKey } from '@/components/features/quest-log/QuestTabs';
-import { QuestModal } from '@/components/features/quest-log/QuestModal';
+import { QuestModal } from '@/components/features/quest-modal/QuestModal';
 import { useTasks } from '@/hooks/useTasks';
 
 type ModalState =

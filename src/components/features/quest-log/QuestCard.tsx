@@ -2,7 +2,6 @@ import React from 'react';
 import { useRef } from 'react';
 import { type Task } from '@/types/task';
 import { type TaskCategory } from '@/types/task';
-import { getPointsByCategory } from '@/types/task';
 import { QButton } from '@/components/ui/QButton';
 import { QuestDeadline } from '@/components/features/quest-log/QuestDeadline';
 import { useScrollFade } from '@/hooks/useScrollFade';

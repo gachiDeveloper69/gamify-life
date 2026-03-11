@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import Lightning from '@/assets/icons/lightning.svg?react';
 
@@ -14,9 +14,9 @@ function toDate(d: Date | string): Date {
   return d instanceof Date ? d : new Date(d);
 }
 
-function clamp(n: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, n));
-}
+// function clamp(n: number, min: number, max: number) {
+//   return Math.max(min, Math.min(max, n));
+// }
 
 function formatRemaining(ms: number) {
   const totalSec = Math.floor(ms / 1000);
@@ -39,16 +39,16 @@ function formatRemaining(ms: number) {
   return { text: `${Math.max(0, totalMin)}м`, unit: 'm' as const };
 }
 
-function getLabel(state: DeadlineState) {
-  switch (state) {
-    case 'overdue':
-      return 'ПРОСРОЧЕНО';
-    case 'danger':
-      return 'СРОЧНАЯ';
-    default:
-      return null;
-  }
-}
+// function getLabel(state: DeadlineState) {
+//   switch (state) {
+//     case 'overdue':
+//       return 'ПРОСРОЧЕНО';
+//     case 'danger':
+//       return 'СРОЧНАЯ';
+//     default:
+//       return null;
+//   }
+// }
 
 export function QuestDeadline({ deadline }: Props) {
   const deadlineDate = useMemo(() => toDate(deadline), [deadline]);
@@ -69,7 +69,7 @@ export function QuestDeadline({ deadline }: Props) {
     return () => window.clearInterval(id);
   }, [state, deadlineDate.getTime()]);
 
-  const label = getLabel(state);
+  // const label = getLabel(state);
 
   const timeText = useMemo(() => {
     if (state === 'overdue') return '00:00';
