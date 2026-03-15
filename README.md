@@ -1,34 +1,37 @@
-# GamifyShit 🎮💩 (рабочее название)
+# GamifyShit 🎮💩 (work title)
 
-**Геймифицированный таск трекер, который превращает обычные рутинные задачи в RPG-квесты**
+**Gamified task tracker that turns routine tasks into quests**
 
-### Зачем я это делаю
+## Intro
 
-- Хочу свой личный таск-трекер
-- Хочу попробовать опыт геймификации повседневных и не только задач, изучить эффективность этого подхода для себя
-- Хочу реально дожать большие цели (пожать 160 кг, выучить английский, стать наконец фронтенд-разработчиком), ну и в процессе выучить TS и подкрепить знания React (это даже основное)
-- Да кому вообще это интересно читать?
+Gamified task tracking application built with React and TypeScript.
+Designed as a productivity tool with game-inspired mechanics such as difficulty levels, XP rewards and a custom quest log interface.
 
-### Что уже есть (на 02.12.2025)
+## Preview
 
-- Типизация на TypeScript (Task, TaskStats, CreateTaskData)
-- Универсальный хук `useLocalStorage<T>` с дженериками
-- Кастомный хук `useTasks` — создание/удаление/выполнение задач + автоматический подсчёт XP
-- Автоматический сброс daily points в 00:00
-- Полная документация в `/docs` (полная на момент написания этого текста, ха:)
+![Quest Log Board](./screenshots/task-board.png)
+![Task Modal](./screenshots/quest-modal.png)
 
-### Что будет в MVP (через 1–2 недели)
+## Current features
 
-- [ ] UI хотя бы какой-нибудь
-- [ ] Три категории задач: малые → средние → большие
-- [ ] Daily challenges + стрики
-- [ ] Система уровней и ачивок (но это не точно)
-- [ ] Тёмная тема и анимации
+- Task creation, editing and completion flows
 
-### Скриншоты
+- Difficulty-based task categorization
 
-(когда-нибудь появится)
+- Local persistence with custom useLocalStorage hook
 
-### Как запустить
+- Interactive modal for task management
 
-Да нечего пока запускать
+- Scrollable task board with custom UI styling
+
+## Planned features
+
+- Pomodoro timer
+
+- Energy / stamina mechanics
+
+- Progress tracking and extended gamification systems
+
+## Tech stack
+
+React • TypeScript • SCSS • Vite
