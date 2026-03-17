@@ -19,10 +19,8 @@ import { useQuestDraft } from './hooks/useQuestDraft';
 import { QuestDifficultyControl } from './QuestDifficultyControl';
 import { QuestDescriptionSection } from './QuestDescriptionSection';
 
-// NEW: вынесли вычисление viewModel и primaryLabel в утилиты
 import { buildQuestModalViewModel, getQuestModalPrimaryLabel } from './utils/questModalViewModel';
 
-// NEW: вынесли фокус title input в отдельный хук
 import { useQuestTitleFocus } from './hooks/useQuestTitleFocus';
 
 export function QuestModal(props: QuestModalProps) {
@@ -32,10 +30,8 @@ export function QuestModal(props: QuestModalProps) {
   const { phase, requestClose } = useQuestModalClose(props.onClose);
   const { draft, setDraft, pointsTouched, setPointsTouched } = useQuestDraft(props);
 
-  // CHANGED: titleRef теперь приходит из useQuestTitleFocus
   const { titleRef } = useQuestTitleFocus(props);
 
-  // CHANGED: viewModel теперь собирается отдельной утилитой
   const viewModel = buildQuestModalViewModel(props, draft);
 
   const fadeRef = useRef<HTMLDivElement>(null);
@@ -43,6 +39,20 @@ export function QuestModal(props: QuestModalProps) {
   useScrollFade(fadeRef, scrollRef, { offset: 10 }, [viewModel.id]);
 
   const canEdit = props.mode !== 'view' && !viewModel.completed;
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDraft(prev => ({ ...prev, title: e.target.value }));
+  };
+  const handleToggleActions = () => setActionsOpen(v => !v);
+  const handleEdit = () => {
+    if (props.mode === 'view') {
+      props.onRequestEdit(props.quest.id);
+    }
+  };
+  const handlePinToggle = () => console.log('pin');
+  const handleClone = () => console.log('clone');
+  const handleArchiveToggle = () => console.log('archive');
+  const handleDelete = () => console.log('delete');
 
   const rotateDifficulty = (dir: 1 | -1) => {
     if (!canEdit) return;
@@ -158,7 +168,7 @@ export function QuestModal(props: QuestModalProps) {
                   <input
                     className="briefing__mission-title briefing__mission-title--input"
                     value={draft.title}
-                    onChange={e => setDraft(prev => ({ ...prev, title: e.target.value }))}
+                    onChange={handleTitleChange}
                     placeholder="Название миссии"
                     aria-label="Название миссии"
                     ref={titleRef}
@@ -216,12 +226,12 @@ export function QuestModal(props: QuestModalProps) {
           {props.mode === 'view' && (
             <QuestModalActions
               isOpen={actionsOpen}
-              onToggle={() => setActionsOpen(v => !v)}
-              onEdit={() => props.onRequestEdit(props.quest.id)}
-              onPinToggle={() => console.log('pin')}
-              onClone={() => console.log('clone')}
-              onArchiveToggle={() => console.log('archive')}
-              onDelete={() => console.log('delete')}
+              onToggle={handleToggleActions}
+              onEdit={handleEdit}
+              onPinToggle={handlePinToggle}
+              onClone={handleClone}
+              onArchiveToggle={handleArchiveToggle}
+              onDelete={handleDelete}
               isPinned={false}
               isArchived={false}
             />

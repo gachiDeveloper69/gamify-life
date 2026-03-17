@@ -1,11 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import {
-  type CreateTaskData,
-  type Task,
-  type TaskCategory,
-  type UpdateTaskData,
-} from '@/types/task';
+import { type CreateTaskData, type TaskCategory, type UpdateTaskData } from '@/types/task';
 import { QuestBoard } from '@/components/features/quest-log/QuestBoard';
 import QuestFrame from '@/components/features/quest-log/QuestFrame';
 import { QuestTabs, type TabKey } from '@/components/features/quest-log/QuestTabs';
