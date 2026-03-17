@@ -43,6 +43,8 @@ export type CreateTaskData = Omit<Task, 'id' | 'createdAt' | 'completedAt' | 'co
 
 export type TaskDataToValidate = Pick<CreateTaskData, 'title' | 'category' | 'deadline' | 'points'>;
 
+export type UpdateTaskData = Partial<Omit<Task, 'id' | 'createdAt' | 'completed' | 'completedAt'>>;
+
 // Функция для автоматического определения очков по категории
 export const getPointsByCategory = (category: TaskCategory): number => {
   return TASK_RULES.defaultPointsByCategory[category];

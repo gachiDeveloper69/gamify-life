@@ -1358,6 +1358,7 @@ svg * {
 }
 .qbtn--complete {
   overflow: hidden;
+  flex: 0 0 auto;
   font-size: clamp(5px, 0.625vw, 9px);
 }
 @media (hover: hover) {
@@ -2292,7 +2293,7 @@ svg * {
 .qcard__main {
   display: grid;
   grid-template-columns: 1fr 30%;
-  gap: 14px;
+  gap: 10px;
   align-items: center;
 }
 .qcard__indicator {
@@ -2404,8 +2405,7 @@ svg * {
   display: flex;
   flex-direction: column;
   align-items: start;
-  gap: 3px;
-  padding-left: 10px;
+  gap: 10px;
 }
 .qcard__xp {
   font-family: "Exo-2";
@@ -2416,7 +2416,7 @@ svg * {
   padding-left: 5px;
 }
 .qcard--no-desc {
-  height: 120px;
+  height: 130px;
 }
 .qcard--with-desc {
   height: 180px;

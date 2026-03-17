@@ -5,15 +5,15 @@ import QuestColumn from './QuestColumn';
 
 type QuestBoardProps = {
   quests: Task[];
-  onOpenQuest: (q: Task) => void;
-  onCompleteQuest: (id: string) => void;
+  onOpenQuest: (id: string) => void;
+  onToggleCompleteQuest: (questId: string) => void;
   onCreateQuest?: (category: TaskCategory) => void;
 };
 
 export function QuestBoard({
   quests,
   onOpenQuest,
-  onCompleteQuest,
+  onToggleCompleteQuest,
   onCreateQuest,
 }: QuestBoardProps) {
   const grouped = useMemo(() => {
@@ -29,14 +29,14 @@ export function QuestBoard({
           category="easy"
           quests={grouped.easy}
           onOpenQuest={onOpenQuest}
-          onCompleteQuest={onCompleteQuest}
+          onToggleCompleteQuest={onToggleCompleteQuest}
           onCreateQuest={onCreateQuest}
         />
         <QuestColumn
           category="medium"
           quests={grouped.medium}
           onOpenQuest={onOpenQuest}
-          onCompleteQuest={onCompleteQuest}
+          onToggleCompleteQuest={onToggleCompleteQuest}
           onCreateQuest={onCreateQuest}
         />
 
@@ -44,7 +44,7 @@ export function QuestBoard({
           category="hard"
           quests={grouped.hard}
           onOpenQuest={onOpenQuest}
-          onCompleteQuest={onCompleteQuest}
+          onToggleCompleteQuest={onToggleCompleteQuest}
           onCreateQuest={onCreateQuest}
         />
       </section>

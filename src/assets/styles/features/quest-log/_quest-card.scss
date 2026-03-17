@@ -44,7 +44,7 @@
   &__main {
     display: grid;
     grid-template-columns: 1fr 30%;
-    gap: 14px;
+    gap: 10px;
     align-items: center;
   }
 
@@ -164,8 +164,8 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-    gap: 3px;
-    padding-left: 10px;
+    gap: 10px;
+    // padding-left: 10px;
   }
 
   &__xp {
@@ -178,7 +178,7 @@
   }
 
   &--no-desc {
-    height: 120px;
+    height: 130px;
   }
 
   &--with-desc {

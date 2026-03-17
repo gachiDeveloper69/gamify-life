@@ -80,7 +80,7 @@ export function QuestTabs({ value, onChange }: Props) {
         {TABS.map((t, index) => {
           const isActive = t.key === active;
           return (
-            <React.Fragment key={t.key}>
+            <React.Fragment>
               {index > 0 && <div className="tabs__separator" aria-hidden="true" />}
 
               <button

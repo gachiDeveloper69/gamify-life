@@ -217,7 +217,7 @@ export function QuestModal(props: QuestModalProps) {
             <QuestModalActions
               isOpen={actionsOpen}
               onToggle={() => setActionsOpen(v => !v)}
-              onEdit={() => props.onRequestEdit(props.quest)}
+              onEdit={() => props.onRequestEdit(props.quest.id)}
               onPinToggle={() => console.log('pin')}
               onClone={() => console.log('clone')}
               onArchiveToggle={() => console.log('archive')}

@@ -40,7 +40,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { useLocalStorage } from './useLocalStorage';
-import type { Task, CreateTaskData, TaskStats } from '../types/task';
+import type { Task, CreateTaskData, UpdateTaskData, TaskStats } from '../types/task';
 import { getPointsByCategory } from '../types/task';
 import { useEffect } from 'react';
 import { validate, setUpdates } from '../utils/tasks/tasksUtils';
@@ -149,10 +149,7 @@ export function useTasks() {
     });
   };
 
-  const updateTask = (
-    id: string,
-    updates: Partial<Omit<Task, 'id' | 'createdAt' | 'completed' | 'completedAt'>>
-  ) => {
+  const updateTask = (id: string, updates: UpdateTaskData) => {
     let validUpdates;
     const task = tasks.find(t => t.id === id);
     if (task?.completed && updates.category) {

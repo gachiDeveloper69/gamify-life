@@ -9,7 +9,7 @@ import { useScrollFade } from '@/hooks/useScrollFade';
 type QuestCardProps = {
   quest: Task;
   onOpen: () => void;
-  onComplete: () => void;
+  onToggleCompleteQuest: (questId: string) => void;
 };
 
 const DIFF_LABEL: Record<TaskCategory, string> = {
@@ -18,7 +18,7 @@ const DIFF_LABEL: Record<TaskCategory, string> = {
   hard: 'СЛОЖНО',
 };
 
-export function QuestCard({ quest, onOpen, onComplete }: QuestCardProps) {
+export function QuestCard({ quest, onOpen, onToggleCompleteQuest }: QuestCardProps) {
   const descRef = useRef<HTMLDivElement | null>(null);
   useScrollFade(descRef, { offset: 5 });
   const hasDesc = Boolean(quest.description?.trim());
@@ -27,7 +27,7 @@ export function QuestCard({ quest, onOpen, onComplete }: QuestCardProps) {
 
   const onBtnclick: React.MouseEventHandler<HTMLButtonElement> = e => {
     e.stopPropagation();
-    onComplete();
+    onToggleCompleteQuest(quest.id);
   };
 
   return (
@@ -41,6 +41,9 @@ export function QuestCard({ quest, onOpen, onComplete }: QuestCardProps) {
       tabIndex={0}
       onClick={onCardClick}
       onKeyDown={e => {
+        if (e.key === ' ') {
+          e.preventDefault();
+        }
         if (e.key === 'Enter' || e.key === ' ') onCardClick();
       }}
       aria-label={`Открыть задание: ${quest.title}`}
@@ -69,7 +72,9 @@ export function QuestCard({ quest, onOpen, onComplete }: QuestCardProps) {
             </>
           )}
           <QButton className="qbtn--primary qbtn--complete" onClick={onBtnclick}>
-            <span className="qcard__complete">ВЫПОЛНИТЬ</span>
+            <span className="qcard__complete">
+              {quest.completed ? 'ВОССТАНОВИТЬ' : 'ВЫПОЛНИТЬ'}
+            </span>
           </QButton>
         </div>
       </div>

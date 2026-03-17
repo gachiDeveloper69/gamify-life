@@ -4,14 +4,28 @@ import { useScrollFade } from '@/hooks/useScrollFade';
 import { useRef } from 'react';
 import Plus from '@/assets/icons/plus.svg?react';
 
-type QuestColumnProps = {
-  category?: TaskCategory;
-  title?: string;
+// Базовые общие пропсы
+type BaseQuestColumnProps = {
   quests: Task[];
-  onOpenQuest: (q: Task) => void;
-  onCompleteQuest: (id: string) => void;
+  onOpenQuest: (id: string) => void;
+  onToggleCompleteQuest: (questId: string) => void;
   onCreateQuest?: (category: TaskCategory) => void;
 };
+
+// Вариант с category
+type CategoryColumnProps = BaseQuestColumnProps & {
+  category: TaskCategory;
+  title?: never;
+};
+
+// Вариант с title
+type TitleColumnProps = BaseQuestColumnProps & {
+  category?: never;
+  title: string;
+};
+
+// Объединяем
+type QuestColumnProps = CategoryColumnProps | TitleColumnProps;
 
 const HEADER_BY_DIFFICULTY = {
   easy: 'ЛЕГКО',
@@ -24,7 +38,7 @@ export default function QuestColumn({
   title,
   quests,
   onOpenQuest,
-  onCompleteQuest,
+  onToggleCompleteQuest,
   onCreateQuest,
 }: QuestColumnProps) {
   const colRef = useRef<HTMLDivElement | null>(null);
@@ -40,7 +54,7 @@ export default function QuestColumn({
             <button
               className="quest-col__add"
               type="button"
-              onClick={() => onCreateQuest?.(category)}
+              onClick={() => onCreateQuest(category)}
               aria-label="Добавить миссию"
               title="Новая миссия"
             >
@@ -55,8 +69,8 @@ export default function QuestColumn({
             <QuestCard
               key={q.id}
               quest={q}
-              onOpen={() => onOpenQuest(q)}
-              onComplete={() => onCompleteQuest(q.id)}
+              onOpen={() => onOpenQuest(q.id)}
+              onToggleCompleteQuest={onToggleCompleteQuest}
             />
           ))}
         </div>

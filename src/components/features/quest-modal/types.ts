@@ -8,7 +8,7 @@ export type ViewProps = BaseProps & {
   mode: 'view';
   quest: Task;
   onComplete: (id: string) => void;
-  onRequestEdit: (quest: Task) => void;
+  onRequestEdit: (id: string) => void;
 };
 
 export type EditProps = BaseProps & {
