@@ -1,11 +1,34 @@
 @charset "UTF-8";
 :root {
   --color-bg: #0b0f19;
-  --color-font-head: #d9e1f2;
+  --color-text-heading: #d9e1f2;
   --color-font-main: #8c9bb5;
+  --color-text-primary: rgba(220, 250, 255, 0.92);
+  --color-text-primary-strong: rgba(225, 248, 255, 0.98);
+  --color-text-muted: rgba(180, 245, 255, 0.55);
+  --color-text-accent-muted: rgba(120, 220, 245, 0.7);
+  --color-accent: #04eff9;
+  --color-accent-strong: rgba(4, 239, 249, 0.9);
+  --color-accent-medium: rgba(4, 239, 249, 0.55);
+  --color-accent-soft: rgba(4, 239, 249, 0.38);
+  --color-accent-faint: rgba(4, 239, 249, 0.25);
+  --color-accent-hover: #1afafd;
+  --color-surface-panel: rgba(2, 22, 35, 0.42);
+  --color-surface-panel-soft: rgba(2, 22, 35, 0.18);
+  --color-surface-frame: rgb(3, 45, 70);
+  --color-surface-frame-soft: rgba(3, 45, 70, 0.6);
+  --color-fade-solid: rgb(3, 46, 70);
+  --color-fade-transparent: rgba(8, 20, 30, 0);
+  --color-overlay-weak: rgba(255, 255, 255, 0.02);
+  --color-overlay-soft: rgba(255, 255, 255, 0.05);
+  --color-overlay-medium: rgba(255, 255, 255, 0.08);
+  --color-overlay-strong: rgba(255, 255, 255, 0.1);
+  --color-difficulty-easy: rgba(80, 255, 160, 0.9);
+  --color-difficulty-medium: rgba(255, 214, 80, 0.95);
+  --color-difficulty-hard: rgba(255, 90, 90, 0.95);
   --color-scrollbar-track: rgba(0, 0, 0, 0.18);
-  --color-scrollbar-thumb: rgba(4, 239, 249, 0.38);
-  --color-scrollbar-thumb-hover: rgba(4, 239, 249, 0.58);
+  --color-scrollbar-thumb: var(--color-accent-soft);
+  --color-scrollbar-thumb-hover: var(--color-accent-medium);
   --color-button-hover: #1afafd;
   --container-width: 70vw;
   --container-padding-x: 100px;
@@ -23,13 +46,13 @@ body {
 }
 
 ::selection {
-  background: rgba(4, 239, 249, 0.25);
-  color: rgba(225, 248, 255, 0.98);
+  background: var(--color-accent-faint);
+  color: var(--color-text-primary-strong);
 }
 
 ::-moz-selection {
-  background: rgba(4, 239, 249, 0.25);
-  color: rgba(225, 248, 255, 0.98);
+  background: var(--color-accent-faint);
+  color: var(--color-text-primary-strong);
 }
 
 a,
@@ -51,7 +74,7 @@ h3,
 h4 {
   font-family: "Oxanium";
   font-weight: medium;
-  color: #d9e1f2;
+  color: var(--color-text-heading);
 }
 
 *,
@@ -479,7 +502,7 @@ svg * {
   position: absolute;
   top: 50%;
   left: 50%;
-  translate: -50% -50%;
+  transform: translate(-50%, -50%);
   aspect-ratio: 1;
   height: auto;
 }
@@ -520,7 +543,7 @@ svg * {
   position: absolute;
   top: 50%;
   left: 50%;
-  translate: -50% -50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   height: auto;
 }
@@ -724,11 +747,11 @@ svg * {
 }
 .briefing__body::before {
   top: 0;
-  background: linear-gradient(to bottom, rgb(3, 46, 70), rgba(8, 20, 30, 0));
+  background: linear-gradient(to bottom, var(--color-fade-solid), var(--color-fade-transparent));
 }
 .briefing__body::after {
   bottom: 0;
-  background: linear-gradient(to top, rgb(3, 46, 70), rgba(8, 20, 30, 0));
+  background: linear-gradient(to top, var(--color-fade-solid), var(--color-fade-transparent));
 }
 .briefing__body.is-top-fade::before {
   opacity: 1;
@@ -2159,8 +2182,8 @@ svg * {
   gap: 18px;
   margin-top: 14px;
   flex: 1;
-  height: 100%; /* ← ДОБАВЬ ЭТУ СТРОКУ */
-  min-height: 0; /* ← И ЭТУ (как на body) */
+  height: 100%;
+  min-height: 0;
 }
 
 .quest-col {
@@ -2169,7 +2192,7 @@ svg * {
   gap: 10px;
   height: 100%;
   min-height: 0;
-  --color-title: rgba(180, 245, 255, 0.55);
+  --color-title: var(--color-text-muted);
 }
 .quest-col__header {
   font-family: "Exo-2";
@@ -2213,11 +2236,11 @@ svg * {
 }
 .quest-col__list::before {
   top: 0;
-  background: linear-gradient(to bottom, rgb(3, 46, 70), rgba(8, 20, 30, 0));
+  background: linear-gradient(to bottom, var(--color-fade-solid), var(--color-fade-transparent));
 }
 .quest-col__list::after {
   bottom: 0;
-  background: linear-gradient(to top, rgb(3, 46, 70), rgba(8, 20, 30, 0));
+  background: linear-gradient(to top, var(--color-fade-solid), var(--color-fade-transparent));
 }
 .quest-col__list.is-top-fade::before {
   min-height: 22px;
@@ -2267,19 +2290,18 @@ svg * {
   }
 }
 .qcard {
-  --stroke: rgba(4, 239, 249, 0.35);
-  --inner: rgba(4, 239, 249, 0.12);
-  --bg: rgba(2, 22, 35, 0.42);
+  --qcard-stroke: var(--color-accent-soft);
+  --qcard-bg: var(--color-surface-panel);
   /* цвета сложности */
-  --diff: rgba(80, 255, 160, 0.9); /* easy default */
+  --qcard-diff: var(--color-difficulty-easy); /* easy default */
   --indicator-width: 20px;
   position: relative;
   overflow: hidden;
   padding: 14px 14px 14px 10px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0)), var(--bg);
-  border: 1px solid var(--stroke);
+  background: linear-gradient(to bottom, var(--color-overlay-weak), rgba(0, 0, 0, 0)), var(--qcard-bg);
+  border: 1px solid var(--qcard-stroke);
   border-radius: 10px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 18px rgba(4, 239, 249, 0.05);
+  box-shadow: inset 0 1px 0 var(--color-overlay-soft), 0 0 18px rgba(4, 239, 249, 0.05);
   cursor: pointer;
   transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
@@ -2312,15 +2334,15 @@ svg * {
   width: 10px;
   aspect-ratio: 1;
   border-radius: 999px;
-  background: var(--diff);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--diff), transparent 70%);
+  background: var(--qcard-diff);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--qcard-diff), transparent 70%);
 }
 .qcard__dot::before {
   position: absolute;
   position: absolute;
   top: 50%;
   left: 50%;
-  translate: -50% -50%;
+  transform: translate(-50%, -50%);
   content: "";
   width: 180%;
   aspect-ratio: 1;
@@ -2342,7 +2364,7 @@ svg * {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-size: clamp(10px, 1.1111111111vw, 16px);
-  color: rgba(220, 250, 255, 0.92);
+  color: var(--color-text-primary);
   margin: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -2364,8 +2386,8 @@ svg * {
 .qcard__tag {
   padding: 4px 10px;
   border-radius: 5px;
-  border: 1px solid color-mix(in srgb, var(--diff), rgba(4, 239, 249, 0.25) 40%);
-  color: color-mix(in srgb, var(--diff), rgba(220, 250, 255, 0.9) 45%);
+  border: 1px solid color-mix(in srgb, var(--qcard-diff), var(--color-accent-faint) 40%);
+  color: color-mix(in srgb, var(--qcard-diff), var(--color-text-primary) 45%);
   background: rgba(0, 0, 0, 0.16);
 }
 .qcard__divider {
@@ -2380,7 +2402,7 @@ svg * {
 }
 .qcard__desc {
   margin: 0;
-  color: rgba(180, 245, 255, 0.55);
+  color: var(--color-text-muted);
   font-family: "Exo-2";
   font-size: 13px;
   line-height: 1.25;
@@ -2411,7 +2433,7 @@ svg * {
   font-family: "Exo-2";
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(4, 239, 249, 0.55);
+  color: var(--color-accent-medium);
   font-size: 14px;
   padding-left: 5px;
 }
@@ -2455,11 +2477,11 @@ svg * {
   }
   .qcard:hover .qcard__desc::before {
     top: 0;
-    background: linear-gradient(to bottom, rgb(3, 46, 70), rgba(8, 20, 30, 0));
+    background: linear-gradient(to bottom, var(--color-fade-solid), var(--color-fade-transparent));
   }
   .qcard:hover .qcard__desc::after {
     bottom: 0;
-    background: linear-gradient(to top, rgb(3, 46, 70), rgba(8, 20, 30, 0));
+    background: linear-gradient(to top, var(--color-fade-solid), var(--color-fade-transparent));
   }
   .qcard:hover .qcard__desc.is-top-fade::before {
     min-height: 10px;
@@ -2471,15 +2493,15 @@ svg * {
   }
 }
 .qcard--easy {
-  --diff: rgba(80, 255, 160, 0.9);
+  --qcard-diff: var(--color-difficulty-easy);
 }
 
 .qcard--medium {
-  --diff: rgba(255, 214, 80, 0.95);
+  --qcard-diff: var(--color-difficulty-medium);
 }
 
 .qcard--hard {
-  --diff: rgba(255, 90, 90, 0.95);
+  --qcard-diff: var(--color-difficulty-hard);
 }
 
 .quest-log {
@@ -2536,8 +2558,8 @@ svg * {
   right: 0;
   bottom: 2px;
   height: 1px;
-  background: linear-gradient(to right, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.55), rgba(4, 239, 249, 0));
-  box-shadow: 0 0 14px rgba(4, 239, 249, 0.12);
+  background: linear-gradient(to right, rgba(4, 239, 249, 0), var(--color-accent-medium), rgba(4, 239, 249, 0));
+  box-shadow: 0 0 14px var(--color-accent-faint);
   opacity: 0.9;
 }
 .quest-log__title {
@@ -2545,8 +2567,8 @@ svg * {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 34px;
-  color: rgba(210, 245, 255, 0.92);
-  text-shadow: 0 0 10px rgba(4, 239, 249, 0.12), 0 0 22px rgba(4, 239, 249, 0.06);
+  color: var(--color-text-primary);
+  text-shadow: 0 0 10px var(--color-accent-faint), 0 0 22px rgba(4, 239, 249, 0.06);
 }
 .quest-log__status {
   display: inline-flex;
@@ -2555,7 +2577,7 @@ svg * {
   font-family: "Exo-2";
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(120, 220, 245, 0.7);
+  color: var(--color-text-accent-muted);
 }
 .quest-log__statusLabel {
   font-size: 16px;
@@ -2563,7 +2585,7 @@ svg * {
 }
 .quest-log__statusValue {
   font-size: 28px;
-  color: rgba(4, 239, 249, 0.92);
+  color: var(--color-accent-strong);
   text-shadow: 0 0 10px rgba(4, 239, 249, 0.18), 0 0 24px rgba(4, 239, 249, 0.08);
 }
 .quest-log__statusMeta {

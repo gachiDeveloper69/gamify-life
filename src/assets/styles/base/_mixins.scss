@@ -36,7 +36,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  translate: -50% -50%;
+  transform: translate(-50%, -50%);
 }
 
 @mixin square($size) {
@@ -135,12 +135,12 @@
 
   &::before {
     top: 0;
-    background: linear-gradient(to bottom, rgb(3, 46, 70), rgba(8, 20, 30, 0));
+    background: linear-gradient(to bottom, var(--color-fade-solid), var(--color-fade-transparent));
   }
 
   &::after {
     bottom: 0;
-    background: linear-gradient(to top, rgb(3, 46, 70), rgba(8, 20, 30, 0));
+    background: linear-gradient(to top, var(--color-fade-solid), var(--color-fade-transparent));
   }
 
   &.is-top-fade::before {
@@ -170,12 +170,12 @@
 
   &::before {
     top: 0;
-    background: linear-gradient(to bottom, rgb(3, 46, 70), rgba(8, 20, 30, 0));
+    background: linear-gradient(to bottom, var(--color-fade-solid), var(--color-fade-transparent));
   }
 
   &::after {
     bottom: 0;
-    background: linear-gradient(to top, rgb(3, 46, 70), rgba(8, 20, 30, 0));
+    background: linear-gradient(to top, var(--color-fade-solid), var(--color-fade-transparent));
   }
 
   &.is-top-fade::before {

@@ -10,13 +10,13 @@ body {
 }
 
 ::selection {
-  background: rgba(4, 239, 249, 0.25);
-  color: rgba(225, 248, 255, 0.98);
+  background: var(--color-accent-faint);
+  color: var(--color-text-primary-strong);
 }
 
 ::-moz-selection {
-  background: rgba(4, 239, 249, 0.25);
-  color: rgba(225, 248, 255, 0.98);
+  background: var(--color-accent-faint);
+  color: var(--color-text-primary-strong);
 }
 
 a,
@@ -38,5 +38,5 @@ h3,
 h4 {
   font-family: 'Oxanium';
   font-weight: medium;
-  color: #d9e1f2;
+  color: var(--color-text-heading);
 }

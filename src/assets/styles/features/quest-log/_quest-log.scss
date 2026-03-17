@@ -33,12 +33,12 @@
     padding-top: 25px;
     padding-bottom: 15px;
     height: 100%;
-    display: flex; // ← добавь
-    flex-direction: column; // ← добавь
+    display: flex;
+    flex-direction: column;
   }
 
   &__body {
-    flex: 1; // ← главное! занимает всё оставшееся место
+    flex: 1; //занимает всё оставшееся место
     display: flex; // чтобы QuestBoard мог растянуться
     flex-direction: column;
     min-height: 0;
@@ -63,11 +63,11 @@
       background: linear-gradient(
         to right,
         rgba(4, 239, 249, 0),
-        rgba(4, 239, 249, 0.55),
+        var(--color-accent-medium),
         rgba(4, 239, 249, 0)
       );
 
-      box-shadow: 0 0 14px rgba(4, 239, 249, 0.12);
+      box-shadow: 0 0 14px var(--color-accent-faint);
       opacity: 0.9;
     }
   }
@@ -78,9 +78,9 @@
     letter-spacing: 0.1em;
     font-size: 34px;
 
-    color: rgba(210, 245, 255, 0.92);
+    color: var(--color-text-primary);
     text-shadow:
-      0 0 10px rgba(4, 239, 249, 0.12),
+      0 0 10px var(--color-accent-faint),
       0 0 22px rgba(4, 239, 249, 0.06);
   }
 
@@ -93,7 +93,7 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
 
-    color: rgba(120, 220, 245, 0.7);
+    color: var(--color-text-accent-muted);
   }
 
   &__statusLabel {
@@ -103,7 +103,7 @@
 
   &__statusValue {
     font-size: 28px;
-    color: rgba(4, 239, 249, 0.92);
+    color: var(--color-accent-strong);
     text-shadow:
       0 0 10px rgba(4, 239, 249, 0.18),
       0 0 24px rgba(4, 239, 249, 0.08);

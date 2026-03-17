@@ -6,8 +6,8 @@
   gap: 18px;
   margin-top: 14px;
   flex: 1;
-  height: 100%; /* ← ДОБАВЬ ЭТУ СТРОКУ */
-  min-height: 0; /* ← И ЭТУ (как на body) */
+  height: 100%;
+  min-height: 0;
 }
 
 .quest-col {
@@ -17,7 +17,7 @@
   height: 100%;
   min-height: 0;
 
-  --color-title: rgba(180, 245, 255, 0.55);
+  --color-title: var(--color-text-muted);
 
   &__header {
     font-family: 'Exo-2';
