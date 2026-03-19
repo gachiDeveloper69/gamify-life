@@ -6,15 +6,23 @@
   --color-text-primary: rgba(220, 250, 255, 0.92);
   --color-text-primary-strong: rgba(225, 248, 255, 0.98);
   --color-text-muted: rgba(180, 245, 255, 0.55);
+  --color-text-muted-strong: rgba(180, 245, 255, 0.72);
+  --color-text-muted-soft: rgba(180, 245, 255, 0.35);
   --color-text-accent-muted: rgba(120, 220, 245, 0.7);
   --color-accent: #04eff9;
   --color-accent-strong: rgba(4, 239, 249, 0.9);
   --color-accent-medium: rgba(4, 239, 249, 0.55);
   --color-accent-soft: rgba(4, 239, 249, 0.38);
   --color-accent-faint: rgba(4, 239, 249, 0.25);
+  --color-accent-ghost: rgba(4, 239, 249, 0.08);
+  --color-accent-ghost-2: rgba(4, 239, 249, 0.06);
   --color-accent-hover: #1afafd;
+  --color-accent-glow-ghost: rgba(4, 239, 249, 0);
+  --color-accent-glow-soft: rgba(4, 239, 249, 0.12);
+  --color-accent-glow-medium: rgba(4, 239, 249, 0.18);
   --color-surface-panel: rgba(2, 22, 35, 0.42);
   --color-surface-panel-soft: rgba(2, 22, 35, 0.18);
+  --color-surface-panel-deep: rgba(2, 22, 35, 0.92);
   --color-surface-frame: rgb(3, 45, 70);
   --color-surface-frame-soft: rgba(3, 45, 70, 0.6);
   --color-fade-solid: rgb(3, 46, 70);
@@ -23,6 +31,12 @@
   --color-overlay-soft: rgba(255, 255, 255, 0.05);
   --color-overlay-medium: rgba(255, 255, 255, 0.08);
   --color-overlay-strong: rgba(255, 255, 255, 0.1);
+  --color-status-warning: rgba(255, 214, 80, 0.85);
+  --color-status-warning-strong: rgba(255, 214, 80, 0.95);
+  --color-status-warning-soft: rgba(255, 214, 80, 0.55);
+  --color-status-danger: rgba(255, 90, 90, 0.95);
+  --color-status-danger-soft: rgba(255, 90, 90, 0.55);
+  --color-status-urgent: rgba(255, 140, 60, 0.95);
   --color-difficulty-easy: rgba(80, 255, 160, 0.9);
   --color-difficulty-medium: rgba(255, 214, 80, 0.95);
   --color-difficulty-hard: rgba(255, 90, 90, 0.95);
@@ -30,6 +44,11 @@
   --color-scrollbar-thumb: var(--color-accent-soft);
   --color-scrollbar-thumb-hover: var(--color-accent-medium);
   --color-button-hover: #1afafd;
+  --color-stepper-hover: rgba(220, 250, 255, 0.95);
+  --color-stepper-active: #1afafd;
+  --filter-stepper-hover: drop-shadow(0 0 8px rgba(4, 239, 249, 0.6))
+    drop-shadow(0 0 16px var(--color-accent-faint));
+  --filter-stepper-active: drop-shadow(0 0 10px rgba(4, 239, 249, 0.28));
   --container-width: 70vw;
   --container-padding-x: 100px;
   --section-padding-y: 70px;
@@ -352,16 +371,16 @@ svg * {
   height: fit-content;
   padding: 7px 11px;
   border-radius: 10px;
-  border: 1px solid rgba(4, 239, 249, 0.55);
-  color: rgba(220, 250, 255, 0.92);
+  border: 1px solid var(--color-accent-medium);
+  color: var(--color-text-primary);
   background: rgba(2, 22, 35, 0.26);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 18px rgba(4, 239, 249, 0.06);
+  box-shadow: inset 0 1px 0 var(--color-overlay-soft), 0 0 18px var(--color-accent-ghost-2);
   cursor: pointer;
   transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease, background 120ms ease;
 }
 .qbtn:hover {
   border-color: rgba(4, 239, 249, 0.75);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 22px rgba(4, 239, 249, 0.08);
+  box-shadow: inset 0 1px 0 var(--color-overlay-soft), 0 0 22px var(--color-accent-ghost);
 }
 .qbtn:active {
   transform: translateY(1px);
@@ -374,12 +393,12 @@ svg * {
 .qbtn--danger {
   border: 1px solid rgba(255, 90, 90, 0.45);
   color: rgb(255, 18, 18);
-  background: radial-gradient(circle at 30% 35%, rgba(255, 255, 255, 0.06), transparent 60%), linear-gradient(to bottom, rgba(255, 90, 90, 0.2), rgba(255, 90, 90, 0.08));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 16px rgba(255, 90, 90, 0.06);
+  background: radial-gradient(circle at 30% 35%, var(--color-overlay-soft), transparent 60%), linear-gradient(to bottom, rgba(255, 90, 90, 0.2), rgba(255, 90, 90, 0.08));
+  box-shadow: inset 0 1px 0 var(--color-overlay-soft), 0 0 16px rgba(255, 90, 90, 0.06);
 }
 .qbtn--danger:hover {
   border-color: rgba(255, 90, 90, 0.68);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 22px rgba(255, 90, 90, 0.12);
+  box-shadow: inset 0 1px 0 var(--color-overlay-medium), 0 0 22px rgba(255, 90, 90, 0.12);
   transform: translateY(-1px);
   font-weight: bold;
 }
@@ -395,9 +414,9 @@ svg * {
 }
 .qchev__chevron {
   transition: transform 160ms ease, filter 160ms ease, opacity 120ms ease;
-  --c: rgba(4, 239, 249, 0.9); /* базовый неон */
-  --c-soft: rgba(4, 239, 249, 0.22); /* мягкий */
-  --c-dim: rgba(4, 239, 249, 0.12);
+  --c: var(--color-accent-strong); /* базовый неон */
+  --c-soft: var(--color-accent-faint); /* мягкий */
+  --c-dim: var(--color-accent-glow-soft);
   flex: 0 0 auto; /* не растягивается, не сжимается */
   /* или подробнее: */
   flex-grow: 0; /* не растягивается */
@@ -410,9 +429,9 @@ svg * {
   /* форма (октагон/шеврон) */
   clip-path: polygon(18% 0%, 82% 0%, 100% 18%, 100% 82%, 82% 100%, 18% 100%, 0% 82%, 0% 18%);
   /* корпус */
-  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.1), transparent 60%), linear-gradient(to bottom, rgba(2, 22, 35, 0.25), rgba(2, 22, 35, 0.88));
+  background: radial-gradient(circle at 35% 30%, var(--color-overlay-strong), transparent 60%), linear-gradient(to bottom, rgba(2, 22, 35, 0.25), rgba(2, 22, 35, 0.88));
   /* внешний неоновый контур + небольшая глубина */
-  box-shadow: 0 0 18px rgba(0, 0, 0, 0.45), 0 0 26px var(--c-dim), inset 0 0 0 1px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.45), 0 0 26px var(--c-dim), inset 0 0 0 1px rgba(0, 0, 0, 0.55), inset 0 1px 0 var(--color-overlay-soft);
   /* ========== СЕТКА ВНУТРИ ОКТАГОНА (ТОНИРОВАННАЯ) ========== */
 }
 .qchev__chevron::before {
@@ -421,7 +440,7 @@ svg * {
   inset: 0;
   pointer-events: none;
   clip-path: inherit;
-  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 6px, rgba(255, 255, 255, 0.09) 6px, rgba(255, 255, 255, 0.09) 7px), repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 6px, rgba(255, 255, 255, 0.06) 6px, rgba(255, 255, 255, 0.06) 7px), radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--c) 45%, transparent), transparent 62%);
+  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 6px, rgba(255, 255, 255, 0.09) 6px, rgba(255, 255, 255, 0.09) 7px), repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 6px, var(--color-overlay-soft) 6px, var(--color-overlay-soft) 7px), radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--c) 45%, transparent), transparent 62%);
   /* делаем это “энергетическим”, не белым */
   mix-blend-mode: screen;
   opacity: 0.9;
@@ -438,7 +457,7 @@ svg * {
   pointer-events: none;
   /* важно: больше чем сам октагон, чтобы “разлеталось” */
   inset: -22px -68px;
-  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 7px, rgba(255, 255, 255, 0.08) 7px, rgba(255, 255, 255, 0.08) 8px), repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 7px, rgba(255, 255, 255, 0.05) 7px, rgba(255, 255, 255, 0.05) 8px), radial-gradient(circle at 50% 50%, var(--c-soft) 0%, rgba(0, 0, 0, 0) 62%);
+  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 7px, var(--color-overlay-medium) 7px, var(--color-overlay-medium) 8px), repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 7px, var(--color-overlay-soft) 7px, var(--color-overlay-soft) 8px), radial-gradient(circle at 50% 50%, var(--c-soft) 0%, rgba(0, 0, 0, 0) 62%);
   /* ключ: маска, чтобы glow был сильнее рядом с октагоном и уходил наружу */
   -webkit-mask-image: radial-gradient(circle at 50% 50%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 70%);
   mask-image: radial-gradient(circle at 50% 50%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 70%);
@@ -479,7 +498,7 @@ svg * {
   position: absolute;
   inset: 8px;
   clip-path: inherit;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 0 0 2px rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 0 0 1px var(--color-overlay-strong), inset 0 0 0 2px rgba(0, 0, 0, 0.35);
   opacity: 0.9;
 }
 .qchev__frame {
@@ -502,7 +521,7 @@ svg * {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  translate: -50% -50%;
   aspect-ratio: 1;
   height: auto;
 }
@@ -513,7 +532,7 @@ svg * {
 .qchev__icon::before {
   font-size: 30px;
   color: rgba(220, 250, 255, 0.9);
-  text-shadow: 0 0 16px rgba(4, 239, 249, 0.12);
+  text-shadow: 0 0 16px var(--color-accent-glow-soft);
   transform: translateY(-1px);
 }
 .qchev {
@@ -522,7 +541,7 @@ svg * {
 }
 
 .difficulty__arrow {
-  --color-difficulty: rgba(4, 239, 249, 0.9);
+  --color-difficulty: var(--color-accent-strong);
   padding: 0;
   border-color: transparent;
   border: none;
@@ -534,7 +553,7 @@ svg * {
   height: 15px;
   opacity: 0.65;
   transition: opacity 120ms ease, filter 120ms ease, transform 120ms ease, color 160ms ease;
-  color: color-mix(in srgb, var(--color-difficulty) 70%, rgba(180, 245, 255, 0.55));
+  color: color-mix(in srgb, var(--color-difficulty) 70%, var(--color-text-muted));
 }
 .difficulty__arrow svg polyline {
   stroke: currentColor;
@@ -543,7 +562,7 @@ svg * {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  translate: -50% -50%;
   width: 100%;
   height: auto;
 }
@@ -603,7 +622,7 @@ svg * {
   }
 }
 .briefing {
-  --color-difficulty: rgba(4, 239, 249, 0.9);
+  --color-difficulty: var(--color-accent-strong);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -684,8 +703,8 @@ svg * {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-  color: rgba(225, 248, 255, 0.96);
-  text-shadow: 0 0 10px rgba(4, 239, 249, 0.12);
+  color: var(--color-text-primary-strong);
+  text-shadow: 0 0 10px var(--color-accent-glow-soft);
 }
 .briefing__mission-title--input {
   appearance: none;
@@ -699,9 +718,9 @@ svg * {
   font-size: 20px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(225, 248, 255, 0.96);
-  text-shadow: 0 0 10px rgba(4, 239, 249, 0.12);
-  caret-color: rgba(4, 239, 249, 0.95);
+  color: var(--color-text-primary-strong);
+  text-shadow: 0 0 10px var(--color-accent-glow-soft);
+  caret-color: var(--color-accent-strong);
   border-radius: 10px;
   padding: 6px 10px;
   margin-left: -10px;
@@ -709,13 +728,13 @@ svg * {
   transition: background 140ms ease, box-shadow 140ms ease;
 }
 .briefing__mission-title--input::placeholder {
-  color: rgba(180, 245, 255, 0.35);
+  color: var(--color-text-muted-soft);
   text-shadow: none;
 }
 .briefing__mission-title--input:focus {
   text-transform: none;
-  background: linear-gradient(to bottom, rgba(4, 239, 249, 0.08), rgba(0, 0, 0, 0));
-  box-shadow: inset 0 0 0 1px rgba(4, 239, 249, 0.22), 0 0 20px rgba(4, 239, 249, 0.06);
+  background: linear-gradient(to bottom, var(--color-accent-ghost), rgba(0, 0, 0, 0));
+  box-shadow: inset 0 0 0 1px var(--color-accent-faint), 0 0 20px var(--color-accent-ghost-2);
 }
 .briefing__meta {
   display: flex;
@@ -731,8 +750,8 @@ svg * {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: hidden;
-  background: radial-gradient(circle at 30% 20%, rgba(4, 239, 249, 0.08), transparent 55%), linear-gradient(to bottom, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0));
-  box-shadow: inset 0 0 0 1px rgba(4, 239, 249, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 18px rgba(4, 239, 249, 0.05);
+  background: radial-gradient(circle at 30% 20%, var(--color-accent-ghost), transparent 55%), linear-gradient(to bottom, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0));
+  box-shadow: inset 0 0 0 1px var(--color-accent-glow-soft), inset 0 1px 0 var(--color-overlay-soft), 0 0 18px rgba(4, 239, 249, 0.05);
 }
 .briefing__body::before, .briefing__body::after {
   content: "";
@@ -763,10 +782,10 @@ svg * {
   transition: box-shadow 160ms ease;
 }
 .briefing__body--editable:hover {
-  box-shadow: inset 0 0 0 1px rgba(4, 239, 249, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 22px rgba(4, 239, 249, 0.07);
+  box-shadow: inset 0 0 0 1px var(--color-accent-glow-medium), inset 0 1px 0 var(--color-overlay-soft), 0 0 22px rgba(4, 239, 249, 0.07);
 }
 .briefing__body--editable:focus-within {
-  box-shadow: inset 0 0 0 1px rgba(4, 239, 249, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 26px rgba(4, 239, 249, 0.09);
+  box-shadow: inset 0 0 0 1px rgba(4, 239, 249, 0.28), inset 0 1px 0 var(--color-overlay-soft), 0 0 26px rgba(4, 239, 249, 0.09);
 }
 .briefing__scroll {
   height: 100%;
@@ -816,7 +835,7 @@ svg * {
   outline: none;
   background: transparent;
   padding: 12px 14px;
-  color: rgba(180, 245, 255, 0.72);
+  color: var(--color-text-muted-strong);
   font-family: "Exo-2";
   font-size: 14px;
   line-height: 1.55;
@@ -825,10 +844,10 @@ svg * {
   transition: background 140ms ease, box-shadow 140ms ease;
 }
 .briefing__desc--textarea::placeholder {
-  color: rgba(180, 245, 255, 0.35);
+  color: var(--color-text-muted-soft);
 }
 .briefing__desc--textarea:focus {
-  background: radial-gradient(circle at 30% 20%, rgba(4, 239, 249, 0.06), transparent 60%);
+  background: radial-gradient(circle at 30% 20%, var(--color-accent-ghost-2), transparent 60%);
 }
 
 /* Цвета сложности */
@@ -856,7 +875,7 @@ svg * {
 }
 .bmeta__xpNum--up {
   transform: translateY(-1px) scale(1.06);
-  filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.22));
+  filter: drop-shadow(0 0 10px var(--color-accent-faint));
 }
 .bmeta__xpNum--down {
   transform: translateY(1px) scale(0.98);
@@ -866,7 +885,7 @@ svg * {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  color: rgba(180, 245, 255, 0.55);
+  color: var(--color-text-muted);
   padding: 0;
   border-color: transparent;
   border: none;
@@ -879,29 +898,29 @@ svg * {
   justify-content: center;
   border-radius: 50%;
   background: rgba(9, 34, 51, 0.393);
-  color: rgba(180, 245, 255, 0.72);
+  color: var(--color-text-muted-strong);
   background: rgba(2, 22, 35, 0.26);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 0 1px rgba(4, 239, 249, 0.08);
+  box-shadow: inset 0 1px 0 var(--color-overlay-soft), 0 0 0 1px var(--color-accent-ghost-2);
   transition: transform 120ms ease, color 140ms ease, box-shadow 140ms ease, background 140ms ease, filter 140ms ease;
 }
 .bmeta__xpBtn:hover {
-  color: rgba(220, 250, 255, 0.95);
+  color: var(--color-stepper-hover);
 }
 .bmeta__xpBtn:hover svg {
-  filter: drop-shadow(0 0 8px rgba(4, 239, 249, 0.6)) drop-shadow(0 0 16px rgba(4, 239, 249, 0.25));
+  filter: var(--filter-stepper-hover);
 }
 .bmeta__xpBtn:hover {
-  background: radial-gradient(circle at 30% 30%, rgba(4, 239, 249, 0.22), transparent 60%), linear-gradient(to bottom, rgba(0, 60, 89, 0.22), rgba(2, 22, 35, 0.12));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 18px rgba(4, 239, 249, 0.08), 0 0 0 1px rgba(4, 239, 249, 0.16);
-  filter: drop-shadow(0 0 8px rgba(4, 239, 249, 0.22));
+  background: radial-gradient(circle at 30% 30%, var(--color-accent-faint), transparent 60%), linear-gradient(to bottom, rgba(0, 60, 89, 0.22), rgba(2, 22, 35, 0.12));
+  box-shadow: inset 0 1px 0 var(--color-overlay-medium), 0 0 18px var(--color-accent-ghost-2), 0 0 0 1px rgba(4, 239, 249, 0.16);
+  filter: drop-shadow(0 0 8px var(--color-accent-faint));
 }
 .bmeta__xpBtn:active {
-  color: #1afafd;
+  color: var(--color-stepper-active);
   transform: translateY(1px) scale(0.98);
-  filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.28));
+  filter: var(--filter-stepper-active);
 }
 .bmeta__xpBtn:active svg {
-  filter: drop-shadow(0 0 8px rgba(4, 239, 249, 0.6)) drop-shadow(0 0 16px rgba(4, 239, 249, 0.25));
+  filter: drop-shadow(0 0 8px rgba(4, 239, 249, 0.6)) drop-shadow(0 0 16px var(--color-accent-faint));
 }
 .bmeta__xpValue {
   padding: 0;
@@ -911,14 +930,14 @@ svg * {
   -webkit-tap-highlight-color: transparent;
   background-color: transparent;
   color: rgba(220, 250, 255, 0.9);
-  text-shadow: 0 0 10px rgba(4, 239, 249, 0.12);
+  text-shadow: 0 0 10px var(--color-accent-glow-soft);
   letter-spacing: 0.08em;
   padding-block: 2px;
   border-radius: 8px;
 }
 .bmeta__xpValue:hover {
-  background: rgba(4, 239, 249, 0.08);
-  box-shadow: 0 0 14px rgba(4, 239, 249, 0.06);
+  background: var(--color-accent-ghost-2);
+  box-shadow: 0 0 14px var(--color-accent-ghost-2);
 }
 .bmeta__xpInput {
   width: 54px;
@@ -927,16 +946,16 @@ svg * {
   font-family: "Exo-2";
   font-size: 14px;
   letter-spacing: 0.08em;
-  color: rgba(220, 250, 255, 0.92);
+  color: var(--color-text-primary);
   border: 1px solid rgba(4, 239, 249, 0.28);
   border-radius: 10px;
   background: rgba(2, 22, 35, 0.22);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 18px rgba(4, 239, 249, 0.05);
+  box-shadow: inset 0 1px 0 var(--color-overlay-soft), 0 0 18px rgba(4, 239, 249, 0.05);
   outline: none;
 }
 .bmeta__xpInput:focus {
-  border-color: rgba(4, 239, 249, 0.55);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 22px rgba(4, 239, 249, 0.08);
+  border-color: var(--color-accent-medium);
+  box-shadow: inset 0 1px 0 var(--color-overlay-soft), 0 0 22px var(--color-accent-ghost-2);
 }
 .bmeta__xpInput {
   /* убираем стрелки у number (чтобы было чище, sci-fi) */
@@ -959,8 +978,8 @@ svg * {
   padding-inline: 10px;
   color: rgba(180, 245, 255, 0.75);
   clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-  background: linear-gradient(to bottom, rgba(4, 239, 249, 0.14), rgba(4, 239, 249, 0.06));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 0 0 0px rgba(4, 239, 249, 0.16), 0 0 18px rgba(4, 239, 249, 0.06);
+  background: linear-gradient(to bottom, rgba(4, 239, 249, 0.14), var(--color-accent-ghost-2));
+  box-shadow: inset 0 1px 0 var(--color-overlay-medium), inset 0 0 0 0px rgba(4, 239, 249, 0.16), 0 0 18px var(--color-accent-ghost-2);
 }
 .bmeta__item--xp {
   text-transform: uppercase;
@@ -974,7 +993,7 @@ svg * {
   filter: drop-shadow(0 0 6px rgba(4, 239, 249, 0.35));
 }
 .bmeta__label {
-  color: rgba(180, 245, 255, 0.55);
+  color: var(--color-text-muted);
 }
 .bmeta__value {
   color: rgba(220, 250, 255, 0.9);
@@ -1037,7 +1056,7 @@ svg * {
 }
 .qactions__button:focus-visible {
   outline: none;
-  box-shadow: inset 0 0 0 1px rgba(4, 239, 249, 0.55), 0 0 0 2px rgba(4, 239, 249, 0.2), 0 0 28px rgba(4, 239, 249, 0.2);
+  box-shadow: inset 0 0 0 1px var(--color-accent-medium), 0 0 0 2px rgba(4, 239, 249, 0.2), 0 0 28px rgba(4, 239, 249, 0.2);
 }
 .qactions__button {
   z-index: 2; /* чтобы быть поверх панели на всякий */
@@ -1056,7 +1075,7 @@ svg * {
   width: 1px;
   height: 2em;
   margin: 0 2px;
-  background: linear-gradient(to bottom, transparent, rgba(4, 239, 249, 0.25), transparent);
+  background: linear-gradient(to bottom, transparent, var(--color-accent-faint), transparent);
   opacity: 0.8;
 }
 
@@ -1066,8 +1085,8 @@ svg * {
   opacity: 1;
   transform: translateX(0);
   padding: 8px 20px;
-  background: radial-gradient(circle at 20% 30%, rgba(4, 239, 249, 0.08), transparent 55%), linear-gradient(to bottom, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0)), linear-gradient(to left, rgba(7, 232, 240, 0.096), rgba(235, 222, 222, 0));
-  box-shadow: inset 0 0 0 1px rgba(4, 239, 249, 0.14), 0 0 24px rgba(4, 239, 249, 0.06);
+  background: radial-gradient(circle at 20% 30%, var(--color-accent-ghost), transparent 55%), linear-gradient(to bottom, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0)), linear-gradient(to left, rgba(7, 232, 240, 0.096), rgba(235, 222, 222, 0));
+  box-shadow: inset 0 0 0 1px rgba(4, 239, 249, 0.14), 0 0 24px var(--color-accent-ghost-2);
 }
 
 .qactions--open .qactions__chevron path {
@@ -1088,14 +1107,14 @@ svg * {
 
 .qbtn--actions {
   color: rgba(220, 250, 255, 0.9);
-  background: linear-gradient(to bottom, rgba(4, 239, 249, 0.14), rgba(4, 239, 249, 0.06));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 0 0 1px rgba(4, 239, 249, 0.12);
+  background: linear-gradient(to bottom, rgba(4, 239, 249, 0.14), var(--color-accent-ghost-2));
+  box-shadow: inset 0 1px 0 var(--color-overlay-medium), inset 0 0 0 1px var(--color-accent-glow-soft);
   cursor: pointer;
   transition: transform 120ms ease, box-shadow 140ms ease, background 140ms ease;
 }
 .qbtn--actions:hover {
   color: rgb(12, 223, 230);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 0 1px rgba(4, 239, 249, 0.22), 0 0 18px rgba(4, 239, 249, 0.06);
+  box-shadow: inset 0 1px 0 var(--color-overlay-strong), inset 0 0 0 1px var(--color-accent-faint), 0 0 18px var(--color-accent-ghost-2);
 }
 .qbtn--actions:active {
   transform: translateY(1px);
@@ -1126,7 +1145,7 @@ svg * {
   font-size: 9px;
   padding: 2px 6px;
   border-radius: 5px;
-  border: 1px solid rgba(4, 239, 249, 0.25);
+  border: 1px solid var(--color-accent-faint);
   background: rgba(0, 0, 0, 0.18);
   color: rgba(180, 245, 255, 0.75);
 }
@@ -1140,31 +1159,31 @@ svg * {
   color: #04eff9;
 }
 .qdeadline--warn {
-  color: rgba(255, 214, 80, 0.85);
+  color: var(--color-status-warning);
 }
 .qdeadline--warn .qdeadline__time {
   text-shadow: 0 0 10px rgba(255, 214, 80, 0.1);
 }
 .qdeadline--danger {
-  color: rgba(255, 140, 60, 0.95);
+  color: var(--color-status-urgent);
 }
 .qdeadline--danger .qdeadline__time {
   text-shadow: 0 0 10px rgba(255, 214, 80, 0.18), 0 0 18px rgba(255, 214, 80, 0.1);
 }
 .qdeadline--danger .qdeadline__tag {
-  border-color: rgba(255, 214, 80, 0.55);
-  color: rgba(255, 214, 80, 0.95);
+  border-color: var(--color-status-warning-soft);
+  color: var(--color-status-warning-strong);
   box-shadow: 0 0 14px rgba(255, 214, 80, 0.1);
 }
 .qdeadline--overdue {
-  color: rgba(255, 90, 90, 0.95);
+  color: var(--color-status-danger);
 }
 .qdeadline--overdue .qdeadline__time {
   text-shadow: 0 0 10px rgba(255, 90, 90, 0.18), 0 0 18px rgba(255, 90, 90, 0.1);
 }
 .qdeadline--overdue .qdeadline__tag {
-  border-color: rgba(255, 90, 90, 0.55);
-  color: rgba(255, 90, 90, 0.95);
+  border-color: var(--color-status-danger-soft);
+  color: var(--color-status-danger);
   box-shadow: 0 0 14px rgba(255, 90, 90, 0.1);
 }
 .qdeadline__icon {
@@ -1216,8 +1235,8 @@ svg * {
   padding-inline: 8px;
   clip-path: polygon(30% 0, 100% 0, 70% 100%, 0% 100%);
   color: var(--color-icon-unset);
-  background: linear-gradient(to bottom, rgba(4, 239, 249, 0.12), rgba(4, 239, 249, 0.04));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 14px rgba(4, 239, 249, 0.05);
+  background: linear-gradient(to bottom, var(--color-accent-glow-soft), rgba(4, 239, 249, 0.04));
+  box-shadow: inset 0 1px 0 var(--color-overlay-medium), 0 0 14px rgba(4, 239, 249, 0.05);
   transition: all 140ms ease;
 }
 .bmeta__deadlineToggle:hover:not(:disabled) {
@@ -1237,7 +1256,7 @@ svg * {
   transform: translateX(-120%);
 }
 .bmeta__deadlineToggle.is-open {
-  filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.22));
+  filter: drop-shadow(0 0 10px var(--color-accent-faint));
 }
 .bmeta__deadlineToggle.is-open::after {
   opacity: 0.6;
@@ -1282,16 +1301,18 @@ svg * {
   width: 18px;
   height: 10px;
   line-height: 10px;
-  color: rgba(180, 245, 255, 0.55);
+  color: var(--color-text-muted);
   opacity: 0.45;
   transition: opacity 120ms ease, filter 120ms ease, transform 120ms ease, color 120ms ease;
 }
 .bmeta__dlBtn:hover:not(:disabled) {
   opacity: 0.9;
-  color: rgba(220, 250, 255, 0.92);
-  filter: drop-shadow(0 0 8px rgba(4, 239, 249, 0.25));
+  color: var(--color-stepper-hover);
+  filter: var(--filter-stepper-hover);
 }
 .bmeta__dlBtn:active:not(:disabled) {
+  color: var(--color-stepper-active);
+  filter: var(--filter-stepper-active);
   transform: translateY(1px);
 }
 .bmeta__dlBtn:disabled {
@@ -1304,8 +1325,8 @@ svg * {
   gap: 4px;
   padding: 2px 3px;
   border-radius: 10px;
-  background: rgba(2, 22, 35, 0.18);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 0 1px rgba(4, 239, 249, 0.08);
+  background: var(--color-surface-panel-soft);
+  box-shadow: inset 0 1px 0 var(--color-overlay-soft), 0 0 0 1px var(--color-accent-ghost);
   transform-origin: center;
   transition: transform 120ms ease, filter 140ms ease;
 }
@@ -1314,11 +1335,11 @@ svg * {
 }
 .bmeta__dlField.is-pulse-up {
   transform: translateY(-1px) scale(1.05);
-  filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.18));
+  filter: drop-shadow(0 0 10px var(--color-accent-glow-medium));
 }
 .bmeta__dlField.is-pulse-down {
   transform: translateY(1px) scale(0.98);
-  filter: drop-shadow(0 0 8px rgba(4, 239, 249, 0.12));
+  filter: drop-shadow(0 0 8px var(--color-accent-glow-soft));
 }
 .bmeta__dlInput {
   width: 28px;
@@ -1345,7 +1366,7 @@ svg * {
   font-family: "Exo-2";
   font-size: 11px;
   letter-spacing: 0.08em;
-  color: rgba(180, 245, 255, 0.55);
+  color: var(--color-text-muted);
 }
 .bmeta__dlIcon {
   height: 100%;
@@ -1362,13 +1383,13 @@ svg * {
 
 @keyframes dl-energy {
   0% {
-    filter: drop-shadow(0 0 4px rgba(4, 239, 249, 0.25)) drop-shadow(0 0 10px rgba(4, 239, 249, 0.12));
+    filter: drop-shadow(0 0 4px var(--color-accent-faint)) drop-shadow(0 0 10px var(--color-accent-glow-soft));
   }
   50% {
-    filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.55)) drop-shadow(0 0 20px rgba(4, 239, 249, 0.25));
+    filter: drop-shadow(0 0 10px var(--color-accent-medium)) drop-shadow(0 0 20px var(--color-accent-faint));
   }
   100% {
-    filter: drop-shadow(0 0 4px rgba(4, 239, 249, 0.25)) drop-shadow(0 0 10px rgba(4, 239, 249, 0.12));
+    filter: drop-shadow(0 0 4px var(--color-accent-faint)) drop-shadow(0 0 10px var(--color-accent-glow-soft));
   }
 }
 @keyframes dl-scan {
@@ -1403,9 +1424,9 @@ svg * {
   align-self: center;
   padding: 10px 16px;
   font-size: 11px;
-  border-color: rgba(4, 239, 249, 0.55);
-  background: rgba(2, 22, 35, 0.18);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 26px rgba(4, 239, 249, 0.08);
+  border-color: var(--color-accent-medium);
+  background: var(--color-surface-panel-soft);
+  box-shadow: inset 0 1px 0 var(--color-overlay-medium), 0 0 26px var(--color-accent-ghost);
   /* слой "энергозаливки" (растёт из центра) */
 }
 .qbtn--cta::after {
@@ -1415,7 +1436,7 @@ svg * {
   pointer-events: none;
   z-index: 0;
   /* сама заливка — мягкая, чтобы не стало “кислотно” */
-  background: linear-gradient(to bottom, rgba(4, 239, 249, 0.22), rgba(4, 239, 249, 0.06));
+  background: linear-gradient(to bottom, var(--color-accent-faint), var(--color-accent-ghost-2));
   transform: scaleX(0);
   transform-origin: 50% 50%;
   transition: transform 260ms ease;
@@ -1430,7 +1451,7 @@ svg * {
   pointer-events: none;
   z-index: 1;
   opacity: 0.9;
-  background: linear-gradient(to right, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.16), rgba(4, 239, 249, 0)), repeating-linear-gradient(to right, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 10px, rgba(255, 255, 255, 0.04) 11px, rgba(255, 255, 255, 0) 12px);
+  background: linear-gradient(to right, var(--color-accent-glow-ghost), rgba(4, 239, 249, 0.16), var(--color-accent-glow-ghost)), repeating-linear-gradient(to right, rgba(255, 255, 255, 0) 0px, rgba(255, 255, 255, 0) 10px, rgba(255, 255, 255, 0.04) 11px, rgba(255, 255, 255, 0) 12px);
   mix-blend-mode: screen;
 }
 .qbtn--cta {
@@ -1442,9 +1463,9 @@ svg * {
 }
 @media (hover: hover) {
   .qbtn--cta:hover {
-    border-color: rgba(4, 239, 249, 0.9);
+    border-color: var(--color-accent-strong);
     color: rgba(220, 250, 255, 0.96);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 34px rgba(4, 239, 249, 0.12);
+    box-shadow: inset 0 1px 0 var(--color-overlay-strong), 0 0 34px var(--color-accent-glow-soft);
   }
   .qbtn--cta:hover::after {
     transform: scaleX(1);
@@ -1452,9 +1473,9 @@ svg * {
 }
 @media (hover: none) {
   .qbtn--cta:active {
-    border-color: rgba(4, 239, 249, 0.9);
+    border-color: var(--color-accent-strong);
     color: rgba(220, 250, 255, 0.96);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 34px rgba(4, 239, 249, 0.12);
+    box-shadow: inset 0 1px 0 var(--color-overlay-strong), 0 0 34px var(--color-accent-glow-soft);
   }
   .qbtn--cta:active::after {
     transform: scaleX(1);
@@ -1477,8 +1498,8 @@ svg * {
   --tab-h: 40px;
   --glow-c: #04eff9f2;
   --glow-soft: rgba(4, 239, 249, 0.35);
-  --glow: rgba(4, 239, 249, 0.55);
-  --border-c: rgba(4, 239, 249, 0.55);
+  --glow: var(--color-accent-medium);
+  --border-c: var(--color-accent-medium);
   --border-c-soft: rgba(4, 239, 249, 0.35);
   --border: 1px solid var(--border-c);
   position: relative;
@@ -1491,10 +1512,10 @@ svg * {
   color: rgba(0, 142, 176, 0.7);
   border-top: 1px solid var(--border-c);
   border-bottom: 1px solid var(--border-c-soft);
-  border-top: 1px solid rgba(4, 239, 249, 0.55);
+  border-top: 1px solid var(--color-accent-medium);
   border-bottom: 1px solid rgba(4, 239, 249, 0.35);
   /* внутренняя “техническая” полоска */
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 22px rgba(4, 239, 249, 0.06);
+  box-shadow: inset 0 1px 0 var(--color-overlay-soft), 0 0 22px var(--color-accent-ghost-2);
   opacity: 0.9;
 }
 @supports (corner-shape: bevel) {
@@ -1523,7 +1544,7 @@ svg * {
   width: 0;
   background: linear-gradient(to right, rgba(4, 241, 249, 0), var(--glow-c), rgba(4, 241, 249, 0));
   /* “неоновая пыль” */
-  box-shadow: 0 0 8px var(--glow-soft), 0 0 8px rgba(4, 239, 249, 0.25);
+  box-shadow: 0 0 8px var(--glow-soft), 0 0 8px var(--color-accent-faint);
   /* мягкие края */
   border-radius: 999px;
   transition: transform 180ms ease, width 180ms ease, opacity 180ms ease;
@@ -1533,10 +1554,10 @@ svg * {
   width: 2px;
   height: calc(100% - 18px);
   align-self: center;
-  background: linear-gradient(to bottom, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.22), rgba(4, 239, 249, 0));
+  background: linear-gradient(to bottom, var(--color-accent-glow-ghost), var(--color-accent-faint), var(--color-accent-glow-ghost));
   opacity: 0.85;
   pointer-events: none;
-  filter: drop-shadow(0 0 6px rgba(4, 239, 249, 0.08));
+  filter: drop-shadow(0 0 6px var(--color-accent-ghost));
 }
 
 .tab {
@@ -1566,7 +1587,7 @@ svg * {
 }
 .tab--active {
   color: var(--c-active);
-  text-shadow: 0 0 10px rgba(4, 239, 249, 0.25);
+  text-shadow: 0 0 10px var(--color-accent-faint);
 }
 
 .qmodal {
@@ -1587,7 +1608,7 @@ svg * {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle at 50% 20%, rgba(4, 239, 249, 0.08), transparent 55%), radial-gradient(circle at 20% 80%, rgba(4, 239, 249, 0.05), transparent 60%);
+  background: radial-gradient(circle at 50% 20%, var(--color-accent-ghost), transparent 55%), radial-gradient(circle at 20% 80%, rgba(4, 239, 249, 0.05), transparent 60%);
   opacity: 0.9;
 }
 .qmodal__panel {
@@ -1603,9 +1624,9 @@ svg * {
   flex-direction: column;
   min-height: 0;
   background: radial-gradient(circle at 50% 20%, rgba(10, 70, 95, 0.62), rgba(2, 22, 35, 0.94)), linear-gradient(to bottom, rgba(255, 255, 255, 0.03), transparent 40%);
-  border: 1px solid rgba(4, 239, 249, 0.38);
+  border: 1px solid var(--color-accent-soft);
   border-radius: 18px 0 12px 0;
-  box-shadow: 0 0 40px rgba(4, 239, 249, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 40px rgba(4, 239, 249, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.55), inset 0 1px 0 var(--color-overlay-soft);
   padding: 18px 18px 16px;
   transform-origin: 50% 30%;
   will-change: transform, opacity, filter;
@@ -1618,7 +1639,7 @@ svg * {
   inset: 0px;
   pointer-events: none;
   border-radius: 18px 0 12px 0;
-  background: linear-gradient(to left, rgba(4, 239, 249, 0.9), rgba(4, 239, 249, 0)) top right/64px 1px no-repeat, linear-gradient(to bottom, rgba(4, 239, 249, 0.9), rgba(4, 239, 249, 0)) top right/1px 44px no-repeat, linear-gradient(to right, rgba(4, 239, 249, 0.75), rgba(4, 239, 249, 0)) bottom left/44px 1px no-repeat, linear-gradient(to top, rgba(4, 239, 249, 0.75), rgba(4, 239, 249, 0)) bottom left/1px 44px no-repeat;
+  background: linear-gradient(to left, var(--color-accent-strong), var(--color-accent-glow-ghost)) top right/64px 1px no-repeat, linear-gradient(to bottom, var(--color-accent-strong), var(--color-accent-glow-ghost)) top right/1px 44px no-repeat, linear-gradient(to right, rgba(4, 239, 249, 0.75), var(--color-accent-glow-ghost)) bottom left/44px 1px no-repeat, linear-gradient(to top, rgba(4, 239, 249, 0.75), var(--color-accent-glow-ghost)) bottom left/1px 44px no-repeat;
   filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.1));
   opacity: 0.75;
 }
@@ -1654,7 +1675,7 @@ svg * {
   pointer-events: none;
   z-index: 1;
   opacity: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(4, 239, 249, 0.03) 35%, rgba(4, 239, 249, 0.2) 48%, rgba(255, 255, 255, 0.18) 50%, rgba(4, 239, 249, 0.08) 54%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(4, 239, 249, 0.03) 35%, rgba(4, 239, 249, 0.2) 48%, rgba(255, 255, 255, 0.18) 50%, var(--color-accent-ghost) 54%, transparent 100%);
   mix-blend-mode: screen;
 }
 .qmodal__close {
@@ -1670,16 +1691,16 @@ svg * {
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  border: 1px solid rgba(4, 239, 249, 0.25);
+  border: 1px solid var(--color-accent-faint);
   background: rgba(0, 0, 0, 0.2);
   color: rgba(220, 250, 255, 0.8);
   cursor: pointer;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 18px rgba(4, 239, 249, 0.06);
+  box-shadow: inset 0 1px 0 var(--color-overlay-soft), 0 0 18px var(--color-accent-ghost-2);
   transition: transform 120ms ease, border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
 }
 .qmodal__close:hover {
-  border-color: rgba(4, 239, 249, 0.55);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 22px rgba(4, 239, 249, 0.1);
+  border-color: var(--color-accent-medium);
+  box-shadow: inset 0 1px 0 var(--color-overlay-soft), 0 0 22px rgba(4, 239, 249, 0.1);
   background: rgba(0, 60, 89, 0.22);
   color: #1afafd;
 }
@@ -1704,7 +1725,7 @@ svg * {
   /* “подсвеченный” цвет, не чисто белый */
   color: rgba(210, 245, 255, 0.95);
   /* мягкий общий glow */
-  text-shadow: 0 0 12px rgba(4, 239, 249, 0.18), 0 0 28px rgba(4, 239, 249, 0.08);
+  text-shadow: 0 0 12px var(--color-accent-glow-medium), 0 0 28px var(--color-accent-ghost);
 }
 .qmodal__xp {
   font-family: "Exo-2";
@@ -1716,7 +1737,7 @@ svg * {
   position: relative;
   height: 1px;
   margin: 12px 0 12px;
-  background: linear-gradient(to right, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.26), rgba(4, 239, 249, 0));
+  background: linear-gradient(to right, var(--color-accent-glow-ghost), rgba(4, 239, 249, 0.26), var(--color-accent-glow-ghost));
   /* НЕОНОВАЯ ПОЛОСКА СНИЗУ */
 }
 .qmodal__divider::after {
@@ -1727,9 +1748,9 @@ svg * {
   transform: translateX(-50%);
   width: 68%;
   height: 2px;
-  background: linear-gradient(to right, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.85), rgba(4, 239, 249, 0));
+  background: linear-gradient(to right, var(--color-accent-glow-ghost), rgba(4, 239, 249, 0.85), var(--color-accent-glow-ghost));
   /* вот он — glow вверх */
-  box-shadow: 0 -6px 14px rgba(4, 239, 249, 0.45), 0 -16px 32px rgba(4, 239, 249, 0.25);
+  box-shadow: 0 -6px 14px rgba(4, 239, 249, 0.45), 0 -16px 32px var(--color-accent-faint);
   border-radius: 2px;
 }
 .qmodal__content {
@@ -1918,7 +1939,7 @@ svg * {
 }
 @keyframes rail-glow {
   0%, 100% {
-    filter: drop-shadow(0 0 1px rgba(4, 239, 249, 0.12));
+    filter: drop-shadow(0 0 1px var(--color-accent-glow-soft));
   }
   50% {
     filter: drop-shadow(0 0 6px rgba(4, 239, 249, 0.28));
@@ -1983,7 +2004,7 @@ svg * {
   position: absolute;
   inset: 0;
   /* База + виньетка */
-  background: radial-gradient(circle at 50% 35%, rgba(10, 70, 95, 0.45) 0%, rgba(3, 45, 70, 0.6) 52%, rgba(2, 22, 35, 0.92) 100%), radial-gradient(circle at 12% 20%, rgba(4, 239, 249, 0.06) 0%, rgba(4, 239, 249, 0) 40%), radial-gradient(circle at 88% 18%, rgba(4, 239, 249, 0.05) 0%, rgba(4, 239, 249, 0) 45%);
+  background: radial-gradient(circle at 50% 35%, rgba(10, 70, 95, 0.45) 0%, rgba(3, 45, 70, 0.6) 52%, rgba(2, 22, 35, 0.92) 100%), radial-gradient(circle at 12% 20%, var(--color-accent-ghost-2) 0%, var(--color-accent-glow-ghost) 40%), radial-gradient(circle at 88% 18%, rgba(4, 239, 249, 0.05) 0%, var(--color-accent-glow-ghost) 45%);
   overflow: hidden;
 }
 
@@ -2032,13 +2053,13 @@ svg * {
     // Голова (1px) + хвост, который быстро затухает 
     background: linear-gradient(
       to bottom,
-      rgba(4, 239, 249, 0) 0%,
-      rgba(4, 239, 249, 0.22) 8%,
-      rgba(255, 255, 255, 0.1) 9%,
-      rgba(4, 239, 249, 0.08) 12%,
+      var(--color-accent-glow-ghost) 0%,
+      var(--color-accent-faint) 8%,
+      var(--color-overlay-strong) 9%,
+      var(--color-accent-ghost) 12%,
       rgba(4, 239, 249, 0.04) 22%,
       rgba(4, 239, 249, 0.02) 45%,
-      rgba(4, 239, 249, 0) 100%
+      var(--color-accent-glow-ghost) 100%
     );
 
     // делаем “голову” тоньше 
@@ -2220,7 +2241,7 @@ svg * {
 .quest-col__list::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, rgba(4, 239, 249, 0.15), var(--color-scrollbar-thumb), rgba(4, 239, 249, 0.1));
   border-radius: 999px;
-  box-shadow: 0 0 10px rgba(4, 239, 249, 0.18), 0 0 18px rgba(4, 239, 249, 0.1);
+  box-shadow: 0 0 10px var(--color-accent-glow-medium), 0 0 18px rgba(4, 239, 249, 0.1);
   transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 .quest-col__list::before, .quest-col__list::after {
@@ -2306,8 +2327,8 @@ svg * {
   transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 .qcard:hover {
-  border-color: rgba(4, 239, 249, 0.55);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 26px rgba(4, 239, 249, 0.07);
+  border-color: var(--color-accent-medium);
+  box-shadow: inset 0 1px 0 var(--color-overlay-soft), 0 0 26px rgba(4, 239, 249, 0.07);
 }
 .qcard:active {
   transform: translateY(1px);
@@ -2342,14 +2363,14 @@ svg * {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  translate: -50% -50%;
   content: "";
   width: 180%;
   aspect-ratio: 1;
   border-radius: 999px;
-  border: 1px solid rgba(4, 239, 249, 0.18);
+  border: 1px solid var(--color-accent-glow-medium);
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0));
+  background: radial-gradient(circle at 30% 30%, var(--color-overlay-soft), rgba(0, 0, 0, 0));
 }
 .qcard__body {
   min-width: 0; /* чтобы title нормально обрезался */
@@ -2393,7 +2414,7 @@ svg * {
 .qcard__divider {
   height: 1px;
   margin: 10px 0 8px;
-  background: linear-gradient(to right, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.22), rgba(4, 239, 249, 0));
+  background: linear-gradient(to right, var(--color-accent-glow-ghost), var(--color-accent-faint), var(--color-accent-glow-ghost));
   opacity: 0.9;
 }
 .qcard__descWrap {
@@ -2420,7 +2441,7 @@ svg * {
 .qcard__desc::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, rgba(4, 239, 249, 0.15), var(--color-scrollbar-thumb), rgba(4, 239, 249, 0.1));
   border-radius: 999px;
-  box-shadow: 0 0 10px rgba(4, 239, 249, 0.18), 0 0 18px rgba(4, 239, 249, 0.1);
+  box-shadow: 0 0 10px var(--color-accent-glow-medium), 0 0 18px rgba(4, 239, 249, 0.1);
   transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 .qcard__meta {
@@ -2446,7 +2467,7 @@ svg * {
 .qcard__metaSep {
   width: 100%;
   height: 1px;
-  background: linear-gradient(to right, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.32), rgba(4, 239, 249, 0));
+  background: linear-gradient(to right, var(--color-accent-glow-ghost), rgba(4, 239, 249, 0.32), var(--color-accent-glow-ghost));
   opacity: 0.8;
 }
 
@@ -2548,7 +2569,6 @@ svg * {
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  padding: 6px, 4px, 14px;
   margin-bottom: 10px;
 }
 .quest-log__header::after {
@@ -2558,7 +2578,7 @@ svg * {
   right: 0;
   bottom: 2px;
   height: 1px;
-  background: linear-gradient(to right, rgba(4, 239, 249, 0), var(--color-accent-medium), rgba(4, 239, 249, 0));
+  background: linear-gradient(to right, var(--color-accent-glow-ghost), var(--color-accent-medium), var(--color-accent-glow-ghost));
   box-shadow: 0 0 14px var(--color-accent-faint);
   opacity: 0.9;
 }
@@ -2568,7 +2588,7 @@ svg * {
   letter-spacing: 0.1em;
   font-size: 34px;
   color: var(--color-text-primary);
-  text-shadow: 0 0 10px var(--color-accent-faint), 0 0 22px rgba(4, 239, 249, 0.06);
+  text-shadow: 0 0 10px var(--color-accent-faint), 0 0 22px var(--color-accent-ghost-2);
 }
 .quest-log__status {
   display: inline-flex;
@@ -2586,7 +2606,7 @@ svg * {
 .quest-log__statusValue {
   font-size: 28px;
   color: var(--color-accent-strong);
-  text-shadow: 0 0 10px rgba(4, 239, 249, 0.18), 0 0 24px rgba(4, 239, 249, 0.08);
+  text-shadow: 0 0 10px var(--color-accent-glow-medium), 0 0 24px var(--color-accent-ghost);
 }
 .quest-log__statusMeta {
   font-size: 16px;
@@ -2595,7 +2615,7 @@ svg * {
 .quest-log__tabsDivider {
   height: 1px;
   margin: 10px 0 16px;
-  background: linear-gradient(to right, rgba(4, 239, 249, 0), rgba(4, 239, 249, 0.32), rgba(4, 239, 249, 0));
+  background: linear-gradient(to right, var(--color-accent-glow-ghost), rgba(4, 239, 249, 0.32), var(--color-accent-glow-ghost));
   opacity: 0.8;
 }
 

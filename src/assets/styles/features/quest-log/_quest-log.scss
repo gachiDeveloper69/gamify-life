@@ -49,7 +49,7 @@
     align-items: baseline;
     justify-content: space-between;
     gap: 16px;
-    padding: 6px, 4px, 14px;
+    // padding: 6px 4px 14px;
     margin-bottom: 10px;
 
     &::after {
@@ -62,9 +62,9 @@
 
       background: linear-gradient(
         to right,
-        rgba(4, 239, 249, 0),
+        var(--color-accent-glow-ghost),
         var(--color-accent-medium),
-        rgba(4, 239, 249, 0)
+        var(--color-accent-glow-ghost)
       );
 
       box-shadow: 0 0 14px var(--color-accent-faint);
@@ -81,7 +81,7 @@
     color: var(--color-text-primary);
     text-shadow:
       0 0 10px var(--color-accent-faint),
-      0 0 22px rgba(4, 239, 249, 0.06);
+      0 0 22px var(--color-accent-ghost-2);
   }
 
   &__status {
@@ -105,8 +105,8 @@
     font-size: 28px;
     color: var(--color-accent-strong);
     text-shadow:
-      0 0 10px rgba(4, 239, 249, 0.18),
-      0 0 24px rgba(4, 239, 249, 0.08);
+      0 0 10px var(--color-accent-glow-medium),
+      0 0 24px var(--color-accent-ghost);
   }
 
   &__statusMeta {
@@ -119,9 +119,9 @@
     margin: 10px 0 16px;
     background: linear-gradient(
       to right,
-      rgba(4, 239, 249, 0),
+      var(--color-accent-glow-ghost),
       rgba(4, 239, 249, 0.32),
-      rgba(4, 239, 249, 0)
+      var(--color-accent-glow-ghost)
     );
     opacity: 0.8;
   }

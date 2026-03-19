@@ -7,9 +7,9 @@
       filter 160ms ease,
       opacity 120ms ease;
 
-    --c: rgba(4, 239, 249, 0.9); /* базовый неон */
-    --c-soft: rgba(4, 239, 249, 0.22); /* мягкий */
-    --c-dim: rgba(4, 239, 249, 0.12);
+    --c: var(--color-accent-strong); /* базовый неон */
+    --c-soft: var(--color-accent-faint); /* мягкий */
+    --c-dim: var(--color-accent-glow-soft);
 
     flex: 0 0 auto; /* не растягивается, не сжимается */
     /* или подробнее: */
@@ -27,7 +27,7 @@
     /* корпус */
     background:
       /* тёплый “экранный” блик */
-      radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.1), transparent 60%),
+      radial-gradient(circle at 35% 30%, var(--color-overlay-strong), transparent 60%),
       /* база */ linear-gradient(to bottom, rgba(2, 22, 35, 0.25), rgba(2, 22, 35, 0.88));
 
     /* внешний неоновый контур + небольшая глубина */
@@ -35,7 +35,7 @@
       0 0 18px rgba(0, 0, 0, 0.45),
       0 0 26px var(--c-dim),
       inset 0 0 0 1px rgba(0, 0, 0, 0.55),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      inset 0 1px 0 var(--color-overlay-soft);
 
     /* ========== СЕТКА ВНУТРИ ОКТАГОНА (ТОНИРОВАННАЯ) ========== */
     &::before {
@@ -58,8 +58,8 @@
           -45deg,
           rgba(255, 255, 255, 0) 0px,
           rgba(255, 255, 255, 0) 6px,
-          rgba(255, 255, 255, 0.06) 6px,
-          rgba(255, 255, 255, 0.06) 7px
+          var(--color-overlay-soft) 6px,
+          var(--color-overlay-soft) 7px
         ),
         /* тонировка сетки цветом сложности */
         radial-gradient(
@@ -92,15 +92,15 @@
           45deg,
           rgba(255, 255, 255, 0) 0px,
           rgba(255, 255, 255, 0) 7px,
-          rgba(255, 255, 255, 0.08) 7px,
-          rgba(255, 255, 255, 0.08) 8px
+          var(--color-overlay-medium) 7px,
+          var(--color-overlay-medium) 8px
         ),
         repeating-linear-gradient(
           -45deg,
           rgba(255, 255, 255, 0) 0px,
           rgba(255, 255, 255, 0) 7px,
-          rgba(255, 255, 255, 0.05) 7px,
-          rgba(255, 255, 255, 0.05) 8px
+          var(--color-overlay-soft) 7px,
+          var(--color-overlay-soft) 8px
         ),
         /* сам неоновый ореол */
         radial-gradient(circle at 50% 50%, var(--c-soft) 0%, rgba(0, 0, 0, 0) 62%);
@@ -158,7 +158,7 @@
       inset: 8px;
       clip-path: inherit;
       box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 0 0 1px var(--color-overlay-strong),
         inset 0 0 0 2px rgba(0, 0, 0, 0.35);
       opacity: 0.9;
     }
@@ -202,7 +202,7 @@
     &::before {
       font-size: 30px;
       color: rgba(220, 250, 255, 0.9);
-      text-shadow: 0 0 16px rgba(4, 239, 249, 0.12);
+      text-shadow: 0 0 16px var(--color-accent-glow-soft);
       transform: translateY(-1px);
     }
   }
@@ -214,7 +214,7 @@
 }
 //переключение сложности
 .difficulty__arrow {
-  --color-difficulty: rgba(4, 239, 249, 0.9);
+  --color-difficulty: var(--color-accent-strong);
   @include reset-button;
   background-color: transparent;
   position: relative;
@@ -226,7 +226,7 @@
     filter 120ms ease,
     transform 120ms ease,
     color 160ms ease;
-  color: color-mix(in srgb, var(--color-difficulty) 70%, rgba(180, 245, 255, 0.55));
+  color: color-mix(in srgb, var(--color-difficulty) 70%, var(--color-text-muted));
   // color: rgb(26, 163, 216);
 
   // &--easy {

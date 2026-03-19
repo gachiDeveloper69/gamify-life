@@ -27,7 +27,7 @@ $qmodal-ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(circle at 50% 20%, rgba(4, 239, 249, 0.08), transparent 55%),
+      radial-gradient(circle at 50% 20%, var(--color-accent-ghost), transparent 55%),
       radial-gradient(circle at 20% 80%, rgba(4, 239, 249, 0.05), transparent 60%);
     opacity: 0.9;
   }
@@ -50,13 +50,13 @@ $qmodal-ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
       radial-gradient(circle at 50% 20%, rgba(10, 70, 95, 0.62), rgba(2, 22, 35, 0.94)),
       linear-gradient(to bottom, rgba(255, 255, 255, 0.03), transparent 40%);
 
-    border: 1px solid rgba(4, 239, 249, 0.38);
+    border: 1px solid var(--color-accent-soft);
     border-radius: 18px 0 12px 0;
 
     box-shadow:
       0 0 40px rgba(4, 239, 249, 0.1),
       0 0 0 1px rgba(0, 0, 0, 0.55),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      inset 0 1px 0 var(--color-overlay-soft);
 
     padding: 18px 18px 16px;
 
@@ -74,14 +74,14 @@ $qmodal-ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
       border-radius: 18px 0 12px 0;
       background:
         /* TR */
-        linear-gradient(to left, rgba(4, 239, 249, 0.9), rgba(4, 239, 249, 0)) top right / 64px 1px
-          no-repeat,
-        linear-gradient(to bottom, rgba(4, 239, 249, 0.9), rgba(4, 239, 249, 0)) top right / 1px
-          44px no-repeat,
-        /* BL */ linear-gradient(to right, rgba(4, 239, 249, 0.75), rgba(4, 239, 249, 0)) bottom
-          left / 44px 1px no-repeat,
-        linear-gradient(to top, rgba(4, 239, 249, 0.75), rgba(4, 239, 249, 0)) bottom left / 1px
-          44px no-repeat;
+        linear-gradient(to left, var(--color-accent-strong), var(--color-accent-glow-ghost)) top
+          right / 64px 1px no-repeat,
+        linear-gradient(to bottom, var(--color-accent-strong), var(--color-accent-glow-ghost)) top
+          right / 1px 44px no-repeat,
+        /* BL */ linear-gradient(to right, rgba(4, 239, 249, 0.75), var(--color-accent-glow-ghost))
+          bottom left / 44px 1px no-repeat,
+        linear-gradient(to top, rgba(4, 239, 249, 0.75), var(--color-accent-glow-ghost)) bottom
+          left / 1px 44px no-repeat;
 
       filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.1));
       opacity: 0.75;
@@ -140,7 +140,7 @@ $qmodal-ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
       rgba(4, 239, 249, 0.03) 35%,
       rgba(4, 239, 249, 0.2) 48%,
       rgba(255, 255, 255, 0.18) 50%,
-      rgba(4, 239, 249, 0.08) 54%,
+      var(--color-accent-ghost) 54%,
       transparent 100%
     );
     mix-blend-mode: screen;
@@ -155,15 +155,15 @@ $qmodal-ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
     width: 34px;
     height: 34px;
     border-radius: 10px;
-    border: 1px solid rgba(4, 239, 249, 0.25);
+    border: 1px solid var(--color-accent-faint);
     background: rgba(0, 0, 0, 0.2);
     color: rgba(220, 250, 255, 0.8);
 
     cursor: pointer;
 
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      0 0 18px rgba(4, 239, 249, 0.06);
+      inset 0 1px 0 var(--color-overlay-soft),
+      0 0 18px var(--color-accent-ghost-2);
 
     transition:
       transform 120ms ease,
@@ -172,9 +172,9 @@ $qmodal-ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
       background 140ms ease;
 
     &:hover {
-      border-color: rgba(4, 239, 249, 0.55);
+      border-color: var(--color-accent-medium);
       box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        inset 0 1px 0 var(--color-overlay-soft),
         0 0 22px rgba(4, 239, 249, 0.1);
       background: rgba(0, 60, 89, 0.22);
       color: #1afafd;
@@ -206,8 +206,8 @@ $qmodal-ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
 
     /* мягкий общий glow */
     text-shadow:
-      0 0 12px rgba(4, 239, 249, 0.18),
-      0 0 28px rgba(4, 239, 249, 0.08);
+      0 0 12px var(--color-accent-glow-medium),
+      0 0 28px var(--color-accent-ghost);
   }
 
   &__xp {
@@ -223,9 +223,9 @@ $qmodal-ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
     margin: 12px 0 12px;
     background: linear-gradient(
       to right,
-      rgba(4, 239, 249, 0),
+      var(--color-accent-glow-ghost),
       rgba(4, 239, 249, 0.26),
-      rgba(4, 239, 249, 0)
+      var(--color-accent-glow-ghost)
     );
 
     /* НЕОНОВАЯ ПОЛОСКА СНИЗУ */
@@ -241,15 +241,15 @@ $qmodal-ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
 
       background: linear-gradient(
         to right,
-        rgba(4, 239, 249, 0),
+        var(--color-accent-glow-ghost),
         rgba(4, 239, 249, 0.85),
-        rgba(4, 239, 249, 0)
+        var(--color-accent-glow-ghost)
       );
 
       /* вот он — glow вверх */
       box-shadow:
         0 -6px 14px rgba(4, 239, 249, 0.45),
-        0 -16px 32px rgba(4, 239, 249, 0.25);
+        0 -16px 32px var(--color-accent-faint);
 
       border-radius: 2px;
     }

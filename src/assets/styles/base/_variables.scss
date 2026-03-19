@@ -7,7 +7,7 @@ $fonts: (
 );
 
 :root {
-  //COLORS
+  //COMMON COLORS
   --color-bg: #{$surface-bg};
 
   --color-text-heading: #d9e1f2;
@@ -15,7 +15,11 @@ $fonts: (
 
   --color-text-primary: #{$text-bright};
   --color-text-primary-strong: #{$text-bright-strong};
+
   --color-text-muted: #{$text-muted-cyan};
+  --color-text-muted-strong: #{$text-muted-cyan-strong};
+  --color-text-muted-soft: #{$text-muted-cyan-soft};
+
   --color-text-accent-muted: #{$text-accent-soft};
 
   --color-accent: #{$cyan-500};
@@ -23,10 +27,18 @@ $fonts: (
   --color-accent-medium: #{$cyan-500-medium};
   --color-accent-soft: #{$cyan-500-soft};
   --color-accent-faint: #{$cyan-500-faint};
+  --color-accent-ghost: #{$cyan-500-ghost};
+  --color-accent-ghost-2: #{$cyan-500-ghost-2};
   --color-accent-hover: #1afafd;
+
+  --color-accent-glow-ghost: #{$accent-glow-ghost};
+  --color-accent-glow-soft: #{$accent-glow-soft};
+  --color-accent-glow-medium: #{$accent-glow-medium};
 
   --color-surface-panel: #{$surface-panel};
   --color-surface-panel-soft: #{$surface-panel-soft};
+  --color-surface-panel-deep: #{$surface-panel-deep};
+
   --color-surface-frame: #{$surface-frame};
   --color-surface-frame-soft: #{$surface-frame-soft};
 
@@ -38,6 +50,15 @@ $fonts: (
   --color-overlay-medium: #{$white-overlay-medium};
   --color-overlay-strong: #{$white-overlay-strong};
 
+  --color-status-warning: #{$status-warning};
+  --color-status-warning-strong: #{$status-warning-strong};
+  --color-status-warning-soft: #{$status-warning-soft};
+
+  --color-status-danger: #{$status-danger};
+  --color-status-danger-soft: #{$status-danger-soft};
+
+  --color-status-urgent: #{$status-urgent};
+
   --color-difficulty-easy: #{$color-easy};
   --color-difficulty-medium: #{$color-medium};
   --color-difficulty-hard: #{$color-hard};
@@ -46,6 +67,17 @@ $fonts: (
   --color-scrollbar-thumb: var(--color-accent-soft);
   --color-scrollbar-thumb-hover: var(--color-accent-medium);
   --color-button-hover: #1afafd;
+
+  //FEATURE COLORS
+
+  --color-stepper-hover: rgba(220, 250, 255, 0.95);
+  --color-stepper-active: #1afafd;
+
+  //FILTERS
+  --filter-stepper-hover: drop-shadow(0 0 8px rgba(4, 239, 249, 0.6))
+    drop-shadow(0 0 16px var(--color-accent-faint));
+
+  --filter-stepper-active: drop-shadow(0 0 10px rgba(4, 239, 249, 0.28));
 
   //SCALES
   --container-width: 70vw;

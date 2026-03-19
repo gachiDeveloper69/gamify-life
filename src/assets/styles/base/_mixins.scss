@@ -36,7 +36,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  translate: -50% -50%;
 }
 
 @mixin square($size) {
@@ -96,7 +96,7 @@
       border-radius: 999px;
 
       box-shadow:
-        0 0 10px rgba(4, 239, 249, 0.18),
+        0 0 10px var(--color-accent-glow-medium),
         0 0 18px rgba(4, 239, 249, 0.1);
 
       transition:

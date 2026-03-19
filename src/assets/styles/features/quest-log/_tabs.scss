@@ -5,9 +5,9 @@
 
   --glow-c: #04eff9f2;
   --glow-soft: rgba(4, 239, 249, 0.35);
-  --glow: rgba(4, 239, 249, 0.55);
+  --glow: var(--color-accent-medium);
 
-  --border-c: rgba(4, 239, 249, 0.55);
+  --border-c: var(--color-accent-medium);
   --border-c-soft: rgba(4, 239, 249, 0.35);
   --border: 1px solid var(--border-c);
   // --border: 1px solid #0681ab;
@@ -22,13 +22,13 @@
     color: rgba(0, 142, 176, 0.7); // цвет контура
     border-top: 1px solid var(--border-c);
     border-bottom: 1px solid var(--border-c-soft);
-    border-top: 1px solid rgba(4, 239, 249, 0.55);
+    border-top: 1px solid var(--color-accent-medium);
     border-bottom: 1px solid rgba(4, 239, 249, 0.35);
 
     /* внутренняя “техническая” полоска */
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      0 0 22px rgba(4, 239, 249, 0.06);
+      inset 0 1px 0 var(--color-overlay-soft),
+      0 0 22px var(--color-accent-ghost-2);
     opacity: 0.9;
     @supports (corner-shape: bevel) {
       border: var(--border);
@@ -69,7 +69,7 @@
     /* “неоновая пыль” */
     box-shadow:
       0 0 8px var(--glow-soft),
-      0 0 8px rgba(4, 239, 249, 0.25);
+      0 0 8px var(--color-accent-faint);
 
     /* мягкие края */
     border-radius: 999px;
@@ -87,14 +87,14 @@
     align-self: center;
     background: linear-gradient(
       to bottom,
-      rgba(4, 239, 249, 0),
-      rgba(4, 239, 249, 0.22),
-      rgba(4, 239, 249, 0)
+      var(--color-accent-glow-ghost),
+      var(--color-accent-faint),
+      var(--color-accent-glow-ghost)
     );
 
     opacity: 0.85;
     pointer-events: none;
-    filter: drop-shadow(0 0 6px rgba(4, 239, 249, 0.08));
+    filter: drop-shadow(0 0 6px var(--color-accent-ghost));
   }
 }
 
@@ -141,9 +141,9 @@
   //     width: 1px;
   //     background: linear-gradient(
   //       to bottom,
-  //       rgba(4, 239, 249, 0),
-  //       rgba(4, 239, 249, 0.22),
-  //       rgba(4, 239, 249, 0)
+  //       var(--color-accent-glow-ghost),
+  //       var(--color-accent-faint),
+  //       var(--color-accent-glow-ghost)
   //     );
   //     opacity: 0.8;
   //   }
@@ -157,6 +157,6 @@
 
   &--active {
     color: var(--c-active);
-    text-shadow: 0 0 10px rgba(4, 239, 249, 0.25);
+    text-shadow: 0 0 10px var(--color-accent-faint);
   }
 }
