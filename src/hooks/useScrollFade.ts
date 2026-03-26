@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 
 export type ScrollFadeOptions = {
   offset?: number; //отступ скролла до появления фейда

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import type { ScrollFadeOptions } from './useScrollFade';
 
 export function useScrollFadeExtended(
