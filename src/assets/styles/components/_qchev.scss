@@ -260,10 +260,12 @@
     }
   }
 
-  &:hover:not(:disabled) {
-    opacity: 1;
-    filter: drop-shadow(0 0 8px color-mix(in srgb, var(--color-difficulty) 50%, transparent));
-    color: var(--color-difficulty);
+  @include hover {
+    &:not(:disabled) {
+      opacity: 1;
+      filter: drop-shadow(0 0 8px color-mix(in srgb, var(--color-difficulty) 50%, transparent));
+      color: var(--color-difficulty);
+    }
   }
 
   &:active {

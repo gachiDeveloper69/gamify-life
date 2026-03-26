@@ -57,7 +57,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 2px;
+      bottom: -2px;
       height: 1px;
 
       background: linear-gradient(
@@ -76,7 +76,8 @@
     font-family: 'Orbitron';
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    font-size: 34px;
+    @include fluid-text(34, 20);
+    // font-size: 34px;
 
     color: var(--color-text-primary);
     text-shadow:

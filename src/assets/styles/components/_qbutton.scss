@@ -28,7 +28,7 @@
     box-shadow 120ms ease,
     background 120ms ease;
 
-  &:hover {
+  @include hover {
     border-color: rgba(4, 239, 249, 0.75);
     box-shadow:
       inset 0 1px 0 var(--color-overlay-soft),
@@ -56,7 +56,7 @@
     inset 0 1px 0 var(--color-overlay-soft),
     0 0 16px rgba(255, 90, 90, 0.06);
 
-  &:hover {
+  @include hover {
     border-color: rgba(255, 90, 90, 0.68);
     box-shadow:
       inset 0 1px 0 var(--color-overlay-medium),

@@ -12,6 +12,10 @@
   @include mobile {
     --container-padding-x: 20px;
   }
+
+  @include mobile-s {
+    --container-width: 90vw;
+  }
 }
 
 .visually-hidden {

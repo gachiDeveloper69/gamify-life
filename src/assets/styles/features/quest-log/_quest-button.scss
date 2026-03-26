@@ -14,7 +14,7 @@
   overflow: hidden; // важно для заливки
   align-self: center;
   padding: 10px 16px;
-  font-size: 11px;
+  @include fluid-text(11, 9);
 
   border-color: var(--color-accent-medium);
   background: var(--color-surface-panel-soft);
@@ -98,5 +98,13 @@
     &::after {
       transition: none;
     }
+  }
+
+  @include tablet {
+    padding: 6px 10px;
+  }
+
+  @include mobile-s {
+    padding: 4px 6px;
   }
 }

@@ -15,6 +15,11 @@
   position: relative;
   width: 100%;
 
+  &--compact {
+    max-width: 50%;
+    align-self: center;
+  }
+
   &__frame {
     position: absolute;
     inset: 0;
@@ -45,6 +50,44 @@
     justify-content: space-around;
     gap: 0;
     padding: 0 10px 0 15px; // чтобы кнопки не упирались в скосы
+  }
+
+  &__list--compact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 0 28px; // чтобы кнопки не упирались в скосы
+  }
+
+  &__switch {
+    color: var(--color-text-muted);
+    opacity: 0.45;
+    @include reset-button;
+
+    transition:
+      opacity 120ms ease,
+      filter 120ms ease,
+      transform 120ms ease,
+      color 120ms ease;
+
+    @include hover {
+      &:not(:disabled) {
+        opacity: 0.9;
+        color: var(--color-stepper-hover);
+        filter: var(--filter-stepper-hover);
+      }
+    }
+
+    &:active:not(:disabled) {
+      color: var(--color-stepper-active);
+      filter: var(--filter-stepper-active);
+      transform: translateY(1px);
+    }
+
+    &:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
   }
 
   //скользящий glow-индикатор
@@ -149,7 +192,7 @@
   //   }
   // }
 
-  &:hover {
+  @include hover {
     &:not(.tab--active) {
       color: var(--c-hover);
     }
