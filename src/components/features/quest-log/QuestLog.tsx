@@ -18,17 +18,17 @@ type ModalState =
   | { mode: 'create'; initialCategory?: TaskCategory }
   | null;
 
+const predicateByTab = {
+  active: (task: Task) => !task.completed,
+  done: (task: Task) => task.completed,
+  daily: (task: Task) => task.title === 'DAILY', //ЗАГЛУШКА ПОД ЛОГИКУ
+  archive: (task: Task) => task.title === 'ARCHIVED', //ЗАГЛУШКА ПОД ЛОГИКУ
+} satisfies Record<TabKey, (task: Task) => boolean>;
+
 export function QuestLog() {
   const { tasks, createTask, markCompleted, markIncomplete, updateTask } = useTasks();
   const [tab, setTab] = useState<TabKey>('active');
   const [modal, setModal] = useState<ModalState>(null);
-
-  const tasksByTab = {
-    active: (tasks: Task[]): Task[] => tasks,
-    daily: (tasks: Task[]): Task[] => tasks,
-    done: (tasks: Task[]): Task[] => tasks,
-    archive: (tasks: Task[]): Task[] => tasks,
-  } satisfies Record<TabKey, (task: Task[]) => Task[]>;
 
   const handleCompleteToggle = useCallback(
     (questId: string): void => {
@@ -87,8 +87,7 @@ export function QuestLog() {
   const handleOpenQuest = useCallback((id: string) => setModal({ mode: 'view', questId: id }), []);
 
   const visibleQuests = useMemo(() => {
-    if (tab === 'done') return tasks.filter(q => q.completed);
-    return tasks.filter(q => !q.completed);
+    return tasks.filter(predicateByTab[tab]);
   }, [tab, tasks]);
 
   const questForModal = useMemo(() => {

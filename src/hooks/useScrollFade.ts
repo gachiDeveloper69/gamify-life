@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 
 export type ScrollFadeOptions = {
   offset?: number; //отступ скролла до появления фейда
@@ -69,14 +69,14 @@ export function useScrollFade<
 
     scroller.addEventListener('scroll', update, { passive: true });
 
-    const ro = new ResizeObserver(() => update);
+    const ro = new ResizeObserver(() => update());
     ro.observe(scroller);
 
     return () => {
       cancelAnimationFrame(rafA);
       cancelAnimationFrame(rafB);
       scroller.removeEventListener('scroll', update);
-      ro.disconnect;
+      ro.disconnect();
     };
   }, [containerRef, scrollerRef, offset, ...deps]);
 }

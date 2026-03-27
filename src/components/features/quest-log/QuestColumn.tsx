@@ -42,7 +42,7 @@ export default function QuestColumn({
   onCreateQuest,
 }: QuestColumnProps) {
   const colRef = useRef<HTMLDivElement | null>(null);
-  useScrollFade(colRef, { offset: 60 });
+  useScrollFade(colRef, { offset: 60 }, undefined, [quests.length]);
   const headerText = category ? HEADER_BY_DIFFICULTY[category] : title;
   return (
     <div className={`quest-col ${category ? `quest-col--${category}` : ''}`}>

@@ -118,38 +118,41 @@
   }
 }
 
-@mixin scroll-fade($heigth) {
+@mixin scroll-fade($height) {
   &::before,
   &::after {
-    // display: block;
     content: '';
     position: sticky;
     left: 0;
     right: 0;
     display: block;
+    height: #{$height}px;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity;
     z-index: 5;
   }
 
   &::before {
     top: 0;
+    margin-bottom: -#{$height}px;
     background: linear-gradient(to bottom, var(--color-fade-solid), var(--color-fade-transparent));
   }
 
   &::after {
     bottom: 0;
+    margin-top: -#{$height}px;
     background: linear-gradient(to top, var(--color-fade-solid), var(--color-fade-transparent));
   }
 
   &.is-top-fade::before {
-    min-height: #{$heigth}px;
+    // min-height: #{$heigth}px;
     opacity: 1;
   }
 
   &.is-bottom-fade::after {
-    min-height: #{$heigth}px;
+    // min-height: #{$heigth}px;
     opacity: 1;
   }
 }
